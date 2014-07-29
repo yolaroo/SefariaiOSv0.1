@@ -2,7 +2,7 @@
 //  ContextGroup.m
 //  Sefaria
 //
-//  Created by MGM on 7/24/14.
+//  Created by MGM on 7/29/14.
 //  Copyright (c) 2014 Test. All rights reserved.
 //
 
@@ -13,6 +13,7 @@
 
 @implementation ContextGroup
 
+@dynamic displayOrder;
 @dynamic metaType;
 @dynamic name;
 @dynamic summary;

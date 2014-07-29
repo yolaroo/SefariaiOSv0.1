@@ -2,7 +2,7 @@
 //  TextVersionTitle.m
 //  Sefaria
 //
-//  Created by MGM on 7/24/14.
+//  Created by MGM on 7/29/14.
 //  Copyright (c) 2014 Test. All rights reserved.
 //
 
@@ -12,9 +12,9 @@
 
 @implementation TextVersionTitle
 
+@dynamic attributedDate;
 @dynamic metaType;
 @dynamic name;
-@dynamic attributedDate;
 @dynamic whatLine;
 
 @end

@@ -2,7 +2,7 @@
 //  Location.h
 //  Sefaria
 //
-//  Created by MGM on 7/26/14.
+//  Created by MGM on 7/29/14.
 //  Copyright (c) 2014 Test. All rights reserved.
 //
 
@@ -13,10 +13,10 @@
 
 @interface Location : NSManagedObject
 
+@property (nonatomic, retain) NSNumber * displayOrder;
 @property (nonatomic, retain) NSString * metaType;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * uuid;
-@property (nonatomic, retain) NSNumber * displayOrder;
 @property (nonatomic, retain) NSSet *whatAuxName;
 @property (nonatomic, retain) LocationCoordinate *whatCoordinate;
 @property (nonatomic, retain) LocationDirectLine *whatDirectLine;

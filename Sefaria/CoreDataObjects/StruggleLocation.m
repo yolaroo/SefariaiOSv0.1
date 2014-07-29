@@ -1,16 +1,16 @@
 //
-//  BattlePerson.m
+//  StruggleLocation.m
 //  Sefaria
 //
-//  Created by MGM on 7/24/14.
+//  Created by MGM on 7/29/14.
 //  Copyright (c) 2014 Test. All rights reserved.
 //
 
-#import "BattlePerson.h"
-#import "Battle.h"
+#import "StruggleLocation.h"
+#import "Struggle.h"
 
 
-@implementation BattlePerson
+@implementation StruggleLocation
 
 @dynamic metaType;
 @dynamic name;

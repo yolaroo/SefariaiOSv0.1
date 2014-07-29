@@ -224,7 +224,7 @@
         <attribute name="uuid" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="whatLocation" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Location" inverseName="whatSatellitePicture" inverseEntity="Location" syncable="YES"/>
     </entity>
-    <entity name="Struggle" representedClassName="Battle" syncable="YES">
+    <entity name="Struggle" representedClassName="Struggle" syncable="YES">
         <attribute name="displayOrder" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="struggle" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
@@ -234,17 +234,17 @@
         <relationship name="whatLocation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="StruggleLocation" inverseName="whatStruggle" inverseEntity="StruggleLocation" syncable="YES"/>
         <relationship name="whatPerson" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="StrugglePerson" inverseName="whatStruggle" inverseEntity="StrugglePerson" syncable="YES"/>
     </entity>
-    <entity name="StruggleLocation" representedClassName="BattleLocation" syncable="YES">
+    <entity name="StruggleLocation" representedClassName="StruggleLocation" syncable="YES">
         <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="struggleLocation" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="whatStruggle" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Struggle" inverseName="whatLocation" inverseEntity="Struggle" syncable="YES"/>
     </entity>
-    <entity name="StrugglePerson" representedClassName="BattlePerson" syncable="YES">
+    <entity name="StrugglePerson" representedClassName="StrugglePerson" syncable="YES">
         <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="strugglePerson" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="whatStruggle" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Struggle" inverseName="whatPerson" inverseEntity="Struggle" syncable="YES"/>
     </entity>
-    <entity name="StuggleDirectLine" representedClassName="StuggleLine" syncable="YES">
+    <entity name="StuggleDirectLine" representedClassName="StuggleDirectLine" syncable="YES">
         <attribute name="bookTitle" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="chapterNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>

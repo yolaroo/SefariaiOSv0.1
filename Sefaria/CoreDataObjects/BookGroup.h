@@ -2,7 +2,7 @@
 //  BookGroup.h
 //  Sefaria
 //
-//  Created by MGM on 7/26/14.
+//  Created by MGM on 7/29/14.
 //  Copyright (c) 2014 Test. All rights reserved.
 //
 
@@ -13,11 +13,11 @@
 
 @interface BookGroup : NSManagedObject
 
+@property (nonatomic, retain) NSNumber * displayOrder;
 @property (nonatomic, retain) NSString * englishName;
 @property (nonatomic, retain) NSString * hebrewName;
 @property (nonatomic, retain) NSString * metaType;
 @property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSNumber * displayOrder;
 @property (nonatomic, retain) NSSet *whatBookTitle;
 @property (nonatomic, retain) NSSet *whatLine;
 @property (nonatomic, retain) NSSet *whatTextTitle;

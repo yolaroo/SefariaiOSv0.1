@@ -2,7 +2,7 @@
 //  BookTitle.m
 //  Sefaria
 //
-//  Created by MGM on 7/26/14.
+//  Created by MGM on 7/29/14.
 //  Copyright (c) 2014 Test. All rights reserved.
 //
 
@@ -16,6 +16,7 @@
 @implementation BookTitle
 
 @dynamic depthOrderLevel;
+@dynamic displayOrder;
 @dynamic englishName;
 @dynamic hasBookTitleAsSubset;
 @dynamic hasTextTitleAsSubset;
@@ -25,7 +26,6 @@
 @dynamic isHebrew;
 @dynamic metaType;
 @dynamic name;
-@dynamic displayOrder;
 @dynamic whatBookGroup;
 @dynamic whatBookTitleSub;
 @dynamic whatBookTitleSuper;

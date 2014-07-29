@@ -1,23 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13D65" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="Battle" syncable="YES">
-        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="battle" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="uuid" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="whatLocation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BattleLocation" inverseName="whatBattle" inverseEntity="BattleLocation" syncable="YES"/>
-        <relationship name="whatPerson" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BattlePerson" inverseName="whatBattle" inverseEntity="BattlePerson" syncable="YES"/>
-    </entity>
-    <entity name="BattleLocation" syncable="YES">
-        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="battleLocation" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="whatBattle" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Battle" inverseName="whatLocation" inverseEntity="Battle" syncable="YES"/>
-    </entity>
-    <entity name="BattlePerson" syncable="YES">
-        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="battlePerson" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="whatBattle" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Battle" inverseName="whatPerson" inverseEntity="Battle" syncable="YES"/>
-    </entity>
     <entity name="BookTitle" syncable="YES">
         <attribute name="isEnglish" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="isHebrew" optional="YES" attributeType="Boolean" syncable="YES"/>
@@ -213,6 +195,24 @@
         <attribute name="uuid" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="whatLocation" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Location" inverseName="whatSatellitePicture" inverseEntity="Location" syncable="YES"/>
     </entity>
+    <entity name="Struggle" syncable="YES">
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="battle" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="uuid" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="whatLocation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="StruggleLocation" inverseName="whatBattle" inverseEntity="StruggleLocation" syncable="YES"/>
+        <relationship name="whatPerson" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="StrugglePerson" inverseName="whatBattle" inverseEntity="StrugglePerson" syncable="YES"/>
+    </entity>
+    <entity name="StruggleLocation" syncable="YES">
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="battleLocation" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="whatBattle" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Struggle" inverseName="whatLocation" inverseEntity="Struggle" syncable="YES"/>
+    </entity>
+    <entity name="StrugglePerson" syncable="YES">
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="battlePerson" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="whatBattle" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Struggle" inverseName="whatPerson" inverseEntity="Struggle" syncable="YES"/>
+    </entity>
     <entity name="TextTitle" syncable="YES">
         <attribute name="isEnglish" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="isHebrew" optional="YES" attributeType="Boolean" syncable="YES"/>
@@ -228,9 +228,9 @@
         <relationship name="whatLine" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="LineText" inverseName="whatTextVersionTitle" inverseEntity="LineText" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Battle" positionX="-9207" positionY="-3051" width="128" height="133"/>
-        <element name="BattleLocation" positionX="-9360" positionY="-2925" width="128" height="88"/>
-        <element name="BattlePerson" positionX="-9362" positionY="-3051" width="128" height="88"/>
+        <element name="Struggle" positionX="-9207" positionY="-3051" width="128" height="135"/>
+        <element name="StruggleLocation" positionX="-9360" positionY="-2925" width="128" height="88"/>
+        <element name="StrugglePerson" positionX="-9362" positionY="-3051" width="128" height="88"/>
         <element name="BookTitle" positionX="-9830" positionY="-4095" width="128" height="133"/>
         <element name="ChapterText" positionX="-9830" positionY="-3780" width="128" height="148"/>
         <element name="Comment" positionX="-9371" positionY="-4095" width="128" height="178"/>

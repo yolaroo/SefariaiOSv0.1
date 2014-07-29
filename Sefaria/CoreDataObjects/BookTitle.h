@@ -2,7 +2,7 @@
 //  BookTitle.h
 //  Sefaria
 //
-//  Created by MGM on 7/26/14.
+//  Created by MGM on 7/29/14.
 //  Copyright (c) 2014 Test. All rights reserved.
 //
 
@@ -14,6 +14,7 @@
 @interface BookTitle : NSManagedObject
 
 @property (nonatomic, retain) NSNumber * depthOrderLevel;
+@property (nonatomic, retain) NSNumber * displayOrder;
 @property (nonatomic, retain) NSString * englishName;
 @property (nonatomic, retain) NSNumber * hasBookTitleAsSubset;
 @property (nonatomic, retain) NSNumber * hasTextTitleAsSubset;
@@ -23,7 +24,6 @@
 @property (nonatomic, retain) NSNumber * isHebrew;
 @property (nonatomic, retain) NSString * metaType;
 @property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSNumber * displayOrder;
 @property (nonatomic, retain) BookGroup *whatBookGroup;
 @property (nonatomic, retain) NSSet *whatBookTitleSub;
 @property (nonatomic, retain) BookTitle *whatBookTitleSuper;

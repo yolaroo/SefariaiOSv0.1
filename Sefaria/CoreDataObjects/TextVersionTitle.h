@@ -2,7 +2,7 @@
 //  TextVersionTitle.h
 //  Sefaria
 //
-//  Created by MGM on 7/24/14.
+//  Created by MGM on 7/29/14.
 //  Copyright (c) 2014 Test. All rights reserved.
 //
 
@@ -13,9 +13,9 @@
 
 @interface TextVersionTitle : NSManagedObject
 
+@property (nonatomic, retain) NSString * attributedDate;
 @property (nonatomic, retain) NSString * metaType;
 @property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSString * attributedDate;
 @property (nonatomic, retain) NSSet *whatLine;
 @end
 

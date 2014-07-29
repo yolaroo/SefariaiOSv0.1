@@ -2,7 +2,7 @@
 //  TextTitle.h
 //  Sefaria
 //
-//  Created by MGM on 7/26/14.
+//  Created by MGM on 7/29/14.
 //  Copyright (c) 2014 Test. All rights reserved.
 //
 
@@ -15,13 +15,13 @@
 
 @property (nonatomic, retain) NSNumber * chapterCount;
 @property (nonatomic, retain) NSNumber * depthOrderLevel;
+@property (nonatomic, retain) NSNumber * displayOrder;
 @property (nonatomic, retain) NSString * englishName;
 @property (nonatomic, retain) NSString * hebrewName;
 @property (nonatomic, retain) NSNumber * isEnglish;
 @property (nonatomic, retain) NSNumber * isHebrew;
 @property (nonatomic, retain) NSString * metaType;
 @property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSNumber * displayOrder;
 @property (nonatomic, retain) NSSet *whatBookGroup;
 @property (nonatomic, retain) BookTitle *whatBookTitle;
 @property (nonatomic, retain) NSSet *whatLineText;

@@ -2,7 +2,7 @@
 //  ContextGroup.h
 //  Sefaria
 //
-//  Created by MGM on 7/24/14.
+//  Created by MGM on 7/29/14.
 //  Copyright (c) 2014 Test. All rights reserved.
 //
 
@@ -13,6 +13,7 @@
 
 @interface ContextGroup : NSManagedObject
 
+@property (nonatomic, retain) NSNumber * displayOrder;
 @property (nonatomic, retain) NSString * metaType;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * summary;

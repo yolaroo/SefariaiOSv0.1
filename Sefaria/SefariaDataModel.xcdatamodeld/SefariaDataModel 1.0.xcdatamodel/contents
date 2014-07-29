@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13D65" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Battle" syncable="YES">
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="battle" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="uuid" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="whatLocation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BattleLocation" inverseName="whatBattle" inverseEntity="BattleLocation" syncable="YES"/>
+        <relationship name="whatPerson" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BattlePerson" inverseName="whatBattle" inverseEntity="BattlePerson" syncable="YES"/>
+    </entity>
+    <entity name="BattleLocation" syncable="YES">
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="battleLocation" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="whatBattle" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Battle" inverseName="whatLocation" inverseEntity="Battle" syncable="YES"/>
+    </entity>
+    <entity name="BattlePerson" syncable="YES">
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="battlePerson" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="whatBattle" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Battle" inverseName="whatPerson" inverseEntity="Battle" syncable="YES"/>
+    </entity>
+    <entity name="BookTitle" syncable="YES">
+        <attribute name="isEnglish" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isHebrew" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="bookTitle" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="whatLine" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="LineText" inverseName="whatBookTitle" inverseEntity="LineText" syncable="YES"/>
+        <relationship name="whatTextTitle" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TextTitle" inverseName="whatBookTitle" inverseEntity="TextTitle" syncable="YES"/>
+    </entity>
+    <entity name="ChapterText" syncable="YES">
+        <attribute name="isEnglish" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isHewbrew" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="chapterText" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="number" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="whatLine" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="LineText" inverseName="whatChapterText" inverseEntity="LineText" syncable="YES"/>
+        <relationship name="whatText" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TextTitle" inverseName="whatChaptertext" inverseEntity="TextTitle" syncable="YES"/>
+    </entity>
+    <entity name="Comment" syncable="YES">
+        <attribute name="bookTitle" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="chapterNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="lineNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="comment" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="textTitle" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="uuid" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="whatAuthor" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CommentAuthor" inverseName="whatComment" inverseEntity="CommentAuthor" syncable="YES"/>
+        <relationship name="whatText" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CommentText" inverseName="whatComment" inverseEntity="CommentText" syncable="YES"/>
+    </entity>
+    <entity name="CommentAuthor" syncable="YES">
+        <attribute name="birthDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="deathDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="commentAuthor" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="whatComment" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Comment" inverseName="whatAuthor" inverseEntity="Comment" syncable="YES"/>
+    </entity>
+    <entity name="CommentText" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="englishContent" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="hebrewContent" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="commentText" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="whatComment" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Comment" inverseName="whatText" inverseEntity="Comment" syncable="YES"/>
+    </entity>
+    <entity name="ContextCenter" syncable="YES">
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="contextCenter" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="whatContextGroup" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ContextGroup" inverseName="whatContextCenter" inverseEntity="ContextGroup" syncable="YES"/>
+    </entity>
+    <entity name="ContextGroup" syncable="YES">
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="contextGroup" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="uuid" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="whatContextCenter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ContextCenter" inverseName="whatContextGroup" inverseEntity="ContextCenter" syncable="YES"/>
+        <relationship name="whatContextLine" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ContextLine" inverseName="whatContextGroup" inverseEntity="ContextLine" syncable="YES"/>
+    </entity>
+    <entity name="ContextLine" syncable="YES">
+        <attribute name="bookTitle" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="chapterNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lineNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="contextLine" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="textTitle" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="whatContextGroup" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ContextGroup" inverseName="whatContextLine" inverseEntity="ContextGroup" syncable="YES"/>
+    </entity>
+    <entity name="Event" syncable="YES">
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="event" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="uuid" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="whatContextualLine" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EventContextualLine" inverseName="whatEvent" inverseEntity="EventContextualLine" syncable="YES"/>
+        <relationship name="whatDirectLine" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EventDirectLine" inverseName="whatEvent" inverseEntity="EventDirectLine" syncable="YES"/>
+        <relationship name="whatPerson" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EventPerson" inverseName="whatEvent" inverseEntity="EventPerson" syncable="YES"/>
+    </entity>
+    <entity name="EventContextualLine" syncable="YES">
+        <attribute name="chapterNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lineNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="contextualLine" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="textTitle" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="whatEvent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Event" inverseName="whatContextualLine" inverseEntity="Event" syncable="YES"/>
+    </entity>
+    <entity name="EventDirectLine" syncable="YES">
+        <attribute name="chapterNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lineNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="directLine" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="textTitle" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="whatEvent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Event" inverseName="whatDirectLine" inverseEntity="Event" syncable="YES"/>
+    </entity>
+    <entity name="EventPerson" syncable="YES">
+        <attribute name="metaType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="whatEvent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Event" inverseName="whatPerson" inverseEntity="Event" syncable="YES"/>
+    </entity>
+    <entity name="Job" syncable="YES">
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="job" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="whatPerson" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Person" inverseName="whatJob" inverseEntity="Person" syncable="YES"/>
+    </entity>
+    <entity name="LineText" syncable="YES">
+        <attribute name="englishText" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="hebrewText" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isEnglish" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isHebrew" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isTextLevel" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="line" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="number" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="whatBookTitle" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BookTitle" inverseName="whatLine" inverseEntity="BookTitle" syncable="YES"/>
+        <relationship name="whatChapterText" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ChapterText" inverseName="whatLine" inverseEntity="ChapterText" syncable="YES"/>
+        <relationship name="whatTextTitle" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TextTitle" inverseName="whatLineText" inverseEntity="TextTitle" syncable="YES"/>
+        <relationship name="whatTextVersionTitle" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TextVersionTitle" inverseName="whatLine" inverseEntity="TextVersionTitle" syncable="YES"/>
+    </entity>
+    <entity name="Location" syncable="YES">
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="location" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="uuid" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="whatAuxName" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="LocationAuxName" inverseName="whatLocation" inverseEntity="LocationAuxName" syncable="YES"/>
+        <relationship name="whatCoordinate" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LocationCoordinate" inverseName="whatLocation" inverseEntity="LocationCoordinate" syncable="YES"/>
+        <relationship name="whatModernName" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LocationModernName" inverseName="whatLocation" inverseEntity="LocationModernName" syncable="YES"/>
+        <relationship name="whatPicture" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Picture" inverseName="whatLocation" inverseEntity="Picture" syncable="YES"/>
+        <relationship name="whatSatellitePicture" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SatellitePicture" inverseName="whatLocation" inverseEntity="SatellitePicture" syncable="YES"/>
+    </entity>
+    <entity name="LocationAuxName" syncable="YES">
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="auxName" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="whatLocation" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Location" inverseName="whatAuxName" inverseEntity="Location" syncable="YES"/>
+    </entity>
+    <entity name="LocationCoordinate" syncable="YES">
+        <attribute name="isLocationAmbiguous" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="coordinate" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="secondaryPosition" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="whatLocation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Location" inverseName="whatCoordinate" inverseEntity="Location" syncable="YES"/>
+    </entity>
+    <entity name="LocationModernName" syncable="YES">
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="modernName" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="whatLocation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Location" inverseName="whatModernName" inverseEntity="Location" syncable="YES"/>
+    </entity>
+    <entity name="Person" syncable="YES">
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="person" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="uuid" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="newRelationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonEventDirectLine" inverseName="whatPerson" inverseEntity="PersonEventDirectLine" syncable="YES"/>
+        <relationship name="whatEvent" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PersonEvent" inverseName="whatPerson" inverseEntity="PersonEvent" syncable="YES"/>
+        <relationship name="whatJob" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Job" inverseName="whatPerson" inverseEntity="Job" syncable="YES"/>
+        <relationship name="whatLocation" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PersonLocation" inverseName="whatPerson" inverseEntity="PersonLocation" syncable="YES"/>
+    </entity>
+    <entity name="PersonEvent" syncable="YES">
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="personEvent" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="orderNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="whatPerson" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Person" inverseName="whatEvent" inverseEntity="Person" syncable="YES"/>
+    </entity>
+    <entity name="PersonEventDirectLine" syncable="YES">
+        <attribute name="bookTitle" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="chapterNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lineNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="personEventDirectLine" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="textTitle" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="whatPerson" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Person" inverseName="newRelationship" inverseEntity="Person" syncable="YES"/>
+    </entity>
+    <entity name="PersonLocation" syncable="YES">
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="peronLocation" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="orderNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="whatPerson" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Person" inverseName="whatLocation" inverseEntity="Person" syncable="YES"/>
+    </entity>
+    <entity name="Picture" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="picture" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="uuid" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="whatLocation" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Location" inverseName="whatPicture" inverseEntity="Location" syncable="YES"/>
+    </entity>
+    <entity name="SatellitePicture" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="satellitePicture" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="uuid" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="whatLocation" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Location" inverseName="whatSatellitePicture" inverseEntity="Location" syncable="YES"/>
+    </entity>
+    <entity name="TextTitle" syncable="YES">
+        <attribute name="isEnglish" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isHebrew" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="textTitle" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="whatBookTitle" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BookTitle" inverseName="whatTextTitle" inverseEntity="BookTitle" syncable="YES"/>
+        <relationship name="whatChaptertext" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ChapterText" inverseName="whatText" inverseEntity="ChapterText" syncable="YES"/>
+        <relationship name="whatLineText" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="LineText" inverseName="whatTextTitle" inverseEntity="LineText" syncable="YES"/>
+    </entity>
+    <entity name="TextVersionTitle" syncable="YES">
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="TextVersionTitle" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="whatLine" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="LineText" inverseName="whatTextVersionTitle" inverseEntity="LineText" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Battle" positionX="-9207" positionY="-3051" width="128" height="133"/>
+        <element name="BattleLocation" positionX="-9360" positionY="-2925" width="128" height="88"/>
+        <element name="BattlePerson" positionX="-9362" positionY="-3051" width="128" height="88"/>
+        <element name="BookTitle" positionX="-9830" positionY="-4095" width="128" height="133"/>
+        <element name="ChapterText" positionX="-9830" positionY="-3780" width="128" height="148"/>
+        <element name="Comment" positionX="-9371" positionY="-4095" width="128" height="178"/>
+        <element name="CommentAuthor" positionX="-9216" positionY="-4095" width="128" height="118"/>
+        <element name="CommentText" positionX="-9216" positionY="-3960" width="128" height="148"/>
+        <element name="ContextCenter" positionX="-9792" positionY="-2821" width="128" height="103"/>
+        <element name="ContextGroup" positionX="-9623" positionY="-2988" width="128" height="133"/>
+        <element name="ContextLine" positionX="-9623" positionY="-2826" width="128" height="163"/>
+        <element name="Event" positionX="-9785" positionY="-3528" width="128" height="148"/>
+        <element name="EventContextualLine" positionX="-9623" positionY="-3366" width="128" height="148"/>
+        <element name="EventDirectLine" positionX="-9623" positionY="-3526" width="128" height="148"/>
+        <element name="EventPerson" positionX="-9785" positionY="-3357" width="128" height="88"/>
+        <element name="Job" positionX="-9414" positionY="-3537" width="128" height="88"/>
+        <element name="LineText" positionX="-9612" positionY="-4050" width="128" height="223"/>
+        <element name="Location" positionX="-10134" positionY="-3627" width="128" height="163"/>
+        <element name="LocationAuxName" positionX="-10298" positionY="-3636" width="128" height="88"/>
+        <element name="LocationCoordinate" positionX="-10134" positionY="-3429" width="128" height="118"/>
+        <element name="LocationModernName" positionX="-10296" positionY="-3528" width="128" height="88"/>
+        <element name="Person" positionX="-9263" positionY="-3535" width="128" height="163"/>
+        <element name="PersonEvent" positionX="-9261" positionY="-3322" width="128" height="118"/>
+        <element name="PersonEventDirectLine" positionX="-9414" positionY="-3304" width="128" height="163"/>
+        <element name="PersonLocation" positionX="-9414" positionY="-3429" width="128" height="103"/>
+        <element name="Picture" positionX="-10136" positionY="-3798" width="128" height="133"/>
+        <element name="SatellitePicture" positionX="-10296" positionY="-3796" width="128" height="133"/>
+        <element name="TextTitle" positionX="-9830" positionY="-3946" width="128" height="148"/>
+        <element name="TextVersionTitle" positionX="-9614" positionY="-3769" width="128" height="88"/>
+    </elements>
+</model>

@@ -38,7 +38,10 @@
     NSError* error;
     NSArray *fetchedRecords = [context executeFetchRequest:fetchRequest error:&error];
     
-    NSLog(@"-- CFF %lu --",(unsigned long)[fetchedRecords count]);
+    NSLog(@"-- CFTC %lu --",(unsigned long)[fetchedRecords count]);
+    for (TextTitle* TTT in fetchedRecords) {
+        NSLog(@"-- CFTEXT  %@ --",TTT.englishName);
+    }
 }
 
 //

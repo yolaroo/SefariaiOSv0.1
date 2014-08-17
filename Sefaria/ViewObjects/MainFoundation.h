@@ -22,9 +22,16 @@
 #import "SpeechClass.h"
 @class SpeechClass;
 
+#import "GestureClass.h"
+@class GestureClass;
+
 #import "TextTitle.h"
 #import "BookTitle.h"
 #import "LineText.h"
+#import "Comment.h"
+#import "CommentAuthor.h"
+#import "CommentCollectionTitle.h"
+
 
 @interface MainFoundation : UIViewController
 
@@ -37,6 +44,7 @@
 @property (nonatomic, strong) NSArray* primaryHebrewTextArray;
 @property (nonatomic, strong) NSArray* menuListArray;
 @property (nonatomic, strong) NSArray* menuListPathArray;
+@property (nonatomic, strong) NSArray* commentArray;
 
 @property (nonatomic, strong) NSArray* chapterListArray;
 
@@ -52,16 +60,15 @@
 @property (nonatomic) bool isChapterShowing;
 @property (nonatomic) bool chapterIsMoving;
 
-
-
 @property (nonatomic) NSInteger menuDepthLevel;
 @property (nonatomic) bool isTextLevel;
 @property (nonatomic) bool isBookLevel;
 
 @property (nonatomic, strong) NSString* myCurrentTextTitle;
+@property (nonatomic) NSInteger theCurrentChapterNumber;
+
 @property (nonatomic, strong) NSMutableArray* menuChoiceArray;
 @property (nonatomic, strong) NSMutableArray* menuPathChoiceArray;
-
 
 //
 ////
@@ -99,6 +106,16 @@
 //
 @property (strong,nonatomic) SpeechClass* mySpeechClass;
 - (void) foundationRunSpeech: (NSArray*) speechArray;
+
+//
+#pragma mark - Gesture
+//
+@property (strong,nonatomic) GestureClass* myGestureClass;
+
+//
+#pragma mark - Notification
+//
+- (void) basicNotifications : (NSString*) mySelector withName : (NSString*) observerName;
 
 
 @end

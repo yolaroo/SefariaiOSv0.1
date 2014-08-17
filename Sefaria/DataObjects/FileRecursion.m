@@ -8,6 +8,8 @@
 
 #import "FileRecursion.h"
 
+
+
 @interface FileRecursion ()
 {
     int XYZ;
@@ -24,6 +26,11 @@
 @synthesize myFileManager=_myFileManager,myPathNameArray=_myPathNameArray,myMenuNameArray=_myMenuNameArray;
 
 #define ROOT_DIRECTORY @"TextData"
+
+#define DK 2
+#define LOG if(DK == 1)
+
+
 
 //
 //
@@ -102,16 +109,61 @@
 //
 //
 ////
-#pragma mark - Test Class
+#pragma mark - Mishnah Test
 ////
 //
 //
 
-- (void) testClass
+
+
+//
+//
+////
+#pragma mark - Text List
+////
+//
+//
+
+- (NSArray*) textListOfMergeFiles
 {
-    //[self simpleMenuArrayBuilderForPath:ROOT_DIRECTORY allowedDepth:6 findFilewithSuffix: @"json"];
-    //987
-    
+    XYZ = 0;
+    NSMutableArray* myArray = [[NSMutableArray alloc]init];
+    NSArray* myReturn =[self returnArrayBuilderForPath:myArray withPath : ROOT_DIRECTORY allowedDepth:8 findFilewithSuffix: @"merged.json"];
+    LOG NSLog(@"-- %@ --",myReturn);
+    [self pathCount:true];
+    return [myReturn copy];
+}
+
+//
+//
+////
+#pragma mark - Comment List
+////
+//
+//
+
+- (NSArray*) commentListOfMergeFiles
+{
+    XYZ = 0;
+    NSMutableArray* myArray = [[NSMutableArray alloc]init];
+    NSArray* myReturn =[self returnArrayBuilderForPath:myArray withPath : @"TextComments" allowedDepth:8 findFilewithSuffix: @"merged.json"];
+    LOG NSLog(@"-- %@ --",myReturn);
+    [self pathCount:true];
+    return [myReturn copy];
+}
+
+
+//
+//
+////
+#pragma mark - Test Class for Text
+////
+//
+//
+
+
+- (void) testClassForSingleTextExample
+{
     [self simpleMenuArrayBuilderForPath:@"TextData" allowedDepth:1 findFilewithSuffix: @"json"];
     
     NSLog(@" -- ");
@@ -148,15 +200,64 @@
     {
         NSString *nextLevelPathName = [pathName stringByAppendingPathComponent:[fileNamesNextLevel objectAtIndex:i]];
         if ([nextLevelPathName hasSuffix:theSuffix]) {
+            NSLog(@"%@", nextLevelPathName);
+            [self pathCount:false];
         }
         if (depth == 1) {
-            NSLog(@"-- ILVL %d--",i);
-            NSLog(@"-- NH %@ --", nextLevelPathName);
-            NSLog(@"-- SFN %@ --", fileNamesNextLevel);
+            LOG NSLog(@"-- ILVL %d--",i);
+            LOG NSLog(@"-- NH %@ --", nextLevelPathName);
+            LOG NSLog(@"-- SFN %@ --", fileNamesNextLevel);
             
         }
         [self simpleMenuArrayBuilderForPath:nextLevelPathName allowedDepth:depth-1 findFilewithSuffix:theSuffix];
     }
 }
+
+//
+//
+//////
+#pragma mark - Comment Recursion
+//////
+//
+//
+
+- (NSArray*) returnArrayBuilderForPath:(NSMutableArray*)theDataCollection withPath : (NSString*)pathName allowedDepth:(NSInteger)depth findFilewithSuffix: (NSString*) theSuffix
+{
+    if(depth <= 0) return [theDataCollection copy];
+    if ([pathName length] <= 0) return [theDataCollection copy];
+    NSArray * fileNamesNextLevel = [self fullArrayReturn:pathName];
+    for(int i = 0; i < [fileNamesNextLevel count]; i++)
+    {
+        NSString *nextLevelPathName = [pathName stringByAppendingPathComponent:[fileNamesNextLevel objectAtIndex:i]];
+        if ([nextLevelPathName hasSuffix:theSuffix]) {
+            [theDataCollection addObject:nextLevelPathName];
+            LOG NSLog(@"%@", nextLevelPathName);
+            [self pathCount:false];
+        }
+        if (depth == 1) {
+            LOG NSLog(@"-- ILVL %d--",i);
+            LOG NSLog(@"-- NH %@ --", nextLevelPathName);
+            LOG NSLog(@"-- SFN %@ --", fileNamesNextLevel);
+        }
+        [self returnArrayBuilderForPath: theDataCollection withPath: nextLevelPathName allowedDepth:depth-1 findFilewithSuffix:theSuffix];
+    }
+    return [theDataCollection copy];
+}
+
+//
+//
+//////
+#pragma mark - Loop Count
+//////
+//
+//
+
+- (void) pathCount: (BOOL) displayNumber {
+    XYZ++;
+    if (displayNumber) {
+        NSLog(@"--Count %d--", XYZ);
+    }
+}
+
 
 @end

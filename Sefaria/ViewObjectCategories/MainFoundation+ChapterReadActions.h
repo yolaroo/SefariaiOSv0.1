@@ -15,4 +15,9 @@
 
 - (NSInteger) getChapterCount: (NSString*) myCellText withContext: (NSManagedObjectContext*) context;
 
+- (NSArray*) fetchCommentByTextAndChapter : (NSString*) theTextName
+                              withChapter : (NSInteger) theChapter
+                              withContext : (NSManagedObjectContext*) context;
+
+
 @end

@@ -10,6 +10,22 @@
 
 #import "MainFoundation+DataControlPageActions.h"
 
+#import "MainFoundation+CommentDataActions.h"
+
+#import "MainFoundation+DeleteRecords.h"
+
+#import "FileRecursion.h"
+
+#import "MainFoundation+ActionsForAdvancedText.h"
+
+#import "MainFoundation+CoreDataBuilderForGeneralExtraction.h"
+
+
+#import "MainFoundation+FetchTheTextTitle.h"
+#import "MainFoundation+FetchTheBookTitle.h"
+
+#import "MainFoundation+FetchTheLineText.h"
+
 
 @interface DataControlPageView ()
 
@@ -22,12 +38,113 @@
 
 - (IBAction)dataLoadButtonPress:(UIButton *)sender {
     @try {
-        [self testLoad];
+        [self loadAllTanachData];
     }
     @catch (NSException *exception) {
         NSLog(@"%@",exception);
     }
 }
+
+- (IBAction)commentLoadButtonPress:(UIButton *)sender {
+    @try {
+        [self buildCoreDataStackForComments:self.managedObjectContext];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@",exception);
+    }
+}
+
+- (IBAction)commentDeleteButtonPress:(UIButton *)sender {
+    @try {
+        [self masterCommentDelete];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@",exception);
+    }
+}
+
+- (IBAction)testCaseButtonPress:(UIButton *)sender {
+    @try {
+        //[self testTempCommentFetch];
+        //[self testMishnahFileStructure];
+        [self testFetchCommentByText:self.managedObjectContext];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@",exception);
+    }
+}
+
+- (IBAction)textDirectoryLoadButtonPress:(UIButton *)sender {
+    @try {
+        FileRecursion* myFileRecursionMenu = [[FileRecursion alloc]init];
+        NSArray*myArray = [myFileRecursionMenu textListOfMergeFiles];
+        NSLog(@"-- %@ --",myArray);
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@",exception);
+    }
+}
+
+- (IBAction)commentDirectoryLoadButtonPress:(UIButton *)sender {
+    @try {
+        FileRecursion* myFileRecursionMenu = [[FileRecursion alloc]init];
+        NSArray*myArray = [myFileRecursionMenu commentListOfMergeFiles];
+        NSLog(@"-- %@ --",myArray);
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@",exception);
+    }
+}
+
+- (IBAction)allTextErrorCheckButtonPress:(UIButton *)sender {
+    @try {
+        [self testMenuRecursion];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@",exception);
+    }
+}
+
+
+- (IBAction)completeCommentCheck:(UIButton *)sender {
+    @try {
+        [self allCommentTest:self.managedObjectContext];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@",exception);
+    }
+}
+
+
+- (IBAction)coreDataBuilderFromRecursionButtonPress:(UIButton *)sender {
+    @try {
+        [self completeCoreDataBuildForTexts:self.managedObjectContext];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@",exception);
+    }
+}
+
+
+- (IBAction)coreDataTitleFetchTest:(UIButton *)sender {
+    NSLog(@"book title");
+    [self testFetchBookTitle:self.managedObjectContext];
+    NSLog(@"-- --");
+    NSLog(@"-- --");
+    NSLog(@"text title");
+    [self testFetchTextTitle:self.managedObjectContext];
+
+
+    TextTitle* XXX = [[self fetchTextTitleByNameString:@"Mishnah Eruvin" withContext:self.managedObjectContext]firstObject];
+    
+    NSLog(@"-- HII %@--",XXX.hebrewName);
+
+    [self testFetchLineText : self.managedObjectContext];
+}
+
+//
+////
+//
 
 - (void)viewDidLoad
 {
@@ -37,13 +154,11 @@
     //[self performSelector:@selector(testLoad) withObject:nil afterDelay:RESET_DELAY];
 
     //[self testLoad];
-    
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-
 }
 
 

@@ -10,6 +10,17 @@
 
 @implementation MainFoundation (MainViewActions)
 
+- (BOOL) isLanguageHebrew : (NSString*) myString
+{
+    NSCharacterSet *hebrewCharacters = [NSCharacterSet characterSetWithCharactersInString:@"בבּאהדגחזוכּיטלךכנםמעסןףפפּקץצשׂשׁרתתּש"];
+    if ([myString rangeOfCharacterFromSet:hebrewCharacters].location == NSNotFound) {
+        return true;
+    }else {
+        return false;
+    }
+}
+
+
 //
 //
 ////////

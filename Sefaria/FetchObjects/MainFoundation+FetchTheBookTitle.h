@@ -14,7 +14,7 @@
 
 - (NSArray*) fetchBookTitleByNameString:(NSString*) theName withContext: (NSManagedObjectContext*) context;
 
-- (NSArray*) testFetchBookTitle: (NSManagedObjectContext*) context;
+- (void) testFetchBookTitle: (NSManagedObjectContext*) context;
 
 - (NSArray*) fetchBookTitleFromDepth: (NSInteger) depthNumber withContext :(NSManagedObjectContext*) context;
 

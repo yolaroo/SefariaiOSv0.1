@@ -43,11 +43,11 @@
     switch (tanachLanguage) {
         case kLanguageEnglish:
             language = [myTextClass.foundationLanguages objectAtIndex:kLanguageEnglish];
-            fileName = @"The Holy Scriptures A New Translation JPS 1917";
+            fileName = @"merged";
             break;
         case kLanguageHebrew:
             language = [myTextClass.foundationLanguages objectAtIndex:kLanguageHebrew];
-            fileName = @"Wikisource Tanach";
+            fileName = @"merged";
             break;
         default:
             NSLog(@"Error Language");

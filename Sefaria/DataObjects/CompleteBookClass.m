@@ -163,7 +163,7 @@
 //
 
 // L1
-- (NSArray*) foundationMishnah
+- (NSArray*) foundationMishnah 
 {
     return @[
              @"Seder Kodashim",
@@ -176,7 +176,7 @@
 }
 
 // L2
-- (NSArray*) foundationMishnahSederKodashim
+- (NSArray*) foundationMishnahSederKodashim //text level
 {
     return @[
              @"Mishnah Arakhin",
@@ -194,7 +194,7 @@
 }
 
 
-- (NSArray*) foundationMishnahSederMoed
+- (NSArray*) foundationMishnahSederMoed //text level
 {
     return @[
              @"Mishnah Beitzah",
@@ -212,7 +212,7 @@
              ];
 }
 
-- (NSArray*) foundationMishnahSederNashim
+- (NSArray*) foundationMishnahSederNashim  //text level
 {
     return @[
              @"Mishnah Gittin",
@@ -225,7 +225,7 @@
              ];
 }
 
-- (NSArray*) foundationMishnahSederNezikin
+- (NSArray*) foundationMishnahSederNezikin  //text level
 {
     return @[
              @"Mishnah Avodah Zarah",
@@ -241,7 +241,7 @@
              ];
 }
 
-- (NSArray*) foundationMishnahSederTahorot
+- (NSArray*) foundationMishnahSederTahorot //text level
 {
     return @[
              @"Mishnah Kelim",
@@ -259,7 +259,7 @@
              ];
 }
 
-- (NSArray*) foundationMishnahSederZeraim
+- (NSArray*) foundationMishnahSederZeraim  //text level
 {
     return @[
              @"Mishnah Berakhot",
@@ -621,8 +621,141 @@
              ];
 }
 
+//
+////
+//
 
-
+- (NSArray*) completeMishnahFileLocation
+{
+    return @[
+        @"Mishnah/Seder Kodashim/Mishnah Arakhin/English/merged",
+        @"Mishnah/Seder Kodashim/Mishnah Arakhin/Hebrew/merged",
+        @"Mishnah/Seder Kodashim/Mishnah Bekhorot/English/merged",
+        @"Mishnah/Seder Kodashim/Mishnah Bekhorot/Hebrew/merged",
+        @"Mishnah/Seder Kodashim/Mishnah Chullin/English/merged",
+        @"Mishnah/Seder Kodashim/Mishnah Chullin/Hebrew/merged",
+        @"Mishnah/Seder Kodashim/Mishnah Keritot/English/merged",
+        @"Mishnah/Seder Kodashim/Mishnah Keritot/Hebrew/merged",
+        @"Mishnah/Seder Kodashim/Mishnah Kinnim/English/merged",
+        @"Mishnah/Seder Kodashim/Mishnah Kinnim/Hebrew/merged",
+        @"Mishnah/Seder Kodashim/Mishnah Meilah/English/merged",
+        @"Mishnah/Seder Kodashim/Mishnah Meilah/Hebrew/merged",
+        @"Mishnah/Seder Kodashim/Mishnah Menachot/English/merged",
+        @"Mishnah/Seder Kodashim/Mishnah Menachot/Hebrew/merged",
+        @"Mishnah/Seder Kodashim/Mishnah Middot/English/merged",
+        @"Mishnah/Seder Kodashim/Mishnah Middot/Hebrew/merged",
+        @"Mishnah/Seder Kodashim/Mishnah Tamid/English/merged",
+        @"Mishnah/Seder Kodashim/Mishnah Tamid/Hebrew/merged",
+        @"Mishnah/Seder Kodashim/Mishnah Temurah/English/merged",
+        @"Mishnah/Seder Kodashim/Mishnah Temurah/Hebrew/merged",
+        @"Mishnah/Seder Kodashim/Mishnah Zevachim/English/merged",
+        @"Mishnah/Seder Kodashim/Mishnah Zevachim/Hebrew/merged",
+        @"Mishnah/Seder Moed/Mishnah Beitzah/English/merged",
+        @"Mishnah/Seder Moed/Mishnah Beitzah/Hebrew/merged",
+        @"Mishnah/Seder Moed/Mishnah Chagigah/English/merged",
+        @"Mishnah/Seder Moed/Mishnah Chagigah/Hebrew/merged",
+        @"Mishnah/Seder Moed/Mishnah Eruvin/English/merged",
+        @"Mishnah/Seder Moed/Mishnah Eruvin/Hebrew/merged",
+        @"Mishnah/Seder Moed/Mishnah Megillah/English/merged",
+        @"Mishnah/Seder Moed/Mishnah Megillah/Hebrew/merged",
+        @"Mishnah/Seder Moed/Mishnah Moed Katan/English/merged",
+        @"Mishnah/Seder Moed/Mishnah Moed Katan/Hebrew/merged",
+        @"Mishnah/Seder Moed/Mishnah Pesachim/English/merged",
+        @"Mishnah/Seder Moed/Mishnah Pesachim/Hebrew/merged",
+        @"Mishnah/Seder Moed/Mishnah Rosh Hashanah/English/merged",
+        @"Mishnah/Seder Moed/Mishnah Rosh Hashanah/Hebrew/merged",
+        @"Mishnah/Seder Moed/Mishnah Shabbat/English/merged",
+        @"Mishnah/Seder Moed/Mishnah Shabbat/Hebrew/merged",
+        @"Mishnah/Seder Moed/Mishnah Shekalim/English/merged",
+        @"Mishnah/Seder Moed/Mishnah Shekalim/Hebrew/merged",
+        @"Mishnah/Seder Moed/Mishnah Sukkah/English/merged",
+        @"Mishnah/Seder Moed/Mishnah Sukkah/Hebrew/merged",
+        @"Mishnah/Seder Moed/Mishnah Taanit/English/merged",
+        @"Mishnah/Seder Moed/Mishnah Taanit/Hebrew/merged",
+        @"Mishnah/Seder Moed/Mishnah Yoma/English/merged",
+        @"Mishnah/Seder Moed/Mishnah Yoma/Hebrew/merged",
+        @"Mishnah/Seder Nashim/Mishnah Gittin/English/merged",
+        @"Mishnah/Seder Nashim/Mishnah Gittin/Hebrew/merged",
+        @"Mishnah/Seder Nashim/Mishnah Ketubot/English/merged",
+        @"Mishnah/Seder Nashim/Mishnah Ketubot/Hebrew/merged",
+        @"Mishnah/Seder Nashim/Mishnah Kiddushin/English/merged",
+        @"Mishnah/Seder Nashim/Mishnah Kiddushin/Hebrew/merged",
+        @"Mishnah/Seder Nashim/Mishnah Nazir/English/merged",
+        @"Mishnah/Seder Nashim/Mishnah Nazir/Hebrew/merged",
+        @"Mishnah/Seder Nashim/Mishnah Nedarim/English/merged",
+        @"Mishnah/Seder Nashim/Mishnah Nedarim/Hebrew/merged",
+        @"Mishnah/Seder Nashim/Mishnah Sotah/English/merged",
+        @"Mishnah/Seder Nashim/Mishnah Sotah/Hebrew/merged",
+        @"Mishnah/Seder Nashim/Mishnah Yevamot/English/merged",
+        @"Mishnah/Seder Nashim/Mishnah Yevamot/Hebrew/merged",
+        @"Mishnah/Seder Nezikin/Mishnah Avodah Zarah/English/merged",
+        @"Mishnah/Seder Nezikin/Mishnah Avodah Zarah/Hebrew/merged",
+        @"Mishnah/Seder Nezikin/Mishnah Bava Batra/English/merged",
+        @"Mishnah/Seder Nezikin/Mishnah Bava Batra/Hebrew/merged",
+        @"Mishnah/Seder Nezikin/Mishnah Bava Kamma/English/merged",
+        @"Mishnah/Seder Nezikin/Mishnah Bava Kamma/Hebrew/merged",
+        @"Mishnah/Seder Nezikin/Mishnah Bava Metzia/English/merged",
+        @"Mishnah/Seder Nezikin/Mishnah Bava Metzia/Hebrew/merged",
+        @"Mishnah/Seder Nezikin/Mishnah Eduyot/English/merged",
+        @"Mishnah/Seder Nezikin/Mishnah Eduyot/Hebrew/merged",
+        @"Mishnah/Seder Nezikin/Mishnah Horayot/English/merged",
+        @"Mishnah/Seder Nezikin/Mishnah Horayot/Hebrew/merged",
+        @"Mishnah/Seder Nezikin/Mishnah Makkot/English/merged",
+        @"Mishnah/Seder Nezikin/Mishnah Makkot/Hebrew/merged",
+        @"Mishnah/Seder Nezikin/Mishnah Sanhedrin/English/merged",
+        @"Mishnah/Seder Nezikin/Mishnah Sanhedrin/Hebrew/merged",
+        @"Mishnah/Seder Nezikin/Mishnah Shevuot/English/merged",
+        @"Mishnah/Seder Nezikin/Mishnah Shevuot/Hebrew/merged",
+        @"Mishnah/Seder Nezikin/Pirkei Avot/English/merged",
+        @"Mishnah/Seder Nezikin/Pirkei Avot/Hebrew/merged",
+        @"Mishnah/Seder Tahorot/Mishnah Kelim/English/merged",
+        @"Mishnah/Seder Tahorot/Mishnah Kelim/Hebrew/merged",
+        @"Mishnah/Seder Tahorot/Mishnah Makhshirin/English/merged",
+        @"Mishnah/Seder Tahorot/Mishnah Makhshirin/Hebrew/merged",
+        @"Mishnah/Seder Tahorot/Mishnah Mikvaot/English/merged",
+        @"Mishnah/Seder Tahorot/Mishnah Mikvaot/Hebrew/merged",
+        @"Mishnah/Seder Tahorot/Mishnah Negaim/English/merged",
+        @"Mishnah/Seder Tahorot/Mishnah Negaim/Hebrew/merged",
+        @"Mishnah/Seder Tahorot/Mishnah Niddah/English/merged",
+        @"Mishnah/Seder Tahorot/Mishnah Niddah/Hebrew/merged",
+        @"Mishnah/Seder Tahorot/Mishnah Oholot/English/merged",
+        @"Mishnah/Seder Tahorot/Mishnah Oholot/Hebrew/merged",
+        @"Mishnah/Seder Tahorot/Mishnah Oktzin/English/merged",
+        @"Mishnah/Seder Tahorot/Mishnah Oktzin/Hebrew/merged",
+        @"Mishnah/Seder Tahorot/Mishnah Parah/English/merged",
+        @"Mishnah/Seder Tahorot/Mishnah Parah/Hebrew/merged",
+        @"Mishnah/Seder Tahorot/Mishnah Tahorot/English/merged",
+        @"Mishnah/Seder Tahorot/Mishnah Tahorot/Hebrew/merged",
+        @"Mishnah/Seder Tahorot/Mishnah Tevul Yom/English/merged",
+        @"Mishnah/Seder Tahorot/Mishnah Tevul Yom/Hebrew/merged",
+        @"Mishnah/Seder Tahorot/Mishnah Yadayim/English/merged",
+        @"Mishnah/Seder Tahorot/Mishnah Yadayim/Hebrew/merged",
+        @"Mishnah/Seder Tahorot/Mishnah Zavim/English/merged",
+        @"Mishnah/Seder Tahorot/Mishnah Zavim/Hebrew/merged",
+        @"Mishnah/Seder Zeraim/Mishnah Berakhot/English/merged",
+        @"Mishnah/Seder Zeraim/Mishnah Berakhot/Hebrew/merged",
+        @"Mishnah/Seder Zeraim/Mishnah Bikkurim/English/merged",
+        @"Mishnah/Seder Zeraim/Mishnah Bikkurim/Hebrew/merged",
+        @"Mishnah/Seder Zeraim/Mishnah Challah/English/merged",
+        @"Mishnah/Seder Zeraim/Mishnah Challah/Hebrew/merged",
+        @"Mishnah/Seder Zeraim/Mishnah Demai/English/merged",
+        @"Mishnah/Seder Zeraim/Mishnah Demai/Hebrew/merged",
+        @"Mishnah/Seder Zeraim/Mishnah Kilayim/English/merged",
+        @"Mishnah/Seder Zeraim/Mishnah Kilayim/Hebrew/merged",
+        @"Mishnah/Seder Zeraim/Mishnah Maaser Sheni/English/merged",
+        @"Mishnah/Seder Zeraim/Mishnah Maaser Sheni/Hebrew/merged",
+        @"Mishnah/Seder Zeraim/Mishnah Maasrot/English/merged",
+        @"Mishnah/Seder Zeraim/Mishnah Maasrot/Hebrew/merged",
+        @"Mishnah/Seder Zeraim/Mishnah Orlah/English/merged",
+        @"Mishnah/Seder Zeraim/Mishnah Orlah/Hebrew/merged",
+        @"Mishnah/Seder Zeraim/Mishnah Peah/English/merged",
+        @"Mishnah/Seder Zeraim/Mishnah Peah/Hebrew/merged",
+        @"Mishnah/Seder Zeraim/Mishnah Sheviit/English/merged",
+        @"Mishnah/Seder Zeraim/Mishnah Sheviit/Hebrew/merged",
+        @"Mishnah/Seder Zeraim/Mishnah Terumot/English/merged",
+        @"Mishnah/Seder Zeraim/Mishnah Terumot/Hebrew/merged",
+    ];
+}
 
 
 

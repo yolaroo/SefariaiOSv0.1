@@ -10,9 +10,6 @@
 
 #import "BookListDataModel.h"
 #import "MenuBuilderDataModel.h"
-#import "RecursiveMenu.h"
-#import "MenuFromPathData.h"
-#import "AdvancedMenuFromPathData.h"
 
 #import "FileRecursion.h"
 
@@ -74,9 +71,10 @@
 #define HEBREW_CELL [tableView dequeueReusableCellWithIdentifier:@"HebrewTextCell" forIndexPath:indexPath]
 #define CHAPTER_CELL [tableView dequeueReusableCellWithIdentifier:@"ChapterCell" forIndexPath:indexPath]
 
-#define CELL_CONTENT_WIDTH 320.0f
+#define CELL_CONTENT_WIDTH TABLE_WIDTH - CELL_CONTENT_MARGIN
 #define CELL_CONTENT_MARGIN 10.0f
 #define CELL_PADDING 40.0
+#define TABLE_WIDTH 380.0f
 
 //
 //
@@ -196,7 +194,7 @@
             myStringEnglish = [self.primaryDataArray objectAtIndex: indexPath.row];
         }
         if ([myStringEnglish length]){
-            sizeEnglish = [self frameForText:myStringEnglish sizeWithFont:IPAD_FONT constrainedToSize:CGSizeMake(300.f, CGFLOAT_MAX)];
+            sizeEnglish = [self frameForText:myStringEnglish sizeWithFont:IPAD_FONT constrainedToSize:CGSizeMake(CELL_CONTENT_WIDTH, CGFLOAT_MAX)];
             return sizeEnglish.height+CELL_PADDING;
         }
         else {
@@ -330,8 +328,11 @@
 
 - (void) initialLoad {
     [self theInitialMenuLoad];
-    self.myCurrentTextTitle = @"Tanach/Torah/Exodus/Hebrew/Wikisource Tanach";
+    self.myCurrentTextTitle = @"Tanach/Torah/Exodus/Hebrew/merged";
     [self basicDataReload];
+    
+    //[self testMenuRecursion];
+    
 }
 
 //
@@ -380,12 +381,53 @@
     //[self gestureRecognizerGroup];
     [self performSelector:@selector(initialLoad) withObject:nil afterDelay:RESET_DELAY];
     
+    [self textDirectoryRecursionTest];
+    //[self commentTest];
 }
 
 - (void)didReceiveMemoryWarning2
 {
     [super didReceiveMemoryWarning];
 }
+
+//
+//
+////////
+#pragma mark - Test
+////////
+//
+//
+
+#define COMMENT_DIRECTORY @"TextComments/Commentary"
+#define COMMENT_DIRECTORY_II @"TextComments/Commentary/Tanach/Prophets/II Kings/Metzudat David on II Kings/English/Sefaria Community Translation"
+
+- (void) commentTest {
+    
+    
+    
+//    NSArray* stuff = [[self.myFileRecursionMenu returnPath: COMMENT_DIRECTORY_II] firstObject];
+//    NSArray* filePath = [[self.myFileRecursionMenu returnPath: COMMENT_DIRECTORY] lastObject];
+
+    
+    NSArray* myTextData = [self getTextListData:COMMENT_DIRECTORY_II];
+    NSArray* mydata = [self textDataExtract:myTextData];
+
+    
+    NSLog(@"-- STUFF %@ --",mydata);
+    
+    
+}
+
+- (void) textDirectoryRecursionTest {
+    
+
+    
+}
+
+
+
+
+
 
 
 

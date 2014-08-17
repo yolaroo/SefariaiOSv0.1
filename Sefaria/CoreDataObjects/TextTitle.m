@@ -2,13 +2,14 @@
 //  TextTitle.m
 //  Sefaria
 //
-//  Created by MGM on 7/29/14.
+//  Created by MGM on 8/3/14.
 //  Copyright (c) 2014 Test. All rights reserved.
 //
 
 #import "TextTitle.h"
 #import "BookGroup.h"
 #import "BookTitle.h"
+#import "Comment.h"
 #import "LineText.h"
 
 
@@ -26,5 +27,6 @@
 @dynamic whatBookGroup;
 @dynamic whatBookTitle;
 @dynamic whatLineText;
+@dynamic whatComment;
 
 @end

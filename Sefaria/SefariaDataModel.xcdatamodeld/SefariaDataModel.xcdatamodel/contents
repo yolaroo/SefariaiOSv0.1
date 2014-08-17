@@ -29,32 +29,38 @@
         <relationship name="whatTextTitle" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TextTitle" inverseName="whatBookTitle" inverseEntity="TextTitle" syncable="YES"/>
     </entity>
     <entity name="Comment" representedClassName="Comment" syncable="YES">
-        <attribute name="bookTitle" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="chapterNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="displayOrder" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="englishText" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="hebrewText" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isEnglish" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isHebrew" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="lineNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="comment" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="textTitle" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="uuid" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="whatAuthor" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CommentAuthor" inverseName="whatComment" inverseEntity="CommentAuthor" syncable="YES"/>
-        <relationship name="whatText" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CommentText" inverseName="whatComment" inverseEntity="CommentText" syncable="YES"/>
+        <relationship name="whatCollectionTitle" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CommentCollectionTitle" inverseName="whatComment" inverseEntity="CommentCollectionTitle" syncable="YES"/>
+        <relationship name="whatLineText" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LineText" inverseName="whatComment" inverseEntity="LineText" syncable="YES"/>
+        <relationship name="whatTextTitle" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TextTitle" inverseName="whatComment" inverseEntity="TextTitle" syncable="YES"/>
     </entity>
     <entity name="CommentAuthor" representedClassName="CommentAuthor" syncable="YES">
         <attribute name="birthDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="deathDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="displayOrder" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="commentAuthor" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="whatComment" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Comment" inverseName="whatAuthor" inverseEntity="Comment" syncable="YES"/>
+        <relationship name="whatCommentCollection" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CommentCollectionTitle" inverseName="whatCommentAuthor" inverseEntity="CommentCollectionTitle" syncable="YES"/>
     </entity>
-    <entity name="CommentText" representedClassName="CommentText" syncable="YES">
-        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="englishContent" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="hebrewContent" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="commentText" syncable="YES"/>
+    <entity name="CommentCollectionTitle" representedClassName="CommentCollectionTitle" syncable="YES">
+        <attribute name="displayOrder" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="englishName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="hebrewName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="commentCollectionTitle" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="whatComment" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Comment" inverseName="whatText" inverseEntity="Comment" syncable="YES"/>
+        <relationship name="whatComment" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Comment" inverseName="whatCollectionTitle" inverseEntity="Comment" syncable="YES"/>
+        <relationship name="whatCommentAuthor" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CommentAuthor" inverseName="whatCommentCollection" inverseEntity="CommentAuthor" syncable="YES"/>
     </entity>
     <entity name="ContextCenter" representedClassName="ContextCenter" syncable="YES">
         <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="contextCenter" syncable="YES"/>
@@ -131,6 +137,7 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="whatBookGroup" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BookGroup" inverseName="whatLine" inverseEntity="BookGroup" syncable="YES"/>
         <relationship name="whatBookTitle" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BookTitle" inverseName="whatLine" inverseEntity="BookTitle" syncable="YES"/>
+        <relationship name="whatComment" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Comment" inverseName="whatLineText" inverseEntity="Comment" syncable="YES"/>
         <relationship name="whatTextTitle" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TextTitle" inverseName="whatLineText" inverseEntity="TextTitle" syncable="YES"/>
         <relationship name="whatTextVersionTitle" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TextVersionTitle" inverseName="whatLine" inverseEntity="TextVersionTitle" syncable="YES"/>
     </entity>
@@ -266,6 +273,7 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="whatBookGroup" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BookGroup" inverseName="whatTextTitle" inverseEntity="BookGroup" syncable="YES"/>
         <relationship name="whatBookTitle" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BookTitle" inverseName="whatTextTitle" inverseEntity="BookTitle" syncable="YES"/>
+        <relationship name="whatComment" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Comment" inverseName="whatTextTitle" inverseEntity="Comment" syncable="YES"/>
         <relationship name="whatLineText" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="LineText" inverseName="whatTextTitle" inverseEntity="LineText" syncable="YES"/>
     </entity>
     <entity name="TextVersionTitle" representedClassName="TextVersionTitle" syncable="YES">
@@ -277,9 +285,9 @@
     <elements>
         <element name="BookGroup" positionX="-9783" positionY="-4212" width="128" height="163"/>
         <element name="BookTitle" positionX="-9947" positionY="-4210" width="128" height="283"/>
-        <element name="Comment" positionX="-9371" positionY="-4095" width="128" height="193"/>
-        <element name="CommentAuthor" positionX="-9216" positionY="-4095" width="128" height="118"/>
-        <element name="CommentText" positionX="-9216" positionY="-3960" width="128" height="148"/>
+        <element name="Comment" positionX="-9380" positionY="-4077" width="128" height="253"/>
+        <element name="CommentAuthor" positionX="-9207" positionY="-3861" width="128" height="148"/>
+        <element name="CommentCollectionTitle" positionX="-9380" positionY="-3780" width="128" height="148"/>
         <element name="ContextCenter" positionX="-9812" positionY="-2983" width="128" height="103"/>
         <element name="ContextDirectLine" positionX="-9810" positionY="-2863" width="128" height="163"/>
         <element name="ContextGroup" positionX="-9623" positionY="-2988" width="128" height="148"/>
@@ -288,7 +296,7 @@
         <element name="EventDirectLine" positionX="-9623" positionY="-3526" width="128" height="148"/>
         <element name="EventPerson" positionX="-9785" positionY="-3357" width="128" height="88"/>
         <element name="Job" positionX="-9414" positionY="-3537" width="128" height="88"/>
-        <element name="LineText" positionX="-9621" positionY="-4212" width="128" height="238"/>
+        <element name="LineText" positionX="-9621" positionY="-4212" width="128" height="253"/>
         <element name="Location" positionX="-10125" positionY="-3636" width="128" height="193"/>
         <element name="LocationAuxName" positionX="-10298" positionY="-3636" width="128" height="88"/>
         <element name="LocationCoordinate" positionX="-10125" positionY="-3429" width="128" height="118"/>
@@ -304,7 +312,7 @@
         <element name="StruggleLocation" positionX="-9360" positionY="-2925" width="128" height="88"/>
         <element name="StrugglePerson" positionX="-9362" positionY="-3051" width="128" height="88"/>
         <element name="StuggleDirectLine" positionX="-9360" positionY="-2808" width="128" height="163"/>
-        <element name="TextTitle" positionX="-9945" positionY="-3906" width="128" height="223"/>
+        <element name="TextTitle" positionX="-9785" positionY="-4014" width="128" height="238"/>
         <element name="TextVersionTitle" positionX="-9621" positionY="-3942" width="128" height="103"/>
     </elements>
 </model>

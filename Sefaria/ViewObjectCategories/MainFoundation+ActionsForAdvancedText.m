@@ -37,16 +37,12 @@
         return nil;
     }
     for (int i = 0; i < [myTextArray count]; i++) {// START CHAPTER
-        //NSMutableArray* myChapterArray = [[NSMutableArray alloc]init];
-        // switch sub
-        
         NSArray* myChapterText = [myTextArray objectAtIndex:i];
         NSString* chapterNumber = [NSString stringWithFormat:@"Chapter %d",i+1];
         [myCompleteTextArray addObject:chapterNumber];
         [myCompleteTextArray addObject:@" "];
-        
+
         if ([myChapterText isKindOfClass:[NSString class]]){
-            //LOG NSLog(@"-- title %@ --",self.myTitleTempStore);
             NSString* myStringConversion = [@[myChapterText] firstObject];
             if ([myStringConversion length]){
                 [myCompleteTextArray addObject:myStringConversion];
@@ -60,12 +56,45 @@
                 if ([[myChapterText objectAtIndex:j] isKindOfClass:[NSArray class]]) {
                     NSArray* subArray = [myChapterText objectAtIndex:j];
                     for (int k = 0; k < [subArray count]; k++) {
-                        NSString* mySubString = [subArray objectAtIndex:k];
-                        [myCompleteTextArray addObject:[self stringFormatForForm:mySubString]];
+                        
+                        if ([[subArray objectAtIndex:k] isKindOfClass:[NSArray class]]) {
+                            LOG NSLog(@"-- Error on array %@ --",[subArray objectAtIndex:k]);
+                            NSArray* superSubArray = [subArray objectAtIndex:k];
+
+                            for (int l = 0; l < [superSubArray count]; l++) {
+                                NSString* mySuperSubString;
+                                if ([[superSubArray objectAtIndex:l] isKindOfClass:[NSString class]]) {
+                                    mySuperSubString = [superSubArray objectAtIndex:l];
+                                }
+                                else {
+                                    mySuperSubString = @" ";
+                                    LOG NSLog(@"-- SUPER-SUB-ERROR %@ --",[superSubArray objectAtIndex:l]);
+                                }
+                                [myCompleteTextArray addObject:[self stringFormatForForm:mySuperSubString]];
+                            }
+                        }
+                        else {
+                            NSString* mySubString;
+                            if ([[subArray objectAtIndex:k] isKindOfClass:[NSString class]]) {
+                                mySubString = [subArray objectAtIndex:k];
+                            }
+                            else {
+                                mySubString = @" ";
+                                LOG NSLog(@"-- SUB-ERROR %@ --",[subArray objectAtIndex:k]);
+                            }
+                            [myCompleteTextArray addObject:[self stringFormatForForm:mySubString]];
+                        }
                     }
                 }
                 else {
-                    NSString* myText = [myChapterText objectAtIndex:j];
+                    NSString* myText;
+                    if ([[myChapterText objectAtIndex:j] isKindOfClass:[NSString class]]) {
+                        myText = [myChapterText objectAtIndex:j];
+                    }
+                    else {
+                        myText = @" ";
+                        LOG NSLog(@"-- Error Text %@ --",[myChapterText objectAtIndex:j]);
+                    }
                     [myCompleteTextArray addObject:myText];
                 }
             }
@@ -80,7 +109,6 @@
 ////
 //
 
-
 - (NSString*) stringPathFormat :(NSString*) myPathFromPress
 {
     myPathFromPress = [myPathFromPress stringByReplacingOccurrencesOfString:@"TextData/"
@@ -89,7 +117,6 @@
                                                                  withString:@""];
     return myPathFromPress;
 }
-
 
 - (NSString*) stringFormatForForm :(NSString*) myString
 {
@@ -100,7 +127,6 @@
     return myString;
 }
 
-
 //
 //
 ////////
@@ -109,8 +135,9 @@
 //
 //
 
-- (void) testMenuRecursion {
-    
+- (void) testMenuRecursion
+{
+    [self testDataCheckMasterList];
 }
 
 - (void) testDataCheckMasterList {
@@ -118,31 +145,25 @@
     NSArray* textList = bookSet.superTextList;
     for (int i = 0; i < [textList count]; i++) {
         NSString* myTextName = [textList objectAtIndex:i];
-        //NSLog(@"-- %@ --",myTextName);
+        NSLog(@"-- TNH : %@ --",myTextName);
         //self.myTitleTempStore = myTextName;
+        //NSLog(@"0.0");
         NSArray* myTextData = [self getTextListData:myTextName];
+        //NSLog(@"0.1");
         NSArray* myText = [self textDataExtract:myTextData];
         NSLog(@"--  MTN %@ --",myText);
-        //NSLog(@" ");
+        NSLog(@"Loop Done");
     }
-    NSLog(@"Done");
+    NSLog(@"-- **Done-Done** --");
 }
 
 - (void) testLoadDataForMenu {
-    
     BookListDataModel* bookSet = [[BookListDataModel alloc]init];
-    
     NSArray* textList = bookSet.superTextList;
-    
-    
     NSString* myTextName = [textList objectAtIndex:2];
-    
-    
     NSArray* myTextData = [self getTextListData:myTextName];
     NSArray* myText = [self textDataExtract:myTextData];
-    
     NSLog(@"-- %@ --",myText);
-    
 }
 
 //

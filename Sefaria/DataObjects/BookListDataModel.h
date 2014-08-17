@@ -26,6 +26,10 @@
 //
 @property (strong, nonatomic) NSArray* theCompleteTextArray;
 
+//
+//
+// Language
+@property (strong, nonatomic) NSString* theLanguage;
 
 //
 // Titles

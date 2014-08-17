@@ -14,7 +14,7 @@
 
 @implementation MainFoundation
 
-@synthesize thePrimaryAttribute=_thePrimaryAttribute,thePrimarybook=_thePrimarybook,theProphetText=_theProphetText,theWritingsText=_theWritingsText,theTorahText=_theTorahText,menuListArray=_menuListArray,primaryDataArray=_primaryDataArray,primaryEnglishTextArray=_primaryEnglishTextArray,primaryHebrewTextArray=_primaryHebrewTextArray,viewTitleEnglish=_viewTitleEnglish,viewTitleHebrew=_viewTitleHebrew,theChapterNumber=_theChapterNumber,myTanachTextClass=_myTanachTextClass,theChapterMax=__theChapterMax,mySpeechClass=_mySpeechClass,managedObjectContext=_managedObjectContext,menuChoiceArray=_menuChoiceArray,menuListPathArray=_menuListPathArray,menuPathChoiceArray=_menuPathChoiceArray;
+@synthesize thePrimaryAttribute=_thePrimaryAttribute,thePrimarybook=_thePrimarybook,theProphetText=_theProphetText,theWritingsText=_theWritingsText,theTorahText=_theTorahText,menuListArray=_menuListArray,primaryDataArray=_primaryDataArray,primaryEnglishTextArray=_primaryEnglishTextArray,primaryHebrewTextArray=_primaryHebrewTextArray,viewTitleEnglish=_viewTitleEnglish,viewTitleHebrew=_viewTitleHebrew,theChapterNumber=_theChapterNumber,myTanachTextClass=_myTanachTextClass,theChapterMax=__theChapterMax,mySpeechClass=_mySpeechClass,managedObjectContext=_managedObjectContext,menuChoiceArray=_menuChoiceArray,menuListPathArray=_menuListPathArray,menuPathChoiceArray=_menuPathChoiceArray,myGestureClass=_myGestureClass,theCurrentChapterNumber=_theCurrentChapterNumber;
 
 @synthesize myEnglishDataModel=_myEnglishDataModel,myHebrewDataModel=_myHebrewDataModel,myEnglishDataModelArray=_myEnglishDataModelArray,myHebrewDataModelArray=_myHebrewDataModelArray;
 
@@ -41,6 +41,48 @@
     @catch (NSException *exception) {
         //[self myAlert:@"Could Not Save"];
     }
+}
+
+//
+//
+////////
+#pragma mark - Gesture
+////////
+//
+//
+
+- (GestureClass*) myGestureClass {
+    if (!_myGestureClass) {
+        _myGestureClass = [[GestureClass alloc]init];
+    }
+    return _myGestureClass;
+}
+
+//
+//
+////////
+#pragma mark - Language Check
+////////
+//
+//
+
+
+//
+//
+////////
+#pragma mark - Notification Loader
+////////
+//
+//
+
+- (void) basicNotifications : (NSString*) mySelector withName : (NSString*) observerName
+{
+    SEL selector = NSSelectorFromString(mySelector);
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:selector
+     name:observerName
+     object:nil];
 }
 
 //
@@ -206,11 +248,11 @@
 - (void) setTheChapterNumber:(NSInteger)theChapterNumber {
     _theChapterNumber = theChapterNumber;
     if (_theChapterNumber > __theChapterMax - 1) {
-        //NSLog(@"-- Chapter upper limit --");
+        NSLog(@"-- Chapter upper limit --");
         _theChapterNumber = 0;
     }
     else if (_theChapterNumber < 0) {
-        //NSLog(@"-- Chapter zero limit --");
+        NSLog(@"-- Chapter zero limit --");
         _theChapterNumber = self.theChapterMax - 1;
     }
 }

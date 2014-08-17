@@ -41,15 +41,14 @@
 
 #define RESET_DELAY 0.3
 
-#define CELL_CONTENT_WIDTH 320.0f
+#define CELL_CONTENT_WIDTH 550.0f
 #define CELL_CONTENT_MARGIN 10.0f
-#define CELL_PADDING 80.0
+#define CELL_PADDING 40.0
 
 #define FONT_NAME @"Georgia"
 #define FONT_SIZE 20.0
 #define IPAD_FONT [UIFont fontWithName: FONT_NAME size: FONT_SIZE]
 #define IPAD_FONT_LARGE [UIFont fontWithName: FONT_NAME size: FONT_SIZE*1.4]
-
 
 #warning - Click on box to go to text!
 
@@ -62,13 +61,25 @@
 //
 
 - (IBAction)searchButtonPress:(UIButton *)sender {
-    [self searchAction];
+    [self englishSearchAction];
 }
 
-- (void) searchAction {
+- (IBAction)hebrewSearchButton:(UIButton *)sender {
+    [self hebrewSearchAction];
+}
+
+- (void) hebrewSearchAction {
     NSString* myText = self.searchTextField.text;
     if ([myText length]) {
-        [self textSearch:myText];
+        [self hebrewTextSearch:myText];
+        [self.myTextTable reloadData];
+    }
+}
+
+- (void) englishSearchAction {
+    NSString* myText = self.searchTextField.text;
+    if ([myText length]) {
+        [self englishTextSearch:myText];
         [self.myTextTable reloadData];
     }
 }
@@ -81,8 +92,27 @@
 //
 //
 
+- (void) hebrewTextSearch : (NSString*) myString {
+    NSArray*myentries = [self fetchLineTextFromHebrewWordSearch:myString withContext : self.managedObjectContext];
+    
+    [self.myTextArray removeAllObjects];
+    [self.myTextInfoArray removeAllObjects];
+    for (LineText* TLT in myentries) {
+        NSInteger line = [TLT.lineNumber integerValue]+1;
+        NSInteger chapter = [TLT.chapterNumber integerValue]+1;
+        TextTitle* title = TLT.whatTextTitle;
+        NSString* text = title.hebrewName;
+        
+        NSString* myTextInfo = [NSString stringWithFormat:@"Text: %@ Chapter: %ld Line: %ld --",text,(long)chapter,(long)line];
+        [self.myTextArray addObject:TLT.hebrewText];
+        [self.myTextInfoArray addObject:myTextInfo];
+    }
+    
+    NSString* myCountString = [NSString stringWithFormat:@"Word Count: %lu",(unsigned long)[self.myTextArray count]];
+    self.wordCountLabel.text = myCountString;
+}
 
-- (void) textSearch : (NSString*) myString {
+- (void) englishTextSearch : (NSString*) myString {
     NSArray*myentries = [self fetchLineTextFromEnglishWordSearch:myString withContext : self.managedObjectContext];
     
     [self.myTextArray removeAllObjects];
@@ -97,7 +127,6 @@
         
         [self.myTextArray addObject:TLT.englishText];
         [self.myTextInfoArray addObject:myTextInfo];
-    
     }
     
     NSString* myCountString = [NSString stringWithFormat:@"Word Count: %lu",(unsigned long)[self.myTextArray count]];
@@ -175,7 +204,7 @@
     }
     if ([myString length]) {
         UIFont *myFont = [ UIFont fontWithName: FONT_NAME size: FONT_SIZE ];
-        sizeEnglish = [self frameForText: myString sizeWithFont:myFont constrainedToSize:CGSizeMake(300.f, CGFLOAT_MAX)];
+        sizeEnglish = [self frameForText: myString sizeWithFont:myFont constrainedToSize:CGSizeMake(CELL_CONTENT_WIDTH, CGFLOAT_MAX)];
         return sizeEnglish.height+CELL_PADDING;
     }
     else {
@@ -191,11 +220,6 @@
 //
 //
 
-- (void) initialLoad {
-    
-    
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -209,6 +233,23 @@
     self.navigationController.navigationBarHidden = false;
 }
 
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+}
+
+//
+//
+////////
+#pragma mark - View Style
+////////
+//
+//
+
+- (void) initialLoad {
+    
+
+}
 
 - (BOOL)prefersStatusBarHidden {
     return YES;
@@ -220,16 +261,12 @@
     }
 }
 
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    
-}
-
-
-
-
+//
+//
+////////
+#pragma mark - Setters
+////////
+//
 //
 
 - (NSMutableArray *)myTextArray {
@@ -246,15 +283,13 @@
     return _myTextInfoArray;
 }
 
-
-
-
-
-
-
-
-
-
+//
+//
+////////
+#pragma mark - Test
+////////
+//
+//
 
 - (void) testSearch {
     NSArray*myentries = [self fetchLineTextFromEnglishWordSearch:@"lord" withContext : self.managedObjectContext];

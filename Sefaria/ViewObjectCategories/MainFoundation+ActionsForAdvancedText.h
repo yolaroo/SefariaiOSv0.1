@@ -18,4 +18,6 @@
 - (NSString*) stringPathFormat :(NSString*) myPathFromPress;
 - (NSString*) stringFormatForForm :(NSString*) myString;
 
+- (void) testMenuRecursion;
+
 @end

@@ -18,5 +18,6 @@
 - (void) testFetchLineText : (NSManagedObjectContext*) context;
 
 - (NSArray*) fetchLineTextFromEnglishWordSearch : (NSString*)myText withContext : (NSManagedObjectContext*) context;
+- (NSArray*) fetchLineTextFromHebrewWordSearch : (NSString*)myText withContext : (NSManagedObjectContext*) context;
 
 @end

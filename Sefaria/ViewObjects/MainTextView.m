@@ -13,24 +13,9 @@
 #import "MainFoundation+TableViewStyles.h"
 #import "MainFoundation+MenuActions.h"
 
+#import "MainFoundation+ChapterReadAnimations.h"
 
 @interface MainTextView  ()
-
-//
-////
-//
-
-@property (strong,nonatomic) UIScreenEdgePanGestureRecognizer * edgeLeftPanGesture;
-@property (strong,nonatomic) UIScreenEdgePanGestureRecognizer * edgeRightPanGesture;
-
-@property (strong,nonatomic) UISwipeGestureRecognizer * closeMenuGesture;
-@property (strong,nonatomic) UISwipeGestureRecognizer * closeChapterGesture;
-
-@property (strong,nonatomic) UITapGestureRecognizer * showNavigationBarGesture;
-@property (strong,nonatomic) UITapGestureRecognizer * hideBothMenuGesture;
-
-@property (strong,nonatomic) UISwipeGestureRecognizer * nextChapterGesture;
-@property (strong,nonatomic) UISwipeGestureRecognizer * previousChapterGesture;
 
 //
 //// STYLE COLLECTION
@@ -70,8 +55,6 @@
 
 @implementation MainTextView
 
-@synthesize edgeLeftPanGesture=_edgeLeftPanGesture,edgeRightPanGesture=_edgeRightPanGesture,closeMenuGesture=_closeMenuGesture,showNavigationBarGesture=_showNavigationBarGesture;
-
 #define DK 2
 #define LOG if(DK == 1)
 
@@ -90,9 +73,6 @@
 #define HIDE_CH CGPointMake(1174.0, 490.0)
 #define SHOW_CH CGPointMake(764.0, 428.0)
 
-#define ANIMATE_DURATION 0.6
-#define ANIMATE_OPACITY 0.2
-
 #define FONT_NAME @"Georgia"
 #define FONT_SIZE 20.0
 
@@ -109,14 +89,13 @@
 //
 //
 
-- (IBAction)hebrewTextButtonPress:(UIButton *)sender {
-    [self moveMenuAction];
-    [self moveChapterAction];
+- (IBAction)navigationShowButtonPress:(UIButton *)sender {
+    [self showNavBar];
 }
 
-- (IBAction)EnglishTextButtonPress:(UIButton *)sender {
-    [self moveMenuAction];
-    [self moveChapterAction];
+- (IBAction)textNameButtonPress:(UIButton *)sender {
+    [self moveMenuAction:self.mainMenuView];
+    [self moveChapterAction : self.mainChapterView];
 }
 
 //
@@ -139,149 +118,6 @@
 - (void) chapterPreviousAction {
     self.theChapterNumber --;
     [self updateText];
-}
-
-//
-//
-////////
-#pragma mark - NavigationBar Hide Action
-////////
-//
-//
-
-- (void) hideNavBar {
-    if (!self.isNavBarShowing) {
-        return;
-    }
-    self.isNavBarShowing = false;
-    [UIView animateWithDuration:ANIMATE_DURATION*2
-                          delay:0
-                        options: UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         self.navigationController.navigationBar.frame =  CGRectOffset(self.navigationController.navigationBar.frame, 0, -40 );
-                     }
-                     completion:^(BOOL finished){
-                     //empty
-                     }];
-}
-
-- (void) showNavBar {
-    if (self.isNavBarShowing) {
-        return;
-    }
-    
-    self.isNavBarShowing = true;
-    [UIView animateWithDuration:ANIMATE_DURATION/2
-                          delay:0
-                        options: UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         self.navigationController.navigationBar.frame =  CGRectOffset(self.navigationController.navigationBar.frame, 0, 40 );
-                     }
-                     completion:^(BOOL finished){
-                         [self performSelector:@selector(hideNavBar) withObject:nil afterDelay:2.2];
-                     }];
-}
-
-//
-//
-////////
-#pragma mark - Menu Animation
-////////
-//
-//
-
-- (void) moveMenuAction {
-    if (!self.menuIsMoving) {
-        if (self.isMenuShowing) {
-            [self hideMenu];
-            self.menuIsMoving = true;
-            self.isMenuShowing = !self.isMenuShowing;
-        }
-        else {
-            [self showMenu];
-            self.menuIsMoving = true;
-            self.isMenuShowing = !self.isMenuShowing;
-        }
-    }
-}
-
-- (void) hideMenu {
-    [UIView animateWithDuration:ANIMATE_DURATION
-                          delay:0
-                        options: UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         self.mainMenuView.center = HIDE_CG;
-                         self.mainMenuView.alpha = ANIMATE_OPACITY;
-                     }
-                     completion:^(BOOL finished){
-                         self.menuIsMoving = false;
-                     }];
-}
-
-- (void) showMenu {
-    [self.view bringSubviewToFront:self.mainMenuView];
-    [UIView animateWithDuration:ANIMATE_DURATION
-                          delay:0
-                        options: UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         self.mainMenuView.center = SHOW_CG;
-                         self.mainMenuView.alpha = 1;
-
-                     }
-                     completion:^(BOOL finished){
-                         self.menuIsMoving = false;
-                     }];
-}
-
-//
-//
-////////
-#pragma mark - Chapter Animation
-////////
-//
-//
-
-- (void) moveChapterAction {
-    if (!self.chapterIsMoving) {
-        if (self.isChapterShowing) {
-            [self hideChapter];
-            self.chapterIsMoving = true;
-            self.isChapterShowing = !self.isChapterShowing;
-        }
-        else {
-            [self showChapter];
-            self.chapterIsMoving = true;
-            self.isChapterShowing = !self.isChapterShowing;
-        }
-    }
-}
-
-- (void) hideChapter {
-    [UIView animateWithDuration:ANIMATE_DURATION
-                          delay:0
-                        options: UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         self.mainChapterView.center = HIDE_CH;
-                         self.mainChapterView.alpha = ANIMATE_OPACITY;
-                     }
-                     completion:^(BOOL finished){
-                         self.chapterIsMoving = false;
-                     }];
-}
-
-- (void) showChapter {
-    [self.view bringSubviewToFront:self.mainChapterView];
-    [UIView animateWithDuration:ANIMATE_DURATION
-                          delay:0
-                        options: UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         self.mainChapterView.center = SHOW_CH;
-                         self.mainChapterView.alpha = 1;
-                         
-                     }
-                     completion:^(BOOL finished){
-                         self.chapterIsMoving = false;
-                     }];
 }
 
 //
@@ -515,43 +351,6 @@
 //
 //
 ////////
-#pragma mark - On Load
-////////
-//
-//
-
-- (void) initialSetUp {
-    self.menuListArray = self.myTanachTextClass.foundationTorah;
-    [self viewStyleForLoad];
-
-    self.thePrimarybook = kTanachTorah;
-    self.theWritingsText = kTorahGenesis;
-    self.theChapterNumber = 0;
-    self.isMenuShowing = false;
-    [self setTextData];
-    [self foundationRunSpeech:@[@"Welcome"]];
-
-    [self gestureRecognizerGroup];
-}
-
-- (void) gestureRecognizerGroup {
-    [self.view addGestureRecognizer:self.edgeLeftPanGesture];
-    [self.view addGestureRecognizer:self.edgeRightPanGesture];
-    [self.view addGestureRecognizer:self.hideBothMenuGesture];
-    
-    [self.mainMenuView addGestureRecognizer: self.closeMenuGesture];
-    [self.mainChapterView addGestureRecognizer:self.closeChapterGesture];
-    
-    [self.underNavBarView addGestureRecognizer:self.showNavigationBarGesture];
-    
-    [self.view addGestureRecognizer:self.nextChapterGesture];
-    [self.view addGestureRecognizer:self.previousChapterGesture];
-
-}
-
-//
-//
-////////
 #pragma mark - Life Cycle
 ////////
 //
@@ -566,7 +365,6 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
 
-    [self performSelector:@selector(menuAnimationOnLoad) withObject:nil afterDelay:0.6];
     self.navigationController.navigationBarHidden = false;
     self.automaticallyAdjustsScrollViewInsets = NO;
     
@@ -587,14 +385,19 @@
 //
 //
 
-- (void) menuAnimationOnLoad {
-    [self showMenu];
-    self.menuIsMoving = true;
-    self.isMenuShowing = true;
+- (void) initialSetUp {
+    self.menuListArray = self.myTanachTextClass.foundationTorah;
+    [self viewStyleForLoad];
     
-    [self showChapter];
-    self.chapterIsMoving = true;
-    self.isChapterShowing = true;
+    self.thePrimarybook = kTanachTorah;
+    self.theWritingsText = kTorahGenesis;
+    self.theChapterNumber = 0;
+    self.isMenuShowing = false;
+    [self setTextData];
+    [self foundationRunSpeech:@[@"Welcome"]];
+    [self menuAnimationOnLoad];
+    
+    [self gestureLoader];
 }
 
 - (void) viewStyleForLoad {
@@ -607,19 +410,56 @@
 }
 
 
+- (void) menuAnimationOnLoad {
+    [self moveMenuAction:self.mainMenuView];
+    self.menuIsMoving = true;
+    self.isMenuShowing = true;
+    
+    [self moveChapterAction:self.mainChapterView];
+    self.chapterIsMoving = true;
+    self.isChapterShowing = true;
+}
 
+//
+//
+////////
+#pragma mark - Gestures
+////////
+//
+//
 
+- (void) gestureLoader {
+    [self.myGestureClass gestureRecognizerGroupForMainView:self.view];
+    [self.myGestureClass gestureRecognizerGroupForSecondaryGroupA:self.mainChapterView];
+    [self.myGestureClass gestureRecognizerGroupForSecondaryGroupB:self.mainMenuView];
+    [self bookGestureNotificationLoader];
+}
 
+- (void) bookGestureNotificationLoader {
+    [self basicNotifications:@"chapterNextAction" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureSwipeLeftMain]];
+    [self basicNotifications:@"chapterPreviousAction" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureSwipeRightMain]];
+    
+    [self basicNotifications:@"theMenuActionComplete" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureDoubleTapMain]];
+    
+    [self basicNotifications:@"theMenuBookActionSingle" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureLeftEdge]];
+    [self basicNotifications:@"theChapterActionsingle" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureRightEdge]];
+    
+    [self basicNotifications:@"theMenuBookActionSingle" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureSwipeLeftSecondary]];
+    [self basicNotifications:@"theChapterActionsingle" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureSwipeRightSecondary]];
+}
 
+- (void) theMenuActionComplete {
+    [self moveMenuAction : self.mainMenuView];
+    [self moveChapterAction : self.mainChapterView];
+}
 
+- (void) theMenuBookActionSingle {
+    [self moveMenuAction : self.mainMenuView];
+}
 
-
-
-
-
-
-
-
+- (void) theChapterActionsingle {
+    [self moveChapterAction : self.mainChapterView];
+}
 
 
 //
@@ -653,145 +493,6 @@
     NSLog(@"title -- %@", [mydata objectAtIndex:1]);
     
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-//
-////////
-#pragma mark - Gesture Setters
-////////
-//
-//
-
-- (UIScreenEdgePanGestureRecognizer *) edgeLeftPanGesture {
-    if (!_edgeLeftPanGesture){
-        _edgeLeftPanGesture =
-        [[UIScreenEdgePanGestureRecognizer  alloc] initWithTarget:self action:@selector(leftEdgeCheck:)];
-        [_edgeLeftPanGesture setEdges:UIRectEdgeLeft];
-    }
-    return _edgeLeftPanGesture;
-}
-
-- (void) leftEdgeCheck:(UISwipeGestureRecognizer *)recognizer {
-    [self moveMenuAction];
-}
-
-- (UIScreenEdgePanGestureRecognizer *) edgeRightPanGesture {
-    if (!_edgeRightPanGesture){
-        _edgeRightPanGesture =
-        [[UIScreenEdgePanGestureRecognizer  alloc] initWithTarget:self action:@selector(rightEdgeCheck:)];
-        [_edgeRightPanGesture setEdges:UIRectEdgeRight];
-    }
-    return _edgeRightPanGesture;
-}
-
-- (void) rightEdgeCheck:(UISwipeGestureRecognizer *)recognizer {
-    [self moveChapterAction];
-}
-
-//
-////
-//
-
-- (UISwipeGestureRecognizer *) closeMenuGesture {
-    if (!_closeMenuGesture){
-        _closeMenuGesture =
-        [[UISwipeGestureRecognizer  alloc] initWithTarget:self action:@selector(closeMenu:)];
-        [_closeMenuGesture setDirection:UISwipeGestureRecognizerDirectionLeft];
-    }
-    return _closeMenuGesture;
-}
-
-- (void) closeMenu:(UISwipeGestureRecognizer *)recognizer {
-    [self moveMenuAction];
-}
-
-- (UISwipeGestureRecognizer *) closeChapterGesture {
-    if (!_closeChapterGesture){
-        _closeChapterGesture =
-        [[UISwipeGestureRecognizer  alloc] initWithTarget:self action:@selector(closeChapter:)];
-        [_closeChapterGesture setDirection:UISwipeGestureRecognizerDirectionRight];
-    }
-    return _closeChapterGesture;
-}
-
-- (void) closeChapter:(UISwipeGestureRecognizer *)recognizer {
-    [self moveChapterAction];
-}
-
-//
-////
-//
-
-- (UITapGestureRecognizer *) showNavigationBarGesture {
-    if (!_showNavigationBarGesture){
-        _showNavigationBarGesture =
-        [[UITapGestureRecognizer  alloc] initWithTarget:self action:@selector(showNavBarTap:)];
-        [_showNavigationBarGesture setNumberOfTapsRequired:1];
-    }
-    return _showNavigationBarGesture;
-}
-
-- (void) showNavBarTap:(UITapGestureRecognizer*) recognizer{
-    [self showNavBar];
-}
-
-- (UITapGestureRecognizer *) hideBothMenuGesture {
-    if (!_hideBothMenuGesture){
-        _hideBothMenuGesture =
-        [[UITapGestureRecognizer  alloc] initWithTarget:self action:@selector(hideMenus:)];
-        [_hideBothMenuGesture setNumberOfTapsRequired:2];
-    }
-    return _hideBothMenuGesture;
-}
-
-- (void) hideMenus:(UITapGestureRecognizer*) recognizer{
-    [self moveMenuAction];
-    [self moveChapterAction];
-}
-
-//
-////
-//
-
-- (UISwipeGestureRecognizer *) nextChapterGesture {
-    if (!_nextChapterGesture){
-        _nextChapterGesture =
-        [[UISwipeGestureRecognizer  alloc] initWithTarget:self action:@selector(nextAction:)];
-        [_nextChapterGesture setDirection:UISwipeGestureRecognizerDirectionLeft];
-    }
-    return _nextChapterGesture;
-}
-
-- (void) nextAction:(UISwipeGestureRecognizer *)recognizer {
-    [self chapterNextAction];
-}
-
-- (UISwipeGestureRecognizer *) previousChapterGesture {
-    if (!_previousChapterGesture){
-        _previousChapterGesture =
-        [[UISwipeGestureRecognizer  alloc] initWithTarget:self action:@selector(previousAction:)];
-        [_previousChapterGesture setDirection:UISwipeGestureRecognizerDirectionRight];
-    }
-    return _previousChapterGesture;
-}
-
-- (void) previousAction:(UISwipeGestureRecognizer *)recognizer {
-    [self chapterPreviousAction];
-}
-
-
 
 
 @end

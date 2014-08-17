@@ -18,8 +18,8 @@
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     fetchRequest.entity = [NSEntityDescription entityForName:@"LineText" inManagedObjectContext:context];
     
-    NSPredicate *predicateLineNumber  = [NSPredicate predicateWithFormat:@"lineNumber = %@", lineNumber];
-    NSPredicate *predicateChapterNumber  = [NSPredicate predicateWithFormat:@"chapterNumber = %@", chapterNumber];
+    NSPredicate *predicateLineNumber  = [NSPredicate predicateWithFormat:@"lineNumber = %d", lineNumber];
+    NSPredicate *predicateChapterNumber  = [NSPredicate predicateWithFormat:@"chapterNumber = %d", chapterNumber];
     NSPredicate *predicateTextTitle  = [NSPredicate predicateWithFormat:@"whatTextTitle = %@", theTextTitle];
     
     NSArray *subPredicates = [NSArray arrayWithObjects:predicateLineNumber,predicateChapterNumber,predicateTextTitle, nil];
@@ -53,6 +53,29 @@
     NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptorText,sortDescriptorChapter,sortDescriptorLine, nil];
     [fetchRequest setSortDescriptors:sortDescriptors];
 
+    NSError* error;
+    NSArray *fetchedRecords = [context executeFetchRequest:fetchRequest error:&error];
+    
+    return fetchedRecords;
+}
+
+- (NSArray*) fetchLineTextFromHebrewWordSearch : (NSString*)myText withContext : (NSManagedObjectContext*) context
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"LineText" inManagedObjectContext:context];
+    
+    NSPredicate *predicateWordSearch  = [NSPredicate predicateWithFormat:@"hebrewText CONTAINS[cd] %@", myText];
+    
+    NSArray *subPredicates = [NSArray arrayWithObjects:predicateWordSearch, nil];
+    NSPredicate *andPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:subPredicates];
+    fetchRequest.predicate = andPredicate;
+    
+    NSSortDescriptor *sortDescriptorText = [[NSSortDescriptor alloc] initWithKey:@"whatTextTitle" ascending:YES];
+    NSSortDescriptor *sortDescriptorChapter = [[NSSortDescriptor alloc] initWithKey:@"chapterNumber" ascending:YES];
+    NSSortDescriptor *sortDescriptorLine = [[NSSortDescriptor alloc] initWithKey:@"lineNumber" ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptorText,sortDescriptorChapter,sortDescriptorLine, nil];
+    [fetchRequest setSortDescriptors:sortDescriptors];
+    
     NSError* error;
     NSArray *fetchedRecords = [context executeFetchRequest:fetchRequest error:&error];
     

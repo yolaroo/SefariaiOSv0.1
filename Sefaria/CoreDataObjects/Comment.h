@@ -2,34 +2,30 @@
 //  Comment.h
 //  Sefaria
 //
-//  Created by MGM on 7/29/14.
+//  Created by MGM on 8/4/14.
 //  Copyright (c) 2014 Test. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class CommentAuthor, CommentText;
+@class CommentAuthor, CommentCollectionTitle, LineText, TextTitle;
 
 @interface Comment : NSManagedObject
 
-@property (nonatomic, retain) NSString * bookTitle;
 @property (nonatomic, retain) NSNumber * chapterNumber;
 @property (nonatomic, retain) NSNumber * displayOrder;
+@property (nonatomic, retain) NSString * englishText;
+@property (nonatomic, retain) NSString * hebrewText;
+@property (nonatomic, retain) NSNumber * isEnglish;
+@property (nonatomic, retain) NSNumber * isHebrew;
 @property (nonatomic, retain) NSNumber * lineNumber;
 @property (nonatomic, retain) NSString * metaType;
 @property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSString * textTitle;
 @property (nonatomic, retain) NSString * uuid;
 @property (nonatomic, retain) CommentAuthor *whatAuthor;
-@property (nonatomic, retain) NSSet *whatText;
-@end
-
-@interface Comment (CoreDataGeneratedAccessors)
-
-- (void)addWhatTextObject:(CommentText *)value;
-- (void)removeWhatTextObject:(CommentText *)value;
-- (void)addWhatText:(NSSet *)values;
-- (void)removeWhatText:(NSSet *)values;
+@property (nonatomic, retain) CommentCollectionTitle *whatCollectionTitle;
+@property (nonatomic, retain) LineText *whatLineText;
+@property (nonatomic, retain) TextTitle *whatTextTitle;
 
 @end

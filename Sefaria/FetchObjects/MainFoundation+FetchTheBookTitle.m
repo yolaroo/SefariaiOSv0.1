@@ -104,14 +104,19 @@
 ////
 //
 
-- (NSArray*) testFetchBookTitle: (NSManagedObjectContext*) context
+- (void) testFetchBookTitle: (NSManagedObjectContext*) context
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     fetchRequest.entity = [NSEntityDescription entityForName:@"BookTitle" inManagedObjectContext:context];
     
     NSError* error;
     NSArray *fetchedRecords = [context executeFetchRequest:fetchRequest error:&error];
-    return fetchedRecords;
+
+    NSLog(@"-- CBTC %lu --",(unsigned long)[fetchedRecords count]);
+    for (BookTitle* TBT in fetchedRecords) {
+        NSLog(@"-- CFBOOKT  %@ --",TBT.englishName);
+    }
+
 }
 
 

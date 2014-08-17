@@ -10,9 +10,13 @@
 
 @interface FileRecursion : NSObject
 
-- (void) testClass;
+- (NSArray*) textListOfMergeFiles;
+- (NSArray*) commentListOfMergeFiles;
+
 
 - (NSArray*) returnPath : (NSString*)pathName;
+
+
 
 
 @end

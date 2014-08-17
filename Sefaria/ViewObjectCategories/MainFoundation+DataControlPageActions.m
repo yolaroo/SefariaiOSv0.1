@@ -23,7 +23,7 @@
 #define DK 2
 #define LOG if(DK == 1)
 
-- (void) testLoad
+- (void) loadAllTanachData
 {
     [self initialDataLoad:self.managedObjectContext];
 }
@@ -112,13 +112,15 @@
 //// Fetch Routine
 //
 
-- (TextTitle*) myTextTitle : (NSString*) textName withContext : (NSManagedObjectContext*) context {
+- (TextTitle*) myTextTitle : (NSString*) textName withContext : (NSManagedObjectContext*) context
+{
     TextTitle* myText = [[self fetchTextTitleByNameString:textName withContext:context]firstObject];
     LOG NSLog(@"-- MTFF %@ --",myText.englishName);
     return myText;
 }
 
-- (BookTitle*) myBookTitle : (NSString*) bookName withContext : (NSManagedObjectContext*) context {
+- (BookTitle*) myBookTitle : (NSString*) bookName withContext : (NSManagedObjectContext*) context
+{
     BookTitle* myText = [[self fetchBookTitleByNameString:bookName withContext:context]firstObject];
     LOG NSLog(@"-- mBTFF %@ --",myText.englishName);
     return myText;
@@ -165,6 +167,8 @@
     TanachAttributeClass* theAttribute = [[TanachAttributeClass alloc]init];
     kTanachBooks theBook = kTanachProphets;
     for (int i = kProphetsJoshua; i <= kProphetsMalachi; i++) {
+        LOG NSLog(@"-- New Loop --");
+
         theAttribute.prophets = i;
         
         //Fetch
@@ -172,6 +176,7 @@
         TextTitle* aTextTitle = [self myTextTitle: textName withContext:context];
         BookTitle* aBookTitle = [self myBookTitle:@"Prophets" withContext:context];
         aTextTitle.whatBookTitle = aBookTitle;
+        NSLog(@"-- Text Name %@--",textName);
         //
         
         kTextLanguage theLanguage = kLanguageEnglish;
@@ -181,12 +186,29 @@
         self.myHebrewDataModel = [TanachDataModel newTextDataModel:theBook theText:theAttribute theLanguage:kLanguageHebrew];
         self.myHebrewDataModelArray = [self.myHebrewDataModel.theCompleteTextArray mutableCopy];
         
+        LOG NSLog(@"-- Added Hebrew --");
+
+        
         NSString* hebrewTitle = myTextDataModel.theHebrewTitle;
         aTextTitle.hebrewName = hebrewTitle;
+        
+        if (![hebrewTitle length]) {
+            NSLog(@"Title Error");
+        }
+        else {
+            LOG NSLog(@"-- --");
+        }
+        
         NSInteger myChapterNumber = myTextDataModel.chapterLength;
         aTextTitle.chapterCount = [NSNumber numberWithInteger: myChapterNumber];
 
+        LOG NSLog(@"0.1 LDL");
+        
         [self chapterLoad:myTextDataModel.theCompleteTextArray withBookTitle:aBookTitle withTextTitle:aTextTitle withContext:context];
+        
+        LOG NSLog(@"-- Loop finished --");
+
+        
     }
     [self saveData:context];
     NSLog(@"Finished Loading Prophets");
@@ -230,6 +252,7 @@
 
 - (void) chapterLoad: (NSArray*)chapterArray withBookTitle: (BookTitle*) myBookTitle withTextTitle: (TextTitle*) myTextTitle withContext: (NSManagedObjectContext*) context
 {
+    LOG NSLog(@"-- CAC %d --",[chapterArray count]);
     for (int i = 0; i < [chapterArray count]; i++) {
         NSArray * singleChapter = [chapterArray objectAtIndex:i];
         NSInteger chapterNumber = i;
@@ -239,6 +262,8 @@
 
 - (void) lineLoad: (NSArray*) lineArray withBookTitle: (BookTitle*) myBookTitle withTextTitle: (TextTitle*) myTextTitle withChapterNumber : (NSInteger) chapterNumber withContext: (NSManagedObjectContext*) context
 {
+    LOG NSLog(@"-- LAC %d --",[lineArray count]);
+
     for (int i = 0; i < [lineArray count]; i++) {
         //NSLog(@"Line Start");
         NSInteger lineNumber = i;
@@ -249,8 +274,14 @@
 }
 
 - (void) createTextLine: theText withBookTitle : (BookTitle*) theBookTitle withTextTitle : (TextTitle*) myTextTitle withChapterNumber : (NSInteger) chapterNumber withLineNumber : (NSInteger) lineNumber withContext : (NSManagedObjectContext*) context {
-    //NSLog(@"Write Start");
 
+    /*
+    NSString* myTempString = myTextTitle.englishName;
+    if ( [myTempString isEqualToString:@"Jonah"]){
+        LOG NSLog(@"-- TEXT %@ --",theText);
+    }
+    */
+    
     LineText* myText = [LineText newLineText : theText
                                withBookTitle : theBookTitle
                                withTextTitle : myTextTitle
@@ -268,20 +299,17 @@
     NSString*theHebrewString;
     if ([self.myHebrewDataModelArray count] <= chapterNumber) {
         NSLog(@"-- %@ %ld %ld --",myTextTitle.englishName,(long)chapterNumber,(long)lineNumber);
-
         NSLog(@"error chapter");
     }
     
     if ([[self.myHebrewDataModelArray objectAtIndex:chapterNumber]count] <= lineNumber) {
         NSLog(@"-- %@ %ld %ld --",myTextTitle.englishName,(long)chapterNumber,(long)lineNumber);
-
         NSLog(@"error line");
         theHebrewString = @"error";
     }
     else {
         theHebrewString = [[self.myHebrewDataModelArray objectAtIndex:chapterNumber]objectAtIndex:lineNumber];
     }
-    //NSString* mystring = [[self.myHebrewDataModelArray objectAtIndex:chapterNumber]objectAtIndex:lineNumber];
 
     myText.hebrewText = theHebrewString;
     myText.isHebrew = [NSNumber numberWithBool:true];

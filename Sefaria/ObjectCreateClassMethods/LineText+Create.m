@@ -25,11 +25,13 @@
         
         NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"LineText"];
         NSPredicate *predicateName = [NSPredicate predicateWithFormat:@"englishText = %@", theContentText];
+        
         NSPredicate *predicatetheBookTitle = [NSPredicate predicateWithFormat:@"ANY whatBookTitle == %@", theBookTitle];
         NSPredicate *predicatetheTextTitle = [NSPredicate predicateWithFormat:@" whatTextTitle = %@", theBookTitle];
-        //NSPredicate *predicatetheChapterNumber = [NSPredicate predicateWithFormat:@"chapterNumber = %@", theChapterNumber];
+        NSPredicate *predicatetheChapterNumber = [NSPredicate predicateWithFormat:@"chapterNumber = %d", theChapterNumber];
+        NSPredicate *predicatetheLineNumber = [NSPredicate predicateWithFormat:@"lineNumber = %d", theLineNumber];
 
-        NSArray *subPredicates = [NSArray arrayWithObjects:predicateName,predicatetheBookTitle,predicatetheTextTitle, nil];
+        NSArray *subPredicates = [NSArray arrayWithObjects:predicateName,predicatetheBookTitle,predicatetheTextTitle,predicatetheChapterNumber,predicatetheLineNumber, nil];
         NSPredicate *andPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:subPredicates];
         request.predicate = andPredicate;
 

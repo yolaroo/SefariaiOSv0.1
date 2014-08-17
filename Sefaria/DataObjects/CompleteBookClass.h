@@ -10,6 +10,7 @@
 
 @interface CompleteBookClass : NSObject
 
+- (NSArray*) completeMishnahFileLocation;
 
 
 typedef NS_ENUM(NSInteger, kBooks)  {
@@ -27,14 +28,6 @@ typedef NS_ENUM(NSInteger, kBooks)  {
     kBooksOther,
     kBooksCommentary,
 };
-
-
-typedef NS_ENUM(NSInteger, kChasidutTexts)  {
-    kTanachTorah,
-    kTanachProphets,
-    kTanachWritings,
-};
-
 
 
 @end

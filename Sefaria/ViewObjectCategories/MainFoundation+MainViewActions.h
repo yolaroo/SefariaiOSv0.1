@@ -14,5 +14,7 @@
 
 - (NSArray*) chapterNumberArray: (NSInteger) maxNumber;
 
+- (BOOL) isLanguageHebrew : (NSString*) myString;
+
 
 @end

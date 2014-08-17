@@ -10,9 +10,36 @@
 
 #import "MainFoundation+FetchTheBookTitle.h"
 #import "MainFoundation+FetchTheTextTitle.h"
+#import "MainFoundation+FetchTheComment.h"
 
 @implementation MainFoundation (ChapterReadActions)
 
+#define DK 2
+#define LOG if(DK == 1)
+
+
+- (NSArray*) fetchCommentByTextAndChapter : (NSString*) theTextName
+                              withChapter : (NSInteger) theChapter
+                              withContext : (NSManagedObjectContext*) context
+{
+    if ([theTextName length]) {
+        TextTitle* mytextTitle = [[self fetchTextTitleByNameString:theTextName withContext:context]firstObject];
+        if (mytextTitle != nil) {
+            return [self fetchBookCommentForChapterByTextName:mytextTitle withChapterNumber:theChapter withContext:context];
+        } else {
+            NSLog(@"Error comment fetch");
+        }
+    } else {
+        NSLog(@"Error comment fetch text");
+    }
+    NSLog(@"");
+    return nil;
+}
+
+
+//
+////
+//
 
 - (NSInteger) getChapterCount: (NSString*) myCellText withContext: (NSManagedObjectContext*) context
 {
@@ -31,7 +58,9 @@
 
 - (NSArray*) menuFetchFromClick : (NSString*) bookString withContext: (NSManagedObjectContext*) context
 {
+    LOG NSLog(@"-- TBS %@ --",bookString);
     NSArray* theList = [self fetchBookTitleForSubSet:bookString withContext:context];
+    LOG NSLog(@"-- TL %@ --",theList);
     if ([self textCheck:theList]){
         self.isTextLevel = true;
         self.isBookLevel = false;    
@@ -42,13 +71,18 @@
 }
 
 - (bool) textCheck : (NSArray*) myArray {
+    LOG NSLog(@"-- pressed text check %@ --",myArray);
+    
     if ([[myArray firstObject] isKindOfClass:[BookTitle class]]) {
+        LOG NSLog(@"is book title");
         self.isTextLevel = false;
         self.isBookLevel = true;
         self.theChapterMax = 0;
         return false;
     }
     else if ([[myArray firstObject] isKindOfClass:[TextTitle class]]) {
+        LOG NSLog(@"is text title");
+
         //TextTitle* myText = [myArray firstObject];
         //NSLog(@"-- MTA %@ --",myText.englishName);
         //self.theChapterMax = [myText.chapterCount integerValue];

@@ -10,6 +10,11 @@
 
 @interface MainFoundation (DataControlPageActions)
 
-- (void) testLoad;
+- (void) loadAllTanachData;
+
+- (TextTitle*) myTextTitle : (NSString*) textName withContext : (NSManagedObjectContext*) context;
+
+- (BookTitle*) myBookTitle : (NSString*) bookName withContext : (NSManagedObjectContext*) context;
+
 
 @end

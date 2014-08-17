@@ -40,21 +40,6 @@
 
 @property (strong, nonatomic) IBOutletCollection(UIView) NSArray *myViewCollection;
 
-//
-////
-//
-
-@property (strong,nonatomic) UIScreenEdgePanGestureRecognizer * edgeLeftPanGesture;
-@property (strong,nonatomic) UIScreenEdgePanGestureRecognizer * edgeRightPanGesture;
-
-@property (strong,nonatomic) UISwipeGestureRecognizer * closeMenuGesture;
-@property (strong,nonatomic) UISwipeGestureRecognizer * closeChapterGesture;
-
-@property (strong,nonatomic) UITapGestureRecognizer * showNavigationBarGesture;
-@property (strong,nonatomic) UITapGestureRecognizer * hideBothMenuGesture;
-
-@property (strong,nonatomic) UISwipeGestureRecognizer * nextChapterGesture;
-@property (strong,nonatomic) UISwipeGestureRecognizer * previousChapterGesture;
 
 //
 //// BUTTON
@@ -72,8 +57,6 @@
 @end
 
 @implementation ChapterReadView
-
-@synthesize edgeLeftPanGesture=_edgeLeftPanGesture,edgeRightPanGesture=_edgeRightPanGesture,closeMenuGesture=_closeMenuGesture,showNavigationBarGesture=_showNavigationBarGesture;
 
 #define DK 2
 #define LOG if(DK == 1)
@@ -114,7 +97,7 @@
 ////
 //
 
-- (IBAction)TextNameButtonPress:(UIButton *)sender {
+- (IBAction)textNameButtonPress:(UIButton *)sender {
     [self moveMenuAction:self.mainMenuView];
     [self moveChapterAction : self.mainChapterView];
 }
@@ -491,15 +474,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationController.navigationBarHidden = false;
-    [self viewStyleForLoad];
-    [self gestureRecognizerGroup];
-    [self performSelector:@selector(initialLoad) withObject:nil afterDelay:RESET_DELAY];
-
-    [self menuAnimationOnLoad];
-    
-    //[self performSelector:@selector(TestLoadAction) withObject:nil afterDelay:RESET_DELAY];
-    //[self loadTest];
+    [self initialSetUp];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -526,6 +501,14 @@
 //
 //
 
+- (void) initialSetUp {
+    self.navigationController.navigationBarHidden = false;
+    [self viewStyleForLoad];
+    [self gestureLoader];
+    [self performSelector:@selector(initialLoad) withObject:nil afterDelay:RESET_DELAY];
+    [self menuAnimationOnLoad];
+}
+
 - (void) viewStyleForLoad {
     [self.englishTextTable setSeparatorInset:UIEdgeInsetsZero];
     [self.hebrewTextTable setSeparatorInset:UIEdgeInsetsZero];
@@ -534,14 +517,6 @@
         [self viewShadow:UIV];
     }
 }
-
-//
-//
-////////
-#pragma mark - Menu Load
-////////
-//
-//
 
 - (void) menuAnimationOnLoad {
     [self moveMenuAction:self.mainMenuView];
@@ -556,133 +531,42 @@
 //
 //
 ////////
-#pragma mark - Gesture
+#pragma mark - Gestures
 ////////
 //
 //
 
-- (void) gestureRecognizerGroup {
-    [self.view addGestureRecognizer:self.edgeLeftPanGesture];
-    [self.view addGestureRecognizer:self.edgeRightPanGesture];
-    [self.view addGestureRecognizer:self.hideBothMenuGesture];
+- (void) gestureLoader {
+    [self.myGestureClass gestureRecognizerGroupForMainView:self.view];
+    [self.myGestureClass gestureRecognizerGroupForSecondaryGroupA:self.mainChapterView];
+    [self.myGestureClass gestureRecognizerGroupForSecondaryGroupB:self.mainMenuView];
+    [self bookGestureNotificationLoader];
+}
+
+- (void) bookGestureNotificationLoader {
+    [self basicNotifications:@"chapterNextAction" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureSwipeLeftMain]];
+    [self basicNotifications:@"chapterPreviousAction" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureSwipeRightMain]];
     
-    [self.mainMenuView addGestureRecognizer: self.closeMenuGesture];
-    [self.mainChapterView addGestureRecognizer:self.closeChapterGesture];
+    [self basicNotifications:@"theMenuActionComplete" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureDoubleTapMain]];
     
-    [self.view addGestureRecognizer:self.nextChapterGesture];
-    [self.view addGestureRecognizer:self.previousChapterGesture];
+    [self basicNotifications:@"theMenuBookActionSingle" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureLeftEdge]];
+    [self basicNotifications:@"theChapterActionsingle" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureRightEdge]];
+    
+    [self basicNotifications:@"theMenuBookActionSingle" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureSwipeLeftSecondary]];
+    [self basicNotifications:@"theChapterActionsingle" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureSwipeRightSecondary]];
 }
 
-//
-//
-////////
-#pragma mark - Gesture Setters
-////////
-//
-//
-
-- (UIScreenEdgePanGestureRecognizer *) edgeLeftPanGesture {
-    if (!_edgeLeftPanGesture){
-        _edgeLeftPanGesture =
-        [[UIScreenEdgePanGestureRecognizer  alloc] initWithTarget:self action:@selector(leftEdgeCheck:)];
-        [_edgeLeftPanGesture setEdges:UIRectEdgeLeft];
-    }
-    return _edgeLeftPanGesture;
-}
-
-- (void) leftEdgeCheck:(UISwipeGestureRecognizer *)recognizer {
-    [self moveMenuAction : self.mainMenuView];
-}
-
-- (UIScreenEdgePanGestureRecognizer *) edgeRightPanGesture {
-    if (!_edgeRightPanGesture){
-        _edgeRightPanGesture =
-        [[UIScreenEdgePanGestureRecognizer  alloc] initWithTarget:self action:@selector(rightEdgeCheck:)];
-        [_edgeRightPanGesture setEdges:UIRectEdgeRight];
-    }
-    return _edgeRightPanGesture;
-}
-
-- (void) rightEdgeCheck:(UISwipeGestureRecognizer *)recognizer {
-    [self moveChapterAction : self.mainChapterView];
-}
-
-//
-////
-//
-
-- (UISwipeGestureRecognizer *) closeMenuGesture {
-    if (!_closeMenuGesture){
-        _closeMenuGesture =
-        [[UISwipeGestureRecognizer  alloc] initWithTarget:self action:@selector(closeMenu:)];
-        [_closeMenuGesture setDirection:UISwipeGestureRecognizerDirectionLeft];
-    }
-    return _closeMenuGesture;
-}
-
-- (void) closeMenu:(UISwipeGestureRecognizer *)recognizer {
-    [self moveMenuAction : self.mainMenuView];
-}
-
-- (UISwipeGestureRecognizer *) closeChapterGesture {
-    if (!_closeChapterGesture){
-        _closeChapterGesture =
-        [[UISwipeGestureRecognizer  alloc] initWithTarget:self action:@selector(closeChapter:)];
-        [_closeChapterGesture setDirection:UISwipeGestureRecognizerDirectionRight];
-    }
-    return _closeChapterGesture;
-}
-
-- (void) closeChapter:(UISwipeGestureRecognizer *)recognizer {
-    [self moveChapterAction : self.mainChapterView];
-}
-
-//
-////
-//
-
-- (UITapGestureRecognizer *) hideBothMenuGesture {
-    if (!_hideBothMenuGesture){
-        _hideBothMenuGesture =
-        [[UITapGestureRecognizer  alloc] initWithTarget:self action:@selector(hideMenus:)];
-        [_hideBothMenuGesture setNumberOfTapsRequired:2];
-    }
-    return _hideBothMenuGesture;
-}
-
-- (void) hideMenus:(UITapGestureRecognizer*) recognizer{
+- (void) theMenuActionComplete {
     [self moveMenuAction : self.mainMenuView];
     [self moveChapterAction : self.mainChapterView];
 }
 
-//
-////
-//
-
-- (UISwipeGestureRecognizer *) nextChapterGesture {
-    if (!_nextChapterGesture){
-        _nextChapterGesture =
-        [[UISwipeGestureRecognizer  alloc] initWithTarget:self action:@selector(nextAction:)];
-        [_nextChapterGesture setDirection:UISwipeGestureRecognizerDirectionLeft];
-    }
-    return _nextChapterGesture;
+- (void) theMenuBookActionSingle {
+    [self moveMenuAction : self.mainMenuView];
 }
 
-- (void) nextAction:(UISwipeGestureRecognizer *)recognizer {
-    [self chapterNextAction];
-}
-
-- (UISwipeGestureRecognizer *) previousChapterGesture {
-    if (!_previousChapterGesture){
-        _previousChapterGesture =
-        [[UISwipeGestureRecognizer  alloc] initWithTarget:self action:@selector(previousAction:)];
-        [_previousChapterGesture setDirection:UISwipeGestureRecognizerDirectionRight];
-    }
-    return _previousChapterGesture;
-}
-
-- (void) previousAction:(UISwipeGestureRecognizer *)recognizer {
-    [self chapterPreviousAction];
+- (void) theChapterActionsingle {
+    [self moveChapterAction : self.mainChapterView];
 }
 
 //
@@ -693,9 +577,9 @@
 //
 //
 
-- (void) loadTest {
+- (void) loadTestMishnah {
     NSLog(@"loaded");
-    TextTitle* myText = [[self fetchTextTitleByNameString:@"Genesis" withContext:self.managedObjectContext]firstObject];
+    TextTitle* myText = [[self fetchTextTitleByNameString:@"Mishnah Arakhin" withContext:self.managedObjectContext]firstObject];
     NSLog(@"-- MTFF %@ --",myText.englishName);
     NSArray* myArray = [self fetchTextTitleByTitleAndChapter:myText withChapter : (NSInteger) 0 withContext: (NSManagedObjectContext*) self.managedObjectContext];
     for (LineText* MTT in myArray) {
@@ -705,19 +589,15 @@
     }
 }
 
-- (void) menuTest {
-    NSArray*mybooks = [self testFetchBookTitle:self.managedObjectContext];
-    for (BookTitle* BTL in mybooks) {
-        NSLog(@"-- %@ --",BTL.englishName);
-        NSLog(@"-- %@ --",BTL.depthOrderLevel);
+- (void) loadTestTanach {
+    NSLog(@"loaded");
+    TextTitle* myText = [[self fetchTextTitleByNameString:@"Genesis" withContext:self.managedObjectContext]firstObject];
+    NSLog(@"-- MTFF %@ --",myText.englishName);
+    NSArray* myArray = [self fetchTextTitleByTitleAndChapter:myText withChapter : (NSInteger) 0 withContext: (NSManagedObjectContext*) self.managedObjectContext];
+    for (LineText* MTT in myArray) {
+        NSLog(@"-- PLZLOADENG %@--",MTT.englishText);
+        NSLog(@"-- PLZLOADHBR %@--",MTT.hebrewText);
         
-        NSSet* mySet = BTL.whatTextTitle;
-        NSArray* mySetArray = [mySet allObjects];
-        
-        for (TextTitle* TTL in mySetArray) {
-            NSLog(@"-- %@ --",TTL.englishName);
-        }
-        NSLog(@"-- --");
     }
 }
 

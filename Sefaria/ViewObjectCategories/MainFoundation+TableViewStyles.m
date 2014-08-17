@@ -15,7 +15,7 @@
 #define HEBREW_TAG 300
 #define CHAPTER_TAG 400
 
-#define CELL_CONTENT_WIDTH 320.0f
+#define CELL_CONTENT_WIDTH 380.0f
 #define CELL_CONTENT_MARGIN 10.0f
 #define CELL_PADDING 90.0
 
@@ -71,6 +71,16 @@
     }
 }
 
+//
+////
+//
+
+
+
+//
+////
+//
+
 - (UITableViewCell *) setMyEnglishTextCell: (UITableViewCell*) cell withString :(NSString *) myString
 {
     if (myString != nil && [myString isKindOfClass:[NSString class]]){
@@ -122,7 +132,7 @@
 {
     CGSize sizeEnglish;
     NSLog(@"-- MS %@ --",myString);
-    sizeEnglish = [self frameForText:myString sizeWithFont:nil constrainedToSize:CGSizeMake(300.f, CGFLOAT_MAX)];
+    sizeEnglish = [self frameForText:myString sizeWithFont:nil constrainedToSize:CGSizeMake(CELL_CONTENT_WIDTH-CELL_CONTENT_MARGIN, CGFLOAT_MAX)];
     if (sizeEnglish.height > 44.0) {
         NSLog(@"CG 1.0 %f",sizeEnglish.height + CELL_PADDING );
         return sizeEnglish.height + CELL_PADDING;
@@ -141,12 +151,12 @@
         if (indexPath.row < [self.primaryEnglishTextArray count]) {
 
             NSString* myStringEnglish = [self.primaryEnglishTextArray objectAtIndex:indexPath.row];
-            sizeEnglish = [self frameForText:myStringEnglish sizeWithFont:IPAD_FONT constrainedToSize:CGSizeMake(300.f, CGFLOAT_MAX)];
+            sizeEnglish = [self frameForText:myStringEnglish sizeWithFont:IPAD_FONT constrainedToSize:CGSizeMake(CELL_CONTENT_WIDTH-CELL_CONTENT_MARGIN, CGFLOAT_MAX)];
         }
         if (indexPath.row < [self.primaryHebrewTextArray count]) {
 
             NSString* myStringHebrew = [self.primaryHebrewTextArray objectAtIndex:indexPath.row];
-            sizeHebrew = [self frameForText:myStringHebrew sizeWithFont:IPAD_FONT_LARGE constrainedToSize:CGSizeMake(300.f, CGFLOAT_MAX)];
+            sizeHebrew = [self frameForText:myStringHebrew sizeWithFont:IPAD_FONT_LARGE constrainedToSize:CGSizeMake(CELL_CONTENT_WIDTH-CELL_CONTENT_MARGIN, CGFLOAT_MAX)];
         }
         if (sizeEnglish.height > sizeHebrew.height) {
             return sizeEnglish.height + CELL_PADDING;
@@ -160,7 +170,11 @@
 }
 
 //
-////
+//
+////////
+#pragma mark - Frame
+////////
+//
 //
 
 - (CGSize)frameForText:(NSString*)text sizeWithFont:(UIFont*)font constrainedToSize:(CGSize)size

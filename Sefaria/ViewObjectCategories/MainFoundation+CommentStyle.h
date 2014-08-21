@@ -10,10 +10,7 @@
 
 @interface MainFoundation (CommentStyle)
 
-
 - (NSString*) commentDetailText : (Comment*) myComment;
 - (NSString*) commentTextFromObject:(Comment*) myComment;
-
-
 
 @end

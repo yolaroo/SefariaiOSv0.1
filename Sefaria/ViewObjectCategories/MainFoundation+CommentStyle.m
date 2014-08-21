@@ -41,21 +41,49 @@
         NSString* englishString = myComment.englishText;
         englishString = [englishString stringByReplacingOccurrencesOfString:@"<i>" withString:@""];
         englishString = [englishString stringByReplacingOccurrencesOfString:@"</i>" withString:@""];
-        return [NSString stringWithFormat:@"%@\n%@",myComment.hebrewText,englishString];
+        englishString = [englishString stringByReplacingOccurrencesOfString:@"<b>" withString:@""];
+        englishString = [englishString stringByReplacingOccurrencesOfString:@"</b>" withString:@""];
+        englishString = [englishString stringByReplacingOccurrencesOfString:@"<em>" withString:@""];
+        englishString = [englishString stringByReplacingOccurrencesOfString:@"</em>" withString:@""];
+
+        NSString* hebrewString = myComment.hebrewText;
+        hebrewString = [hebrewString stringByReplacingOccurrencesOfString:@"<i>" withString:@""];
+        hebrewString = [hebrewString stringByReplacingOccurrencesOfString:@"</i>" withString:@""];
+        hebrewString = [hebrewString stringByReplacingOccurrencesOfString:@"<b>" withString:@""];
+        hebrewString = [hebrewString stringByReplacingOccurrencesOfString:@"</b>" withString:@""];
+        hebrewString = [hebrewString stringByReplacingOccurrencesOfString:@"<em>" withString:@""];
+        hebrewString = [hebrewString stringByReplacingOccurrencesOfString:@"</em>" withString:@""];
+        
+        return [NSString stringWithFormat:@"%@\n%@",hebrewString,englishString];
     }
     else if ([myComment.englishText length] && ![myComment.hebrewText length]) {
         NSString* englishString = myComment.englishText;
         englishString = [englishString stringByReplacingOccurrencesOfString:@"<i>" withString:@""];
         englishString = [englishString stringByReplacingOccurrencesOfString:@"</i>" withString:@""];
+        englishString = [englishString stringByReplacingOccurrencesOfString:@"<b>" withString:@""];
+        englishString = [englishString stringByReplacingOccurrencesOfString:@"</b>" withString:@""];
+        englishString = [englishString stringByReplacingOccurrencesOfString:@"<em>" withString:@""];
+        englishString = [englishString stringByReplacingOccurrencesOfString:@"</em>" withString:@""];
+
         return englishString;
     }
     else if (![myComment.englishText length] && [myComment.hebrewText length]) {
-        return myComment.hebrewText;
+        NSString* hebrewString = myComment.hebrewText;
+        hebrewString = [hebrewString stringByReplacingOccurrencesOfString:@"<i>" withString:@""];
+        hebrewString = [hebrewString stringByReplacingOccurrencesOfString:@"</i>" withString:@""];
+        hebrewString = [hebrewString stringByReplacingOccurrencesOfString:@"<b>" withString:@""];
+        hebrewString = [hebrewString stringByReplacingOccurrencesOfString:@"</b>" withString:@""];
+        hebrewString = [hebrewString stringByReplacingOccurrencesOfString:@"<em>" withString:@""];
+        hebrewString = [hebrewString stringByReplacingOccurrencesOfString:@"</em>" withString:@""];
+
+        return hebrewString;
     }
     else {
         NSLog(@"string error");
         return @"";
     }
 }
+
+
 
 @end

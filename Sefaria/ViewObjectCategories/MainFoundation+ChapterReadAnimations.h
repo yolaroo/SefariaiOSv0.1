@@ -10,11 +10,13 @@
 
 @interface MainFoundation (ChapterReadAnimations)
 
-
 - (void) moveMenuAction : (UIView*) myView;
 - (void) moveChapterAction : (UIView*) myView;
 
 - (void) hideNavBar;
 - (void) showNavBar;
+
+- (void) menuAnimationOnLoad : (UIView*) menuView withChapterView : (UIView*) chapterView;
+
 
 @end

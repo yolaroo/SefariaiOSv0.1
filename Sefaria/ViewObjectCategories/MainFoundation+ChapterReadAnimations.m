@@ -19,6 +19,26 @@
 #define HIDE_CH CGPointMake(1174.0, 490.0)
 #define SHOW_CH CGPointMake(764.0, 388.0)
 
+
+//
+//
+////////
+#pragma mark - Menu Load Animation
+////////
+//
+//
+
+- (void) menuAnimationOnLoad : (UIView*) menuView withChapterView : (UIView*) chapterView
+{
+    [self moveMenuAction:menuView];
+    self.menuIsMoving = true;
+    self.isMenuShowing = true;
+    
+    [self moveChapterAction:chapterView];
+    self.chapterIsMoving = true;
+    self.isChapterShowing = true;
+}
+
 //
 //
 ////////
@@ -154,7 +174,7 @@
     }
     
     self.isNavBarShowing = true;
-    [UIView animateWithDuration:ANIMATE_DURATION/4
+    [UIView animateWithDuration:ANIMATE_DURATION/8
                           delay:0
                         options: UIViewAnimationOptionCurveEaseIn
                      animations:^{

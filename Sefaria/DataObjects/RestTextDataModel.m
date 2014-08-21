@@ -17,10 +17,9 @@
 
 + (RestTextDataModel*) myNewRestDataLoader: (NSURL*) pathURL withData : (NSData*) myData withConnectionError: (NSError*) connectionError
 {
-    RestTextDataModel* myTextDataModel = [[RestTextDataModel alloc]init];
-    
     if (myData.length > 0 && connectionError == nil)
     {
+        RestTextDataModel* myTextDataModel = [[RestTextDataModel alloc]init];
         //
         // NSJSONSerialization
         //

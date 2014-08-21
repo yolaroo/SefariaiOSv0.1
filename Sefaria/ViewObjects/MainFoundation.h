@@ -25,12 +25,16 @@
 #import "GestureClass.h"
 @class GestureClass;
 
+#import "BestStringClass.h"
+@class BestStringClass;
+
 #import "TextTitle.h"
 #import "BookTitle.h"
 #import "LineText.h"
 #import "Comment.h"
 #import "CommentAuthor.h"
 #import "CommentCollectionTitle.h"
+
 
 
 @interface MainFoundation : UIViewController
@@ -45,6 +49,7 @@
 @property (nonatomic, strong) NSArray* menuListArray;
 @property (nonatomic, strong) NSArray* menuListPathArray;
 @property (nonatomic, strong) NSArray* commentArray;
+@property (nonatomic) NSInteger menuDepthCount;
 
 @property (nonatomic, strong) NSArray* chapterListArray;
 
@@ -69,12 +74,17 @@
 
 @property (nonatomic, strong) NSMutableArray* menuChoiceArray;
 @property (nonatomic, strong) NSMutableArray* menuPathChoiceArray;
+@property (nonatomic, strong) NSMutableArray* menuTopPathChoiceArray;
+
+
+@property (nonatomic,strong) UIActivityIndicatorView* myActivityIndicator;
 
 //
 ////
 //
 
 @property (nonatomic, strong) NSManagedObjectContext* managedObjectContext;
+@property (nonatomic, strong) NSManagedObjectContext* seedManagedObjectContext;
 
 //
 ////
@@ -106,6 +116,7 @@
 //
 @property (strong,nonatomic) SpeechClass* mySpeechClass;
 - (void) foundationRunSpeech: (NSArray*) speechArray;
+- (void) foundationStopSpeech;
 
 //
 #pragma mark - Gesture
@@ -113,9 +124,15 @@
 @property (strong,nonatomic) GestureClass* myGestureClass;
 
 //
+#pragma mark - NSATRString
+//
+@property (strong,nonatomic) BestStringClass* myBestStringClass;
+
+//
 #pragma mark - Notification
 //
 - (void) basicNotifications : (NSString*) mySelector withName : (NSString*) observerName;
+
 
 
 @end

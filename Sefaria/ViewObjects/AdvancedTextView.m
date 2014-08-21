@@ -20,6 +20,10 @@
 
 #import "MainFoundation+ActionsForAdvancedText.h"
 
+#import "MainFoundation+HebrewTextStyles.h"
+#import "MainFoundation+EnglishTextStyle.h"
+#import "MainFoundation+ChapterAndMenuTextStyles.h"
+
 @class FileRecursion;
 
 @interface AdvancedTextView ()
@@ -185,6 +189,8 @@
 //
 //
 
+
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
     if (tableView.tag == ENGLISH_TAG || tableView.tag == HEBREW_TAG) {
@@ -205,6 +211,11 @@
         return 55.0;
     }
 }
+
+
+
+
+
 
 //
 //

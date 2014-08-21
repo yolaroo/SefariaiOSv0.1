@@ -26,27 +26,13 @@
 #define DK 2
 #define LOG if(DK == 1)
 
-
-
-
-
-
-//
-////
-//
-
-
-
 - (void) buildCoreDataStackForComments : (NSManagedObjectContext*)context
 {
-#warning HERE
     CommentListDataModel* myCommentListDataModel = [[CommentListDataModel alloc]init];
     NSArray*myCompleteList = myCommentListDataModel.superCommentList;
-    NSString* STR = [myCompleteList objectAtIndex:0];
-    NSLog(@"-- Comment %@ --",STR);
     
     for (NSString* STR in myCompleteList) {
-        NSLog(@"-- Comment %@ --",STR);
+        LOG NSLog(@"-- Comment %@ --",STR);
         CommentListDataModel* myCommentData = [CommentListDataModel newCommentDataLoader:STR];
         [self commentUnwrap:myCommentData withContext:context];
     }
@@ -123,10 +109,8 @@
                         LOG NSLog(@"-- going to comment create --");
                         NSInteger myLineNumber = j+1;
                         
-#warning HERE
                         LOG NSLog(@"comment unwrap");
                         [self masterCommentBuildAction:myCommentData withChapter:chapterNumber withLineNumber:myLineNumber withCommentContents : myTempLineString withContext:context];
-#warning HERE
                         LOG NSLog(@"-- finished creation --");
                         
                     }

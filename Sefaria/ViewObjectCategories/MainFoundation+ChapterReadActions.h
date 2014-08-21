@@ -19,5 +19,6 @@
                               withChapter : (NSInteger) theChapter
                               withContext : (NSManagedObjectContext*) context;
 
+- (void) chapterReadBackMenuActionStatus;
 
 @end

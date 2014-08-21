@@ -15,6 +15,12 @@
 
 #import "MainFoundation+ChapterReadAnimations.h"
 
+#import "MainFoundation+HebrewTextStyles.h"
+#import "MainFoundation+EnglishTextStyle.h"
+#import "MainFoundation+ChapterAndMenuTextStyles.h"
+
+#import "MainFoundation+GestureActions.h"
+
 @interface MainTextView  ()
 
 //
@@ -67,24 +73,18 @@
 #define HEBREW_TAG 300
 #define CHAPTER_TAG 400
 
-#define HIDE_CG CGPointMake(-150.0, 490.0)
-#define SHOW_CG CGPointMake(260.0, 428.0)
-
-#define HIDE_CH CGPointMake(1174.0, 490.0)
-#define SHOW_CH CGPointMake(764.0, 428.0)
-
-#define FONT_NAME @"Georgia"
-#define FONT_SIZE 20.0
-
 #define MENU_CELL [tableView dequeueReusableCellWithIdentifier:@"MenuCell" forIndexPath:indexPath]
 #define ENGLISH_CELL [tableView dequeueReusableCellWithIdentifier:@"EnglishTextCell" forIndexPath:indexPath]
 #define HEBREW_CELL [tableView dequeueReusableCellWithIdentifier:@"HebrewTextCell" forIndexPath:indexPath]
 #define CHAPTER_CELL [tableView dequeueReusableCellWithIdentifier:@"ChapterCell" forIndexPath:indexPath]
 
+#define COLOR_CELL_HIGHLIGHT [UIColor colorWithRed: 246.0f/255.0f green:253.0f/255.0f blue:255.0f/255.0f alpha:0.4f]
+
+
 //
 //
 ////////
-#pragma mark - Button Action
+#pragma mark - Button Navigation Action
 ////////
 //
 //
@@ -140,14 +140,26 @@
 
 - (void) menuButtonAction : (NSInteger) buttonNumber {
     [self menuForTorahAction:buttonNumber];
+    self.chapterListArray = @[];
     [self.menuTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
     [self updateMenu];
 }
-
-
 - (void) updateMenu {
-    [self.menuTable reloadData];
-    [self.chapterTable reloadData];
+    [UIView transitionWithView:self.chapterTable
+                      duration:.8
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:^ {
+                        [self.chapterTable reloadData];
+                    }
+                    completion:NULL];
+    
+    [UIView transitionWithView:self.menuTable
+                      duration:.8
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:^ {
+                        [self.menuTable reloadData];
+                    }
+                    completion:NULL];
 }
 
 //
@@ -168,15 +180,16 @@
     if (tableView.tag == MENU_TAG){
         return [self.menuListArray count] ? [self.menuListArray count] : 0;
     }
+    else if (tableView.tag == CHAPTER_TAG) {
+        return [self.chapterListArray count] ? [self.chapterListArray count] : 0;
+    }
     else if (tableView.tag == ENGLISH_TAG) {
         return [self.primaryEnglishTextArray count] ? [self.primaryEnglishTextArray count] : 0;
     }
     else if (tableView.tag == HEBREW_TAG) {
         return [self.primaryHebrewTextArray count] ? [self.primaryHebrewTextArray count] : 0;
     }
-    else if (tableView.tag == CHAPTER_TAG) {
-        return [self.chapterListArray count] ? [self.chapterListArray count] : 0;
-    }
+
     else {
         NSLog(@"Error on cell load");
         return 0;
@@ -230,6 +243,33 @@
 //
 //
 ////////
+#pragma mark - Cell Color
+////////
+//
+//
+
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView didHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = (UITableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    [self setCellColor:COLOR_CELL_HIGHLIGHT ForCell:cell]; //highlight color
+}
+
+- (void)tableView:(UITableView *)tableView didUnhighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = (UITableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    [self setCellColor:[UIColor whiteColor] ForCell:cell];  //normal colour
+}
+
+- (void)setCellColor:(UIColor *)color ForCell:(UITableViewCell *)cell {
+    cell.contentView.backgroundColor = color;
+    cell.backgroundColor = color;
+}
+
+//
+//
+////////
 #pragma mark - Table Height
 ////////
 //
@@ -239,7 +279,6 @@
 {
     return [self tableViewHeightTwoTables:tableView cellForRowAtIndexPath:indexPath];
 }
-
 
 //
 //
@@ -268,9 +307,13 @@
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView.tag == MENU_TAG || tableView.tag == CHAPTER_TAG){
+    if (tableView.tag == MENU_TAG){
         [self tableViewMenuAction:tableView.tag didSelectRowAtIndexPath:indexPath];
+    }
+    else if (tableView.tag == CHAPTER_TAG) {
+        self.theChapterNumber = indexPath.row;
         [self updateText];
+        [self theMenuActionComplete];
     }
     else if (tableView.tag == ENGLISH_TAG){
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
@@ -284,11 +327,16 @@
     }
 }
 
+- (void) extraMenuPress {
+    self.theChapterNumber = 0;
+    [self.chapterTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
+    [self updateText];
+}
+
 - (void) updateText {
     [self setTextData];
     [self.englishTextTable reloadData];
     [self.hebrewTextTable reloadData];
-    [self.chapterTable reloadData];
 }
 
 //
@@ -320,15 +368,29 @@
         self.viewTitleHebrew = [self.primaryDataArray objectAtIndex:1];
         self.primaryEnglishTextArray = [self setTextFromChapter : [self.primaryDataArray objectAtIndex:2] theChapterNumber : self.theChapterNumber];
         self.primaryHebrewTextArray =  [self setTextFromChapter : [self.primaryDataArray objectAtIndex:3] theChapterNumber : self.theChapterNumber];
-        self.theChapterMax = [[self.primaryDataArray objectAtIndex:4] integerValue];
-        
-        self.chapterListArray = [self chapterNumberArray: self.theChapterMax];
 
+        [self setChapterData];
         [self setTextView];
     }
     else {
         NSLog(@"-- Error : Text Data --");
     }
+}
+
+- (void) setChapterData {    
+    self.theChapterMax = [[self.primaryDataArray objectAtIndex:4] integerValue];
+    self.chapterListArray = [self chapterNumberArray: self.theChapterMax];
+
+    self.chapterTable.alpha = 0.3;
+    [UIView transitionWithView:self.chapterTable
+                      duration:.8
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:^ {
+                        self.chapterTable.alpha = 1;
+                        [self.chapterTable reloadData];
+                    }
+                    completion:NULL];
+    
 }
 
 //
@@ -391,13 +453,13 @@
     
     self.thePrimarybook = kTanachTorah;
     self.theWritingsText = kTorahGenesis;
-    self.theChapterNumber = 0;
+    self.theChapterNumber = 1;
     self.isMenuShowing = false;
     [self setTextData];
     [self foundationRunSpeech:@[@"Welcome"]];
-    [self menuAnimationOnLoad];
+    [self menuAnimationOnLoad : self.mainMenuView withChapterView:self.mainChapterView];
     
-    [self gestureLoader];
+    [self gestureLoader : self.mainMenuView withChapterView:self.mainChapterView];
 }
 
 - (void) viewStyleForLoad {
@@ -409,17 +471,6 @@
     }
 }
 
-
-- (void) menuAnimationOnLoad {
-    [self moveMenuAction:self.mainMenuView];
-    self.menuIsMoving = true;
-    self.isMenuShowing = true;
-    
-    [self moveChapterAction:self.mainChapterView];
-    self.chapterIsMoving = true;
-    self.isChapterShowing = true;
-}
-
 //
 //
 ////////
@@ -427,26 +478,6 @@
 ////////
 //
 //
-
-- (void) gestureLoader {
-    [self.myGestureClass gestureRecognizerGroupForMainView:self.view];
-    [self.myGestureClass gestureRecognizerGroupForSecondaryGroupA:self.mainChapterView];
-    [self.myGestureClass gestureRecognizerGroupForSecondaryGroupB:self.mainMenuView];
-    [self bookGestureNotificationLoader];
-}
-
-- (void) bookGestureNotificationLoader {
-    [self basicNotifications:@"chapterNextAction" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureSwipeLeftMain]];
-    [self basicNotifications:@"chapterPreviousAction" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureSwipeRightMain]];
-    
-    [self basicNotifications:@"theMenuActionComplete" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureDoubleTapMain]];
-    
-    [self basicNotifications:@"theMenuBookActionSingle" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureLeftEdge]];
-    [self basicNotifications:@"theChapterActionsingle" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureRightEdge]];
-    
-    [self basicNotifications:@"theMenuBookActionSingle" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureSwipeLeftSecondary]];
-    [self basicNotifications:@"theChapterActionsingle" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureSwipeRightSecondary]];
-}
 
 - (void) theMenuActionComplete {
     [self moveMenuAction : self.mainMenuView];
@@ -460,6 +491,12 @@
 - (void) theChapterActionsingle {
     [self moveChapterAction : self.mainChapterView];
 }
+
+
+
+
+
+
 
 
 //

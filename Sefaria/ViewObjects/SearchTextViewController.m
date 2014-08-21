@@ -13,6 +13,8 @@
 
 #import "MainFoundation+TableViewStyles.h"
 
+#import "MainFoundation+FetchTheComment.h"
+
 @interface SearchTextViewController ()
 
 
@@ -43,7 +45,7 @@
 
 #define CELL_CONTENT_WIDTH 550.0f
 #define CELL_CONTENT_MARGIN 10.0f
-#define CELL_PADDING 40.0
+#define CELL_PADDING 60.0
 
 #define FONT_NAME @"Georgia"
 #define FONT_SIZE 20.0
@@ -103,7 +105,7 @@
         TextTitle* title = TLT.whatTextTitle;
         NSString* text = title.hebrewName;
         
-        NSString* myTextInfo = [NSString stringWithFormat:@"Text: %@ Chapter: %ld Line: %ld --",text,(long)chapter,(long)line];
+        NSString* myTextInfo = [NSString stringWithFormat:@"Text: %@ Chapter: %ld Line: %ld",text,(long)chapter,(long)line];
         [self.myTextArray addObject:TLT.hebrewText];
         [self.myTextInfoArray addObject:myTextInfo];
     }
@@ -123,7 +125,7 @@
         TextTitle* title = TLT.whatTextTitle;
         NSString* text = title.englishName;
         
-        NSString* myTextInfo = [NSString stringWithFormat:@"Text: %@ Chapter: %ld Line: %ld --",text,(long)chapter,(long)line];
+        NSString* myTextInfo = [NSString stringWithFormat:@"Text: %@ Chapter: %ld Line: %ld",text,(long)chapter,(long)line];
         
         [self.myTextArray addObject:TLT.englishText];
         [self.myTextInfoArray addObject:myTextInfo];

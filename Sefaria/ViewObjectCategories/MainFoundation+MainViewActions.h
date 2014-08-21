@@ -10,11 +10,23 @@
 
 @interface MainFoundation (MainViewActions)
 
+- (void) emptyTextAlert;
+
 - (void) viewShadow: (UIView*) shadowObject;
 
 - (NSArray*) chapterNumberArray: (NSInteger) maxNumber;
 
 - (BOOL) isLanguageHebrew : (NSString*) myString;
+
+
+- (void) stopAI;
+- (void) startAI;
+
+- (UIImage*) loadBGImage: (NSString*) nameOfBG;
+
+- (void) animateBouncingObjects : (NSArray*) viewGroup;
+
+- (NSAttributedString*) myAttributedString : (NSString*) myString withSize : (NSInteger) fontSize withFont : (NSString*) fontName;
 
 
 @end

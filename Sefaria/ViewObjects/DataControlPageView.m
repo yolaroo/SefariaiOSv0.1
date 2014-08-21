@@ -20,11 +20,12 @@
 
 #import "MainFoundation+CoreDataBuilderForGeneralExtraction.h"
 
-
 #import "MainFoundation+FetchTheTextTitle.h"
 #import "MainFoundation+FetchTheBookTitle.h"
 
 #import "MainFoundation+FetchTheLineText.h"
+
+#import "MainFoundation+SeedBuilder.h"
 
 
 @interface DataControlPageView ()
@@ -134,13 +135,26 @@
     NSLog(@"text title");
     [self testFetchTextTitle:self.managedObjectContext];
 
-
-    TextTitle* XXX = [[self fetchTextTitleByNameString:@"Mishnah Eruvin" withContext:self.managedObjectContext]firstObject];
+    TextTitle* ABC = [[self fetchTextTitleByNameString:@"Mishnah Eruvin" withContext:self.managedObjectContext]firstObject];
     
-    NSLog(@"-- HII %@--",XXX.hebrewName);
+    NSLog(@"-- HTT %@--",ABC.hebrewName);
 
     [self testFetchLineText : self.managedObjectContext];
 }
+
+
+//
+////
+//
+
+- (IBAction)saveCDToDesktopPress:(UIButton *)sender {
+    [self saveSeedToDesktop];
+}
+
+- (IBAction)migrateToSeedPress:(UIButton *)sender {
+    [self migrateToSeed];
+}
+
 
 //
 ////

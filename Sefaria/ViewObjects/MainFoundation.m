@@ -14,12 +14,14 @@
 
 @implementation MainFoundation
 
-@synthesize thePrimaryAttribute=_thePrimaryAttribute,thePrimarybook=_thePrimarybook,theProphetText=_theProphetText,theWritingsText=_theWritingsText,theTorahText=_theTorahText,menuListArray=_menuListArray,primaryDataArray=_primaryDataArray,primaryEnglishTextArray=_primaryEnglishTextArray,primaryHebrewTextArray=_primaryHebrewTextArray,viewTitleEnglish=_viewTitleEnglish,viewTitleHebrew=_viewTitleHebrew,theChapterNumber=_theChapterNumber,myTanachTextClass=_myTanachTextClass,theChapterMax=__theChapterMax,mySpeechClass=_mySpeechClass,managedObjectContext=_managedObjectContext,menuChoiceArray=_menuChoiceArray,menuListPathArray=_menuListPathArray,menuPathChoiceArray=_menuPathChoiceArray,myGestureClass=_myGestureClass,theCurrentChapterNumber=_theCurrentChapterNumber;
+@synthesize thePrimaryAttribute=_thePrimaryAttribute,thePrimarybook=_thePrimarybook,theProphetText=_theProphetText,theWritingsText=_theWritingsText,theTorahText=_theTorahText,menuListArray=_menuListArray,primaryDataArray=_primaryDataArray,primaryEnglishTextArray=_primaryEnglishTextArray,primaryHebrewTextArray=_primaryHebrewTextArray,viewTitleEnglish=_viewTitleEnglish,viewTitleHebrew=_viewTitleHebrew,theChapterNumber=_theChapterNumber,myTanachTextClass=_myTanachTextClass,theChapterMax=__theChapterMax,mySpeechClass=_mySpeechClass,managedObjectContext=_managedObjectContext,menuChoiceArray=_menuChoiceArray,menuListPathArray=_menuListPathArray,menuPathChoiceArray=_menuPathChoiceArray,myGestureClass=_myGestureClass,theCurrentChapterNumber=_theCurrentChapterNumber,menuDepthCount=_menuDepthCount,myActivityIndicator=_myActivityIndicator,seedManagedObjectContext=_seedManagedObjectContext,myBestStringClass=_myBestStringClass,menuTopPathChoiceArray=_menuTopPathChoiceArray;
 
 @synthesize myEnglishDataModel=_myEnglishDataModel,myHebrewDataModel=_myHebrewDataModel,myEnglishDataModelArray=_myEnglishDataModelArray,myHebrewDataModelArray=_myHebrewDataModelArray;
 
 #define DK 2
 #define LOG if(DK == 1)
+
+#define BLACK_SHADOW [UIColor colorWithRed:40.0f/255.0f green:40.0f/255.0f blue:40.0f/255.0f alpha:0.4f]
 
 //
 //
@@ -57,14 +59,6 @@
     }
     return _myGestureClass;
 }
-
-//
-//
-////////
-#pragma mark - Language Check
-////////
-//
-//
 
 
 //
@@ -111,7 +105,8 @@
     }
 }
 
-- (void) foundationStopSpeech {
+- (void) foundationStopSpeech
+{
     [self.mySpeechClass stopSpeech];
 }
 
@@ -128,21 +123,6 @@
 }
 
 //
-#pragma mark - loadG
-//
-
-- (UIImage*) loadBGImage: (NSString*) nameOfBG
-{
-    if ([nameOfBG length]) {
-        NSString *fileName = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%@",nameOfBG] ofType:@"png"];
-        UIImage *image = [UIImage imageWithContentsOfFile:fileName];
-        return image;
-    }
-    return nil;
-}
-
-//
-//
 ////
 #pragma mark - Database Load
 ////
@@ -153,12 +133,15 @@
 {
     @try {
         SefariaAppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
-                
+        
+        //self.seedManagedObjectContext = nil;
+        //self.seedManagedObjectContext = appDelegate.seedManagedObjectContext;
+        
         self.managedObjectContext = nil;
         self.managedObjectContext = appDelegate.managedObjectContext;
-        
-        
-        LOG NSLog(@"Delegate Data Load");
+        //self.managedObjectContext = appDelegate.seedManagedObjectContext;
+
+        LOG NSLog(@"Foundation String Name: %@",appDelegate.stringName);
     }
     @catch (NSException *exception) {
         LOG NSLog(@"Delegate Error");
@@ -226,6 +209,30 @@
     return _myTanachTextClass;
 }
 
+- (UIActivityIndicatorView *) myActivityIndicator
+{
+    if (!_myActivityIndicator) {
+        _myActivityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        _myActivityIndicator.center = CGPointMake(self.view.frame.size.width / 2.0, self.view.frame.size.height/ 2.0);
+        _myActivityIndicator.layer.cornerRadius = 5;
+        _myActivityIndicator.opaque = NO;
+        _myActivityIndicator.backgroundColor = BLACK_SHADOW;
+        _myActivityIndicator.transform = CGAffineTransformMakeScale(2.0, 2.0);
+
+        [self.view addSubview: _myActivityIndicator];
+        [_myActivityIndicator startAnimating];
+    }
+    return _myActivityIndicator;
+}
+
+- (BestStringClass*) myBestStringClass {
+    if (!_myBestStringClass) {
+        _myBestStringClass = [[BestStringClass alloc]init];
+    }
+    return _myBestStringClass;
+}
+
+
 //
 ////
 //
@@ -248,12 +255,30 @@
 - (void) setTheChapterNumber:(NSInteger)theChapterNumber {
     _theChapterNumber = theChapterNumber;
     if (_theChapterNumber > __theChapterMax - 1) {
-        NSLog(@"-- Chapter upper limit --");
+        LOG NSLog(@"-- Chapter upper limit --");
         _theChapterNumber = 0;
     }
     else if (_theChapterNumber < 0) {
-        NSLog(@"-- Chapter zero limit --");
+        LOG NSLog(@"-- Chapter zero limit --");
         _theChapterNumber = self.theChapterMax - 1;
+    }
+}
+
+- (void) setTheCurrentChapterNumber:(NSInteger)theCurrentChapterNumber {
+    _theCurrentChapterNumber = theCurrentChapterNumber;
+    if (__theChapterMax == 0 || __theChapterMax == 1 ) {
+        _theCurrentChapterNumber = 1;
+    }
+    else if (_theCurrentChapterNumber > __theChapterMax) {
+        LOG NSLog(@"-- Chapter upper limit --");
+        _theCurrentChapterNumber = 1;
+    }
+    else if (_theCurrentChapterNumber < 1) {
+        LOG NSLog(@"-- Chapter zero limit --");
+        _theChapterNumber = self.theChapterMax;
+        if (self.theChapterMax == 0) {
+            _theChapterNumber = 1;
+        }        
     }
 }
 
@@ -293,22 +318,43 @@
     return _menuPathChoiceArray;
 }
 
+- (NSMutableArray *) menuTopPathChoiceArray {
+    if (!_menuTopPathChoiceArray) {
+        _menuTopPathChoiceArray = [[NSMutableArray alloc]init];
+    }
+    return _menuTopPathChoiceArray;
+}
+
 //
 //
-////
+////////
 #pragma mark - Cleaner
-////
+////////
 //
 //
 
 - (void) didMoveToParentViewController:(UIViewController *)parent
 {
+    LOG NSLog(@"NAV closed - start cleaner");
     if (![parent isEqual:self.parentViewController]) {
         [self myCleaner];
     }
 }
 
-- (void) myCleaner {
+- (void) dealloc
+{
+    LOG NSLog(@"Main Dealloc called");
+    @try {
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
+        [self foundationStopSpeech];
+    }
+    @catch (NSException *exception) {
+        LOG NSLog(@"Error: %@",exception);
+    }
+}
+
+- (void) myCleaner
+{
     UIViewController *vc = self;
     while ([vc presentingViewController] != NULL) {
         vc = [vc presentingViewController];
@@ -325,15 +371,7 @@
     }
 }
 
-- (void) dealloc {
-    LOG NSLog(@"Main Dealloc called");
-    @try {
-        [[NSNotificationCenter defaultCenter] removeObserver:self];
-    }
-    @catch (NSException *exception) {
-        LOG NSLog(@"Error: %@",exception);
-    }
-}
+
 
 
 

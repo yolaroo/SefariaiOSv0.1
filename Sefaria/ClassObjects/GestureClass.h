@@ -18,6 +18,7 @@ typedef NS_ENUM(NSInteger, kGestureNames)  {
     kGestureDoubleTapMain,
     kGestureSwipeLeftSecondary,
     kGestureSwipeRightSecondary,
+    kGestureLongPressGesture
 };
 
 - (void) gestureRecognizerGroupForMainView : (UIView*) theView;

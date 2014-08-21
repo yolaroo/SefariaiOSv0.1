@@ -17,4 +17,9 @@
 - (NSArray*) fetchAllComments : (NSManagedObjectContext*) context;
 
 
+- (NSArray*) fetchCommentFromHebrewWordSearch : (NSString*)myText withContext : (NSManagedObjectContext*) context;
+
+- (NSArray*) fetchCommentFromEnglishWordSearch : (NSString*)myText withContext : (NSManagedObjectContext*) context;
+
+
 @end

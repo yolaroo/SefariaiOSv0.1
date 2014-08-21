@@ -21,6 +21,8 @@
 @property (strong,nonatomic) UISwipeGestureRecognizer * swipeLeftSecondaryGesture;
 @property (strong,nonatomic) UISwipeGestureRecognizer * swipeRightSecondaryGesture;
 
+@property (strong,nonatomic) UILongPressGestureRecognizer * longPressGesture;
+
 @end
 
 //
@@ -29,7 +31,11 @@
 
 @implementation GestureClass
 
-@synthesize edgeLeftPanGesture=_edgeLeftPanGesture,edgeRightPanGesture=_edgeRightPanGesture,swipeLeftMainGesture=_swipeLeftMainGesture,swipeRightMainGesture=_swipeRightMainGesture,doubleTapMainGesture=_doubleTapMainGesture,swipeLeftSecondaryGesture=_swipeLeftSecondaryGesture,swipeRightSecondaryGesture=_swipeRightSecondaryGesture;
+@synthesize edgeLeftPanGesture=_edgeLeftPanGesture,edgeRightPanGesture=_edgeRightPanGesture,swipeLeftMainGesture=_swipeLeftMainGesture,swipeRightMainGesture=_swipeRightMainGesture,doubleTapMainGesture=_doubleTapMainGesture,swipeLeftSecondaryGesture=_swipeLeftSecondaryGesture,swipeRightSecondaryGesture=_swipeRightSecondaryGesture,longPressGesture=_longPressGesture;
+
+#define DK 2
+#define LOG if(DK == 1)
+
 
 //
 //
@@ -41,13 +47,14 @@
 
 - (void) gestureRecognizerGroupForMainView : (UIView*) theView
 {
-    NSLog(@"Gesture Loaded");
+    LOG NSLog(@"Gesture Loaded");
     [theView addGestureRecognizer:self.edgeLeftPanGesture];
     [theView addGestureRecognizer:self.edgeRightPanGesture];
     [theView addGestureRecognizer:self.swipeLeftMainGesture];
     [theView addGestureRecognizer:self.swipeRightMainGesture];
     //
     [theView addGestureRecognizer:self.doubleTapMainGesture];
+    [theView addGestureRecognizer:self.longPressGesture];
 }
 
 - (void) gestureRecognizerGroupForSecondaryGroupA : (UIView*) theView
@@ -77,7 +84,8 @@
              @"swipeRightMain",
              @"doubleTapMain",
              @"swipeLeftSecondary",
-             @"swipeRightSecondary"
+             @"swipeRightSecondary",
+             @"pressLongGesture"
              ];
 }
 
@@ -88,6 +96,20 @@
 ////////
 //
 //
+
+- (UILongPressGestureRecognizer *) longPressGesture {
+    if(!_longPressGesture) {
+        _longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressCheck:)];
+        [_longPressGesture setMinimumPressDuration:1.0f];
+    }
+    return _longPressGesture;
+}
+
+- (void) longPressCheck:(UILongPressGestureRecognizer *)recognizer {
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"pressLongGesture"
+     object:self];
+}
 
 - (UIScreenEdgePanGestureRecognizer *) edgeLeftPanGesture {
     if (!_edgeLeftPanGesture){

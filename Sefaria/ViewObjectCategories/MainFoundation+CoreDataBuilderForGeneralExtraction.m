@@ -223,7 +223,7 @@
                           withLineNumber : lineNumber
                             withLanguage : @"english"
                              withContext : context];
-#warning HERE
+
         myText.hebrewText = theHebrewString;
     }
     else if ([theLanguage isEqualToString:@"he"]) {

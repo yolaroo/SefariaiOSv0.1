@@ -18,6 +18,15 @@
 #define LOG if(DK == 1)
 
 
+//
+//
+////////
+#pragma mark - Fetch Comment
+////////
+//
+//
+
+
 - (NSArray*) fetchCommentByTextAndChapter : (NSString*) theTextName
                               withChapter : (NSInteger) theChapter
                               withContext : (NSManagedObjectContext*) context
@@ -36,7 +45,6 @@
     return nil;
 }
 
-
 //
 ////
 //
@@ -48,7 +56,11 @@
 }
 
 //
-////
+//
+////////
+#pragma mark - Fetch at Zero
+////////
+//
 //
 
 - (NSArray*) menuFetchToZero : (NSManagedObjectContext*)context
@@ -82,7 +94,7 @@
     }
     else if ([[myArray firstObject] isKindOfClass:[TextTitle class]]) {
         LOG NSLog(@"is text title");
-
+        
         //TextTitle* myText = [myArray firstObject];
         //NSLog(@"-- MTA %@ --",myText.englishName);
         //self.theChapterMax = [myText.chapterCount integerValue];
@@ -94,9 +106,52 @@
     }
 }
 
+
 //
-////
 //
+////////
+#pragma mark - Menu State Setter
+////////
+//
+//
+
+
+- (void) chapterReadBackMenuActionStatus
+{
+    self.isTextLevel = false;
+    self.isBookLevel = true;
+    self.theChapterNumber = 0;
+    self.theChapterMax = 0;
+    if([self.menuChoiceArray count] == 1) {
+        [self.menuChoiceArray removeLastObject];
+        self.menuListArray = [self menuFetchToZero:self.managedObjectContext];
+    }
+    else {
+        [self.menuChoiceArray removeLastObject];
+        self.chapterListArray = @[];
+        self.menuListArray = [self menuFetchFromClick:[self.menuChoiceArray lastObject] withContext:self.managedObjectContext];
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+//
+//
+////////
+#pragma mark - Test
+////////
+//
+//
+
 
 - (void) testBookTitleFetch: (NSManagedObjectContext*)context
 {

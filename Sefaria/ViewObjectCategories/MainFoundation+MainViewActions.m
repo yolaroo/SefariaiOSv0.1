@@ -10,6 +10,65 @@
 
 @implementation MainFoundation (MainViewActions)
 
+
+#pragma mark - Alert
+
+- (void) emptyTextAlert
+{
+    UIAlertView *myAlert = [[UIAlertView alloc]
+                            initWithTitle:@"The Text is Empty"
+                            message:@""
+                            delegate:self
+                            cancelButtonTitle:nil
+                            otherButtonTitles:@"ok", nil];
+    myAlert.cancelButtonIndex = -1;
+    [myAlert setTag:1000];
+    [myAlert show];
+}
+
+//
+//
+////
+#pragma mark - Load BG Method
+////
+//
+//
+
+- (UIImage*) loadBGImage: (NSString*) nameOfBG
+{
+    if ([nameOfBG length]) {
+        NSString *fileName = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%@",nameOfBG] ofType:@"png"];
+        UIImage *image = [UIImage imageWithContentsOfFile:fileName];
+        return image;
+    }
+    return nil;
+}
+
+//
+
+//
+//
+////////
+#pragma mark - AI
+////////
+//
+//
+
+- (void) startAI {
+    if (self.myActivityIndicator) {
+    } else {
+    }
+}
+
+- (void) stopAI
+{
+    if (self.myActivityIndicator) {
+        [self.myActivityIndicator stopAnimating];
+        self.myActivityIndicator = nil;
+    } else {
+    }
+}
+
 - (BOOL) isLanguageHebrew : (NSString*) myString
 {
     NSCharacterSet *hebrewCharacters = [NSCharacterSet characterSetWithCharactersInString:@"בבּאהדגחזוכּיטלךכנםמעסןףפפּקץצשׂשׁרתתּש"];
@@ -101,6 +160,38 @@
     
     return returnImage;
 }
+
+//
+//
+////////
+#pragma mark - View Bounce
+////////
+//
+//
+
+- (void) animateBouncingObjects : (NSArray*) viewGroup
+{
+    for (UIView* imageView in viewGroup) {
+        CGPoint origin = imageView.center;
+        CGPoint target = CGPointMake(imageView.center.x, imageView.center.y+10);
+        CABasicAnimation *bounce = [CABasicAnimation animationWithKeyPath:@"position.y"];
+        bounce.duration = 0.5;
+        bounce.fromValue = [NSNumber numberWithInt:origin.y];
+        bounce.toValue = [NSNumber numberWithInt:target.y];
+        bounce.repeatCount = 2;
+        bounce.autoreverses = YES;
+        [imageView.layer addAnimation:bounce forKey:@"position"];
+    }
+}
+
+//
+//
+////////
+#pragma mark - NSAttributed String
+////////
+//
+//
+
 
 
 @end

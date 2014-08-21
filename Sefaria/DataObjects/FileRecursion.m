@@ -207,7 +207,6 @@
             LOG NSLog(@"-- ILVL %d--",i);
             LOG NSLog(@"-- NH %@ --", nextLevelPathName);
             LOG NSLog(@"-- SFN %@ --", fileNamesNextLevel);
-            
         }
         [self simpleMenuArrayBuilderForPath:nextLevelPathName allowedDepth:depth-1 findFilewithSuffix:theSuffix];
     }

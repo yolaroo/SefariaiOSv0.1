@@ -35,6 +35,7 @@
 		C612F9C4197D201F00F0F306 /* MainFoundation+FetchTheLineText.m in Sources */ = {isa = PBXBuildFile; fileRef = C612F9C3197D201F00F0F306 /* MainFoundation+FetchTheLineText.m */; };
 		C612F9CA197D2E4300F0F306 /* ChapterReadView.m in Sources */ = {isa = PBXBuildFile; fileRef = C612F9C9197D2E4300F0F306 /* ChapterReadView.m */; };
 		C6140EFE196A4D0800E87926 /* TextData in Resources */ = {isa = PBXBuildFile; fileRef = C6140EFD196A4D0800E87926 /* TextData */; };
+		C615A7EE19A4631C006AA7E0 /* BestStringClass.m in Sources */ = {isa = PBXBuildFile; fileRef = C615A7ED19A4631C006AA7E0 /* BestStringClass.m */; };
 		C63167D1197759BF00EF9722 /* TextComments in Resources */ = {isa = PBXBuildFile; fileRef = C63167D0197759BF00EF9722 /* TextComments */; };
 		C64426B3198825A5002B3AA0 /* MainFoundation+ActionsForAdvancedText.m in Sources */ = {isa = PBXBuildFile; fileRef = C64426B2198825A5002B3AA0 /* MainFoundation+ActionsForAdvancedText.m */; };
 		C644277019883A51002B3AA0 /* Job.m in Sources */ = {isa = PBXBuildFile; fileRef = C644276F19883A51002B3AA0 /* Job.m */; };
@@ -60,16 +61,23 @@
 		C64427BE19883A6D002B3AA0 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = C64427BD19883A6D002B3AA0 /* Person.m */; };
 		C64427C119883A6D002B3AA0 /* StrugglePerson.m in Sources */ = {isa = PBXBuildFile; fileRef = C64427C019883A6D002B3AA0 /* StrugglePerson.m */; };
 		C64427CA19883A6E002B3AA0 /* SatellitePicture.m in Sources */ = {isa = PBXBuildFile; fileRef = C64427C919883A6E002B3AA0 /* SatellitePicture.m */; };
+		C64956B119A68EBB00135FE7 /* NewWoodBG.png in Resources */ = {isa = PBXBuildFile; fileRef = C64956B019A68EBB00135FE7 /* NewWoodBG.png */; };
+		C65376CC19A33F8E008C82B5 /* MainFoundation+SeedBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = C65376CB19A33F8E008C82B5 /* MainFoundation+SeedBuilder.m */; };
+		C65376CE19A34292008C82B5 /* x01.CDBStore in Resources */ = {isa = PBXBuildFile; fileRef = C65376CD19A34292008C82B5 /* x01.CDBStore */; };
+		C65376D119A36056008C82B5 /* MainFoundation+EnglishTextStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = C65376D019A36056008C82B5 /* MainFoundation+EnglishTextStyle.m */; };
+		C65376D419A36095008C82B5 /* MainFoundation+HebrewTextStyles.m in Sources */ = {isa = PBXBuildFile; fileRef = C65376D319A36095008C82B5 /* MainFoundation+HebrewTextStyles.m */; };
+		C65376D719A36188008C82B5 /* MainFoundation+ChapterAndMenuTextStyles.m in Sources */ = {isa = PBXBuildFile; fileRef = C65376D619A36188008C82B5 /* MainFoundation+ChapterAndMenuTextStyles.m */; };
 		C6594994197BE36E00A4784B /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6594993197BE36E00A4784B /* CoreData.framework */; };
 		C6601D971998806A00482601 /* MainFoundation+CoreDataBuilderForGeneralTitles.m in Sources */ = {isa = PBXBuildFile; fileRef = C6601D961998806A00482601 /* MainFoundation+CoreDataBuilderForGeneralTitles.m */; };
 		C66051A0198B08FD00168474 /* CommentListDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C660519F198B08FD00168474 /* CommentListDataModel.m */; };
 		C66051A3198B15CE00168474 /* MainFoundation+CommentDataActions.m in Sources */ = {isa = PBXBuildFile; fileRef = C66051A2198B15CE00168474 /* MainFoundation+CommentDataActions.m */; };
 		C660A2DE196DEC9300A2E94F /* SefariaDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C660A2DC196DEC9300A2E94F /* SefariaDataModel.xcdatamodeld */; };
+		C671B39B19A36EC20032A304 /* MainFoundation+GestureActions.m in Sources */ = {isa = PBXBuildFile; fileRef = C671B39A19A36EC20032A304 /* MainFoundation+GestureActions.m */; };
 		C67618D519A097100036CD4E /* RestTextDataFetch.m in Sources */ = {isa = PBXBuildFile; fileRef = C67618D419A097100036CD4E /* RestTextDataFetch.m */; };
+		C67E95C619A1D15300FD79E5 /* RestMenuDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C67E95C519A1D15300FD79E5 /* RestMenuDataModel.m */; };
+		C67E95C919A1D32A00FD79E5 /* RestMenuDataFetch.m in Sources */ = {isa = PBXBuildFile; fileRef = C67E95C819A1D32A00FD79E5 /* RestMenuDataFetch.m */; };
 		C6A81E9A199C0BF40065F97C /* MainFoundation+TextAnalysisActions.m in Sources */ = {isa = PBXBuildFile; fileRef = C6A81E99199C0BF40065F97C /* MainFoundation+TextAnalysisActions.m */; };
 		C6B8A6C5199D96D600AFA475 /* MainFoundation+CommentStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B8A6C4199D96D600AFA475 /* MainFoundation+CommentStyle.m */; };
-		C6B978C419874986002175EF /* ipadstaricon.png in Resources */ = {isa = PBXBuildFile; fileRef = C6B978C219874986002175EF /* ipadstaricon.png */; };
-		C6B978C519874986002175EF /* ipadwood.png in Resources */ = {isa = PBXBuildFile; fileRef = C6B978C319874986002175EF /* ipadwood.png */; };
 		C6C056A6198078E9003EC2DC /* MainFoundation+TableViewStyles.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C056A5198078E9003EC2DC /* MainFoundation+TableViewStyles.m */; };
 		C6C056AC19807D32003EC2DC /* MainFoundation+MenuActions.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C056AB19807D32003EC2DC /* MainFoundation+MenuActions.m */; };
 		C6C058A51980F70F003EC2DC /* BookGroup+Create.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C058A41980F70F003EC2DC /* BookGroup+Create.m */; };
@@ -109,6 +117,7 @@
 		C6DCA47F19A0031D007136D7 /* BookFromRestView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6DCA47E19A0031D007136D7 /* BookFromRestView.m */; };
 		C6DCA48319A0095C007136D7 /* RestTextDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C6DCA48219A0095C007136D7 /* RestTextDataModel.m */; };
 		C6DCA48619A00B9E007136D7 /* MainFoundation+RestTextActions.m in Sources */ = {isa = PBXBuildFile; fileRef = C6DCA48519A00B9E007136D7 /* MainFoundation+RestTextActions.m */; };
+		C6E2D84C19A5379A003B801D /* CellWithLeftSideNumberTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C6E2D84B19A5379A003B801D /* CellWithLeftSideNumberTableViewCell.m */; };
 		C6E798D8196D33A40079440F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6E798D7196D33A40079440F /* QuartzCore.framework */; };
 		C6E878E019955A44004117CA /* MainFoundation+CoreDataBuilderForGeneralExtraction.m in Sources */ = {isa = PBXBuildFile; fileRef = C6E878DF19955A44004117CA /* MainFoundation+CoreDataBuilderForGeneralExtraction.m */; };
 		C6FA4439199A9723002F7B70 /* BookReadWithCommentsViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6FA4438199A9723002F7B70 /* BookReadWithCommentsViewViewController.m */; };
@@ -181,6 +190,8 @@
 		C612F9C8197D2E4300F0F306 /* ChapterReadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChapterReadView.h; path = ViewObjects/ChapterReadView.h; sourceTree = "<group>"; };
 		C612F9C9197D2E4300F0F306 /* ChapterReadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChapterReadView.m; path = ViewObjects/ChapterReadView.m; sourceTree = "<group>"; };
 		C6140EFD196A4D0800E87926 /* TextData */ = {isa = PBXFileReference; lastKnownFileType = folder; path = TextData; sourceTree = "<group>"; };
+		C615A7EC19A4631C006AA7E0 /* BestStringClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BestStringClass.h; path = ClassObjects/BestStringClass.h; sourceTree = "<group>"; };
+		C615A7ED19A4631C006AA7E0 /* BestStringClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BestStringClass.m; path = ClassObjects/BestStringClass.m; sourceTree = "<group>"; };
 		C63167D0197759BF00EF9722 /* TextComments */ = {isa = PBXFileReference; lastKnownFileType = folder; path = TextComments; sourceTree = "<group>"; };
 		C64426B1198825A5002B3AA0 /* MainFoundation+ActionsForAdvancedText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MainFoundation+ActionsForAdvancedText.h"; path = "ViewObjectCategories/MainFoundation+ActionsForAdvancedText.h"; sourceTree = "<group>"; };
 		C64426B2198825A5002B3AA0 /* MainFoundation+ActionsForAdvancedText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MainFoundation+ActionsForAdvancedText.m"; path = "ViewObjectCategories/MainFoundation+ActionsForAdvancedText.m"; sourceTree = "<group>"; };
@@ -230,6 +241,16 @@
 		C64427C019883A6D002B3AA0 /* StrugglePerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StrugglePerson.m; path = CoreDataObjects/StrugglePerson.m; sourceTree = "<group>"; };
 		C64427C819883A6E002B3AA0 /* SatellitePicture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SatellitePicture.h; path = CoreDataObjects/SatellitePicture.h; sourceTree = "<group>"; };
 		C64427C919883A6E002B3AA0 /* SatellitePicture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SatellitePicture.m; path = CoreDataObjects/SatellitePicture.m; sourceTree = "<group>"; };
+		C64956B019A68EBB00135FE7 /* NewWoodBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NewWoodBG.png; sourceTree = "<group>"; };
+		C65376CA19A33F8E008C82B5 /* MainFoundation+SeedBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MainFoundation+SeedBuilder.h"; path = "ViewObjectCategories/MainFoundation+SeedBuilder.h"; sourceTree = "<group>"; };
+		C65376CB19A33F8E008C82B5 /* MainFoundation+SeedBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MainFoundation+SeedBuilder.m"; path = "ViewObjectCategories/MainFoundation+SeedBuilder.m"; sourceTree = "<group>"; };
+		C65376CD19A34292008C82B5 /* x01.CDBStore */ = {isa = PBXFileReference; lastKnownFileType = file; path = x01.CDBStore; sourceTree = "<group>"; };
+		C65376CF19A36056008C82B5 /* MainFoundation+EnglishTextStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MainFoundation+EnglishTextStyle.h"; path = "ViewObjectCategories/MainFoundation+EnglishTextStyle.h"; sourceTree = "<group>"; };
+		C65376D019A36056008C82B5 /* MainFoundation+EnglishTextStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MainFoundation+EnglishTextStyle.m"; path = "ViewObjectCategories/MainFoundation+EnglishTextStyle.m"; sourceTree = "<group>"; };
+		C65376D219A36095008C82B5 /* MainFoundation+HebrewTextStyles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MainFoundation+HebrewTextStyles.h"; path = "ViewObjectCategories/MainFoundation+HebrewTextStyles.h"; sourceTree = "<group>"; };
+		C65376D319A36095008C82B5 /* MainFoundation+HebrewTextStyles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MainFoundation+HebrewTextStyles.m"; path = "ViewObjectCategories/MainFoundation+HebrewTextStyles.m"; sourceTree = "<group>"; };
+		C65376D519A36188008C82B5 /* MainFoundation+ChapterAndMenuTextStyles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MainFoundation+ChapterAndMenuTextStyles.h"; path = "ViewObjectCategories/MainFoundation+ChapterAndMenuTextStyles.h"; sourceTree = "<group>"; };
+		C65376D619A36188008C82B5 /* MainFoundation+ChapterAndMenuTextStyles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MainFoundation+ChapterAndMenuTextStyles.m"; path = "ViewObjectCategories/MainFoundation+ChapterAndMenuTextStyles.m"; sourceTree = "<group>"; };
 		C65948DD197B77CF00A4784B /* SefariaDataModel 1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SefariaDataModel 1.0.xcdatamodel"; sourceTree = "<group>"; };
 		C6594993197BE36E00A4784B /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		C6601D951998806A00482601 /* MainFoundation+CoreDataBuilderForGeneralTitles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MainFoundation+CoreDataBuilderForGeneralTitles.h"; path = "ViewObjectCategories/MainFoundation+CoreDataBuilderForGeneralTitles.h"; sourceTree = "<group>"; };
@@ -239,14 +260,18 @@
 		C66051A1198B15CE00168474 /* MainFoundation+CommentDataActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MainFoundation+CommentDataActions.h"; path = "ViewObjectCategories/MainFoundation+CommentDataActions.h"; sourceTree = "<group>"; };
 		C66051A2198B15CE00168474 /* MainFoundation+CommentDataActions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MainFoundation+CommentDataActions.m"; path = "ViewObjectCategories/MainFoundation+CommentDataActions.m"; sourceTree = "<group>"; };
 		C660A2DD196DEC9300A2E94F /* SefariaDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SefariaDataModel.xcdatamodel; sourceTree = "<group>"; };
+		C671B39919A36EC20032A304 /* MainFoundation+GestureActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MainFoundation+GestureActions.h"; path = "ViewObjectCategories/MainFoundation+GestureActions.h"; sourceTree = "<group>"; };
+		C671B39A19A36EC20032A304 /* MainFoundation+GestureActions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MainFoundation+GestureActions.m"; path = "ViewObjectCategories/MainFoundation+GestureActions.m"; sourceTree = "<group>"; };
 		C67618D319A097100036CD4E /* RestTextDataFetch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestTextDataFetch.h; path = DataObjects/RestTextDataFetch.h; sourceTree = "<group>"; };
 		C67618D419A097100036CD4E /* RestTextDataFetch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RestTextDataFetch.m; path = DataObjects/RestTextDataFetch.m; sourceTree = "<group>"; };
+		C67E95C419A1D15300FD79E5 /* RestMenuDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestMenuDataModel.h; path = DataObjects/RestMenuDataModel.h; sourceTree = "<group>"; };
+		C67E95C519A1D15300FD79E5 /* RestMenuDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RestMenuDataModel.m; path = DataObjects/RestMenuDataModel.m; sourceTree = "<group>"; };
+		C67E95C719A1D32A00FD79E5 /* RestMenuDataFetch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestMenuDataFetch.h; path = DataObjects/RestMenuDataFetch.h; sourceTree = "<group>"; };
+		C67E95C819A1D32A00FD79E5 /* RestMenuDataFetch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RestMenuDataFetch.m; path = DataObjects/RestMenuDataFetch.m; sourceTree = "<group>"; };
 		C6A81E98199C0BF40065F97C /* MainFoundation+TextAnalysisActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MainFoundation+TextAnalysisActions.h"; path = "ViewObjectCategories/MainFoundation+TextAnalysisActions.h"; sourceTree = "<group>"; };
 		C6A81E99199C0BF40065F97C /* MainFoundation+TextAnalysisActions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MainFoundation+TextAnalysisActions.m"; path = "ViewObjectCategories/MainFoundation+TextAnalysisActions.m"; sourceTree = "<group>"; };
 		C6B8A6C3199D96D600AFA475 /* MainFoundation+CommentStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MainFoundation+CommentStyle.h"; path = "ViewObjectCategories/MainFoundation+CommentStyle.h"; sourceTree = "<group>"; };
 		C6B8A6C4199D96D600AFA475 /* MainFoundation+CommentStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MainFoundation+CommentStyle.m"; path = "ViewObjectCategories/MainFoundation+CommentStyle.m"; sourceTree = "<group>"; };
-		C6B978C219874986002175EF /* ipadstaricon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ipadstaricon.png; sourceTree = "<group>"; };
-		C6B978C319874986002175EF /* ipadwood.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ipadwood.png; sourceTree = "<group>"; };
 		C6C056A4198078E9003EC2DC /* MainFoundation+TableViewStyles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MainFoundation+TableViewStyles.h"; path = "ViewObjectCategories/MainFoundation+TableViewStyles.h"; sourceTree = "<group>"; };
 		C6C056A5198078E9003EC2DC /* MainFoundation+TableViewStyles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MainFoundation+TableViewStyles.m"; path = "ViewObjectCategories/MainFoundation+TableViewStyles.m"; sourceTree = "<group>"; };
 		C6C056AA19807D32003EC2DC /* MainFoundation+MenuActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MainFoundation+MenuActions.h"; path = "ViewObjectCategories/MainFoundation+MenuActions.h"; sourceTree = "<group>"; };
@@ -313,6 +338,8 @@
 		C6DCA48219A0095C007136D7 /* RestTextDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RestTextDataModel.m; path = DataObjects/RestTextDataModel.m; sourceTree = "<group>"; };
 		C6DCA48419A00B9E007136D7 /* MainFoundation+RestTextActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MainFoundation+RestTextActions.h"; path = "ViewObjectCategories/MainFoundation+RestTextActions.h"; sourceTree = "<group>"; };
 		C6DCA48519A00B9E007136D7 /* MainFoundation+RestTextActions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MainFoundation+RestTextActions.m"; path = "ViewObjectCategories/MainFoundation+RestTextActions.m"; sourceTree = "<group>"; };
+		C6E2D84A19A5379A003B801D /* CellWithLeftSideNumberTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CellWithLeftSideNumberTableViewCell.h; path = ViewObjects/CellWithLeftSideNumberTableViewCell.h; sourceTree = "<group>"; };
+		C6E2D84B19A5379A003B801D /* CellWithLeftSideNumberTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CellWithLeftSideNumberTableViewCell.m; path = ViewObjects/CellWithLeftSideNumberTableViewCell.m; sourceTree = "<group>"; };
 		C6E798D7196D33A40079440F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		C6E878DE19955A44004117CA /* MainFoundation+CoreDataBuilderForGeneralExtraction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MainFoundation+CoreDataBuilderForGeneralExtraction.h"; path = "ViewObjectCategories/MainFoundation+CoreDataBuilderForGeneralExtraction.h"; sourceTree = "<group>"; };
 		C6E878DF19955A44004117CA /* MainFoundation+CoreDataBuilderForGeneralExtraction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MainFoundation+CoreDataBuilderForGeneralExtraction.m"; path = "ViewObjectCategories/MainFoundation+CoreDataBuilderForGeneralExtraction.m"; sourceTree = "<group>"; };
@@ -358,11 +385,26 @@
 			name = "Chapter Read Core Data View";
 			sourceTree = "<group>";
 		};
+		C615A7EF19A46C19006AA7E0 /* String Class */ = {
+			isa = PBXGroup;
+			children = (
+				C615A7EC19A4631C006AA7E0 /* BestStringClass.h */,
+				C615A7ED19A4631C006AA7E0 /* BestStringClass.m */,
+			);
+			name = "String Class";
+			sourceTree = "<group>";
+		};
 		C62DD0DE199F41490010C209 /* Styles */ = {
 			isa = PBXGroup;
 			children = (
 				C6C056A4198078E9003EC2DC /* MainFoundation+TableViewStyles.h */,
 				C6C056A5198078E9003EC2DC /* MainFoundation+TableViewStyles.m */,
+				C65376D519A36188008C82B5 /* MainFoundation+ChapterAndMenuTextStyles.h */,
+				C65376D619A36188008C82B5 /* MainFoundation+ChapterAndMenuTextStyles.m */,
+				C65376D219A36095008C82B5 /* MainFoundation+HebrewTextStyles.h */,
+				C65376D319A36095008C82B5 /* MainFoundation+HebrewTextStyles.m */,
+				C65376CF19A36056008C82B5 /* MainFoundation+EnglishTextStyle.h */,
+				C65376D019A36056008C82B5 /* MainFoundation+EnglishTextStyle.m */,
 				C6B8A6C3199D96D600AFA475 /* MainFoundation+CommentStyle.h */,
 				C6B8A6C4199D96D600AFA475 /* MainFoundation+CommentStyle.m */,
 			);
@@ -497,6 +539,8 @@
 				C6C3A848199980E200263582 /* Comments */,
 				C6C140CE1990E85100EF9D29 /* MainFoundation+DeleteRecords.h */,
 				C6C140CF1990E85100EF9D29 /* MainFoundation+DeleteRecords.m */,
+				C65376CA19A33F8E008C82B5 /* MainFoundation+SeedBuilder.h */,
+				C65376CB19A33F8E008C82B5 /* MainFoundation+SeedBuilder.m */,
 				C6A81E98199C0BF40065F97C /* MainFoundation+TextAnalysisActions.h */,
 				C6A81E99199C0BF40065F97C /* MainFoundation+TextAnalysisActions.m */,
 			);
@@ -572,7 +616,16 @@
 			name = Delegate;
 			sourceTree = "<group>";
 		};
-		C67618D619A0B57E0036CD4E /* Rest Data and Fetch Classes */ = {
+		C671B39C19A372570032A304 /* Rest Actions */ = {
+			isa = PBXGroup;
+			children = (
+				C6DCA48419A00B9E007136D7 /* MainFoundation+RestTextActions.h */,
+				C6DCA48519A00B9E007136D7 /* MainFoundation+RestTextActions.m */,
+			);
+			name = "Rest Actions";
+			sourceTree = "<group>";
+		};
+		C671B39D19A3726B0032A304 /* Rest Texts */ = {
 			isa = PBXGroup;
 			children = (
 				C67618D319A097100036CD4E /* RestTextDataFetch.h */,
@@ -580,7 +633,27 @@
 				C6DCA48119A0095C007136D7 /* RestTextDataModel.h */,
 				C6DCA48219A0095C007136D7 /* RestTextDataModel.m */,
 			);
+			name = "Rest Texts";
+			sourceTree = "<group>";
+		};
+		C67618D619A0B57E0036CD4E /* Rest Data and Fetch Classes */ = {
+			isa = PBXGroup;
+			children = (
+				C67E95CA19A1D33300FD79E5 /* Rest Menu */,
+				C671B39D19A3726B0032A304 /* Rest Texts */,
+			);
 			name = "Rest Data and Fetch Classes";
+			sourceTree = "<group>";
+		};
+		C67E95CA19A1D33300FD79E5 /* Rest Menu */ = {
+			isa = PBXGroup;
+			children = (
+				C67E95C719A1D32A00FD79E5 /* RestMenuDataFetch.h */,
+				C67E95C819A1D32A00FD79E5 /* RestMenuDataFetch.m */,
+				C67E95C419A1D15300FD79E5 /* RestMenuDataModel.h */,
+				C67E95C519A1D15300FD79E5 /* RestMenuDataModel.m */,
+			);
+			name = "Rest Menu";
 			sourceTree = "<group>";
 		};
 		C68D1397196E483400675B77 /* Foundation View Actions */ = {
@@ -616,6 +689,8 @@
 			children = (
 				C6FA443B199AD372002F7B70 /* GestureClass.h */,
 				C6FA443C199AD372002F7B70 /* GestureClass.m */,
+				C671B39919A36EC20032A304 /* MainFoundation+GestureActions.h */,
+				C671B39A19A36EC20032A304 /* MainFoundation+GestureActions.m */,
 			);
 			name = "Gesture Class";
 			sourceTree = "<group>";
@@ -623,8 +698,7 @@
 		C6B978C61987498C002175EF /* BG */ = {
 			isa = PBXGroup;
 			children = (
-				C6B978C219874986002175EF /* ipadstaricon.png */,
-				C6B978C319874986002175EF /* ipadwood.png */,
+				C64956B019A68EBB00135FE7 /* NewWoodBG.png */,
 			);
 			name = BG;
 			sourceTree = "<group>";
@@ -714,9 +788,9 @@
 		C6C41FA41968CBF8001C8883 /* Sefaria */ = {
 			isa = PBXGroup;
 			children = (
+				C65376CD19A34292008C82B5 /* x01.CDBStore */,
 				C6B978C61987498C002175EF /* BG */,
 				C6C41FD61968CC10001C8883 /* Sefaria */,
-				C6C0BB99196DD07D00BD6637 /* Speech Class */,
 				C6C41FA51968CBF8001C8883 /* Supporting Files */,
 			);
 			path = Sefaria;
@@ -756,6 +830,8 @@
 			isa = PBXGroup;
 			children = (
 				C6C41FDE1968CC96001C8883 /* Storyboard */,
+				C6C0BB99196DD07D00BD6637 /* Speech Class */,
+				C615A7EF19A46C19006AA7E0 /* String Class */,
 				C6B8A6C2199D929E00AFA475 /* Gesture Class */,
 				C6462CB3196BE91D00E2FB2D /* View Classes */,
 				C6E4B07B19748D8A009F5226 /* Complete Book Text Class */,
@@ -831,8 +907,7 @@
 			children = (
 				C6DCA47D19A0031D007136D7 /* BookFromRestView.h */,
 				C6DCA47E19A0031D007136D7 /* BookFromRestView.m */,
-				C6DCA48419A00B9E007136D7 /* MainFoundation+RestTextActions.h */,
-				C6DCA48519A00B9E007136D7 /* MainFoundation+RestTextActions.m */,
+				C671B39C19A372570032A304 /* Rest Actions */,
 				C67618D619A0B57E0036CD4E /* Rest Data and Fetch Classes */,
 			);
 			name = "Rest View";
@@ -872,6 +947,8 @@
 			children = (
 				C6FA4437199A9723002F7B70 /* BookReadWithCommentsViewViewController.h */,
 				C6FA4438199A9723002F7B70 /* BookReadWithCommentsViewViewController.m */,
+				C6E2D84A19A5379A003B801D /* CellWithLeftSideNumberTableViewCell.h */,
+				C6E2D84B19A5379A003B801D /* CellWithLeftSideNumberTableViewCell.m */,
 			);
 			name = "Reading With Comments";
 			sourceTree = "<group>";
@@ -956,12 +1033,12 @@
 				C6DAC1C419763AAC008B948A /* SefariaTitle.json in Resources */,
 				C6C41FB51968CBF8001C8883 /* Main_iPad.storyboard in Resources */,
 				C6140EFE196A4D0800E87926 /* TextData in Resources */,
+				C65376CE19A34292008C82B5 /* x01.CDBStore in Resources */,
 				C63167D1197759BF00EF9722 /* TextComments in Resources */,
-				C6B978C419874986002175EF /* ipadstaricon.png in Resources */,
 				C6C41FBA1968CBF8001C8883 /* Images.xcassets in Resources */,
+				C64956B119A68EBB00135FE7 /* NewWoodBG.png in Resources */,
 				C6C41FB21968CBF8001C8883 /* Main_iPhone.storyboard in Resources */,
 				C6C41FA91968CBF8001C8883 /* InfoPlist.strings in Resources */,
-				C6B978C519874986002175EF /* ipadwood.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -981,11 +1058,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				C612F9CA197D2E4300F0F306 /* ChapterReadView.m in Sources */,
+				C65376D419A36095008C82B5 /* MainFoundation+HebrewTextStyles.m in Sources */,
 				C64427A019883A53002B3AA0 /* LocationAuxName.m in Sources */,
+				C6E2D84C19A5379A003B801D /* CellWithLeftSideNumberTableViewCell.m in Sources */,
 				C612F9C1197D1FCF00F0F306 /* MainFoundation+FetchTheBookTitle.m in Sources */,
 				C6C056AC19807D32003EC2DC /* MainFoundation+MenuActions.m in Sources */,
 				C6D00E63198F027B0059DC83 /* CommentCollectionTitle+Create.m in Sources */,
 				C60307711986F3DB00D7B6FF /* TanachAttributeClass.m in Sources */,
+				C615A7EE19A4631C006AA7E0 /* BestStringClass.m in Sources */,
 				C6D00E69198F06D00059DC83 /* Comment+Create.m in Sources */,
 				C603078E1986F47400D7B6FF /* MainFoundation+DataControlPageActions.m in Sources */,
 				C6B8A6C5199D96D600AFA475 /* MainFoundation+CommentStyle.m in Sources */,
@@ -1000,6 +1080,7 @@
 				C6C1054C1984F54C007A6B45 /* MainFoundation+ChapterReadAnimations.m in Sources */,
 				C60307551986F35A00D7B6FF /* FileRecursion.m in Sources */,
 				C67618D519A097100036CD4E /* RestTextDataFetch.m in Sources */,
+				C67E95C619A1D15300FD79E5 /* RestMenuDataModel.m in Sources */,
 				C644277F19883A52002B3AA0 /* EventContextualLine.m in Sources */,
 				C6FA4439199A9723002F7B70 /* BookReadWithCommentsViewViewController.m in Sources */,
 				C6C058AB198105F4003EC2DC /* SearchTextViewController.m in Sources */,
@@ -1024,10 +1105,13 @@
 				C66051A0198B08FD00168474 /* CommentListDataModel.m in Sources */,
 				C64427AC19883A6C002B3AA0 /* PersonEventDirectLine.m in Sources */,
 				C6D00E60198EFFB00059DC83 /* TextTitle.m in Sources */,
+				C65376CC19A33F8E008C82B5 /* MainFoundation+SeedBuilder.m in Sources */,
 				C612F9BE197D1F5300F0F306 /* MainFoundation+FetchTheTextTitle.m in Sources */,
+				C65376D119A36056008C82B5 /* MainFoundation+EnglishTextStyle.m in Sources */,
 				C64427C119883A6D002B3AA0 /* StrugglePerson.m in Sources */,
 				C64427B219883A6D002B3AA0 /* Picture.m in Sources */,
 				C6D00E66198F05A60059DC83 /* CommentAuthor+Create.m in Sources */,
+				C671B39B19A36EC20032A304 /* MainFoundation+GestureActions.m in Sources */,
 				C60221B81981FAF300D89096 /* MainFoundation+ChapterReadActions.m in Sources */,
 				C60307521986F33F00D7B6FF /* AdvancedTextView.m in Sources */,
 				C6C41FAF1968CBF8001C8883 /* SefariaAppDelegate.m in Sources */,
@@ -1040,6 +1124,7 @@
 				C60307791986F40700D7B6FF /* MainFoundation+MainViewActions.m in Sources */,
 				C612F9C4197D201F00F0F306 /* MainFoundation+FetchTheLineText.m in Sources */,
 				C6C140CD1990DF2900EF9D29 /* MainFoundation+FetchTheComment.m in Sources */,
+				C67E95C919A1D32A00FD79E5 /* RestMenuDataFetch.m in Sources */,
 				C6C41FAB1968CBF8001C8883 /* main.m in Sources */,
 				C644277919883A52002B3AA0 /* LocationCoordinate.m in Sources */,
 				C644278219883A52002B3AA0 /* Event.m in Sources */,
@@ -1058,6 +1143,7 @@
 				C6C058A51980F70F003EC2DC /* BookGroup+Create.m in Sources */,
 				C60307861986F43200D7B6FF /* BookTitle+Create.m in Sources */,
 				C60307881986F43200D7B6FF /* TextTitle+Create.m in Sources */,
+				C65376D719A36188008C82B5 /* MainFoundation+ChapterAndMenuTextStyles.m in Sources */,
 				C644277019883A51002B3AA0 /* Job.m in Sources */,
 				C6E878E019955A44004117CA /* MainFoundation+CoreDataBuilderForGeneralExtraction.m in Sources */,
 				C6D00E4E198EFFB00059DC83 /* BookTitle.m in Sources */,

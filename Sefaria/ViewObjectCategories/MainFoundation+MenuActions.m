@@ -98,9 +98,6 @@
         }
         self.theChapterNumber = 0;
     }
-    else if (tableViewTag == CHAPTER_TAG){
-        self.theChapterNumber = indexPath.row;
-    }
 }
 
 - (void)selectionForWritings : (NSInteger) thenumber {

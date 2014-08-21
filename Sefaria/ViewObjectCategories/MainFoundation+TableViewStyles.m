@@ -17,108 +17,51 @@
 
 #define CELL_CONTENT_WIDTH 380.0f
 #define CELL_CONTENT_MARGIN 10.0f
-#define CELL_PADDING 90.0
+#define CELL_PADDING 25.0
 
 #define FONT_NAME @"Georgia"
 #define FONT_SIZE 20.0
 #define IPAD_FONT [UIFont fontWithName: FONT_NAME size: FONT_SIZE]
 #define IPAD_FONT_LARGE [UIFont fontWithName: FONT_NAME size: FONT_SIZE*1.4]
 
-
-//
-//
-////////
-#pragma mark -
-////////
-//
-//
-
+#define ACC_FONT_NAME @"HelveticaNeue-Light"
+#define ACC_FONT_SIZE 10.0
 
 
 //
 //
 ////////
-#pragma mark - TableView Animation Match
+#pragma mark - Accessory Label
 ////////
 //
 //
 
-- (UITableViewCell *) setChapterCell: (UITableViewCell*) cell withString :(NSString *) myString
+- (UILabel*) labelForNumberRightSide : (NSInteger) indexPathRow withCell : (UITableViewCell*) cell
 {
-    if (myString != nil){
-        cell.textLabel.text = myString;
-        cell.textLabel.textColor = [UIColor darkGrayColor];
-        cell.textLabel.textAlignment = UIControlContentVerticalAlignmentTop;
-        cell.textLabel.numberOfLines = 1;
-        return cell;
-    }
-    else {
-        return nil;
-    }
+    CGRect myRect = CGRectMake(0,0,30,cell.frame.size.height);
+    UILabel* myLabel = [[UILabel alloc]initWithFrame:myRect];
+    NSString* myLineNumber = [NSString stringWithFormat:@"%d",indexPathRow+1];
+    myLabel.text = myLineNumber;
+    myLabel.textColor = [UIColor grayColor];
+    myLabel.font = [UIFont fontWithName: ACC_FONT_NAME size:ACC_FONT_SIZE];
+    myLabel.textAlignment = NSTextAlignmentNatural;
+    return myLabel;
 }
 
-- (UITableViewCell *) setMenuCell: (UITableViewCell*) cell withString :(NSString *) myString
+- (UILabel*) labelForNumberLeftSide : (NSInteger) indexPathRow withCell : (UITableViewCell*) cell
 {
-    if (myString != nil){
-        cell.textLabel.text = myString;
-        cell.textLabel.textColor = [UIColor darkGrayColor];
-        cell.textLabel.textAlignment = UIControlContentVerticalAlignmentTop;
-        cell.textLabel.numberOfLines = 1;
-        return cell;
-    }
-    else {
-        return nil;
-    }
+    CGRect myRect = CGRectMake(0,0,30,cell.frame.size.height);
+    UILabel* myLabel = [[UILabel alloc]initWithFrame:myRect];
+    NSString* myLineNumber = [NSString stringWithFormat:@"%d",indexPathRow+1];
+    myLabel.text = myLineNumber;
+    myLabel.textColor = [UIColor grayColor];
+    myLabel.font = [UIFont fontWithName: ACC_FONT_NAME size:ACC_FONT_SIZE];
+    myLabel.textAlignment = NSTextAlignmentNatural;
+    myLabel.tag = 5000;
+    return myLabel;
 }
 
-//
-////
-//
-
-
-
-//
-////
-//
-
-- (UITableViewCell *) setMyEnglishTextCell: (UITableViewCell*) cell withString :(NSString *) myString
-{
-    if (myString != nil && [myString isKindOfClass:[NSString class]]){
-        cell.textLabel.text = myString;
-        cell.textLabel.textAlignment = UIControlContentHorizontalAlignmentFill;
-        cell.textLabel.font = IPAD_FONT;
-        cell.textLabel.numberOfLines = 0;
-        [cell.textLabel sizeToFit];
-        [cell.textLabel setLineBreakMode:NSLineBreakByWordWrapping];
-        [cell setBackgroundColor:[UIColor clearColor]];
-        return cell;
-    }
-    else {
-        NSLog(@"--Error - Cell is not a string --");
-        cell.textLabel.text = @"error";
-        return cell;
-    }
-}
-
-- (UITableViewCell *) setMyHebrewTextCell: (UITableViewCell*) cell withString :(NSString *) myString
-{
-    if (myString != nil){
-        cell.textLabel.text = myString;
-        cell.textLabel.textAlignment = UIControlContentHorizontalAlignmentRight;
-        cell.textLabel.font = IPAD_FONT_LARGE;
-
-        cell.textLabel.numberOfLines = 0;
-        [cell.textLabel sizeToFit];
-        [cell.textLabel setLineBreakMode:NSLineBreakByWordWrapping];
-        [cell setBackgroundColor:[UIColor clearColor]];
-        
-        return cell;
-    }
-    else {
-        cell.textLabel.text = @"error";
-        return cell;
-    }
-}
+//        TextVerticalAlignment = UITextVerticalAlignment.Top;
 
 //
 //
@@ -151,12 +94,12 @@
         if (indexPath.row < [self.primaryEnglishTextArray count]) {
 
             NSString* myStringEnglish = [self.primaryEnglishTextArray objectAtIndex:indexPath.row];
-            sizeEnglish = [self frameForText:myStringEnglish sizeWithFont:IPAD_FONT constrainedToSize:CGSizeMake(CELL_CONTENT_WIDTH-CELL_CONTENT_MARGIN, CGFLOAT_MAX)];
+            sizeEnglish = [self frameForText:myStringEnglish sizeWithFont:IPAD_FONT constrainedToSize:CGSizeMake(CELL_CONTENT_WIDTH, CGFLOAT_MAX)];
         }
         if (indexPath.row < [self.primaryHebrewTextArray count]) {
 
             NSString* myStringHebrew = [self.primaryHebrewTextArray objectAtIndex:indexPath.row];
-            sizeHebrew = [self frameForText:myStringHebrew sizeWithFont:IPAD_FONT_LARGE constrainedToSize:CGSizeMake(CELL_CONTENT_WIDTH-CELL_CONTENT_MARGIN, CGFLOAT_MAX)];
+            sizeHebrew = [self frameForText:myStringHebrew sizeWithFont:IPAD_FONT_LARGE constrainedToSize:CGSizeMake(CELL_CONTENT_WIDTH, CGFLOAT_MAX)];
         }
         if (sizeEnglish.height > sizeHebrew.height) {
             return sizeEnglish.height + CELL_PADDING;

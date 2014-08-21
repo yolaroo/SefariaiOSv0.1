@@ -21,6 +21,15 @@
 #import "MainFoundation+CommentStyle.h"
 #import "MainFoundation+TableViewStyles.h"
 
+#import "MainFoundation+HebrewTextStyles.h"
+#import "MainFoundation+EnglishTextStyle.h"
+#import "MainFoundation+ChapterAndMenuTextStyles.h"
+
+#import "MainFoundation+GestureActions.h"
+
+#import "CellWithLeftSideNumberTableViewCell.h"
+
+
 //
 ////
 //
@@ -41,6 +50,9 @@
 
 @property (weak, nonatomic) IBOutlet UIView *mainMenuView;
 @property (weak, nonatomic) IBOutlet UIView *mainChapterView;
+@property (weak, nonatomic) IBOutlet UIView *mainCommentView;
+@property (weak, nonatomic) IBOutlet UIView *mainHebrewView;
+
 
 //
 ////
@@ -101,12 +113,22 @@
 #define CHAPTER_TAG 400
 #define COMMENT_TAG 600
 
+#define COLOR_CELL_HIGHLIGHT [UIColor colorWithRed: 246.0f/255.0f green:253.0f/255.0f blue:255.0f/255.0f alpha:0.4f]
+
 //
 //
 ////////
 #pragma mark - Button Action
 ////////
 //
+//
+
+- (IBAction)languageChangePress:(UIButton *)sender {
+    [self changeLanguageAction];
+}
+
+//
+////
 //
 
 - (IBAction)navigationShowButtonPress:(UIButton *)sender {
@@ -145,6 +167,14 @@
 }
 
 //
+////
+//
+
+- (void) changeLanguageAction {
+    self.mainHebrewView.hidden = !self.mainHebrewView.hidden;
+}
+
+//
 //
 ////////
 #pragma mark - Table BackButton Press
@@ -167,20 +197,9 @@
 }
 
 - (void) backAction {
-    self.isTextLevel = false;
-    self.isBookLevel = true;
-    self.theChapterNumber = 0;
-    self.theChapterMax = 0;
-    if([self.menuChoiceArray count] == 1) {
-        [self.menuChoiceArray removeLastObject];
-        self.menuListArray = [self menuFetchToZero:self.managedObjectContext];
-    }
-    else {
-        [self.menuChoiceArray removeLastObject];
-        self.chapterListArray = @[];
-        self.menuListArray = [self menuFetchFromClick:[self.menuChoiceArray lastObject] withContext:self.managedObjectContext];
-    }
-    [self setTextView];
+    [self chapterReadBackMenuActionStatus];
+    [self.menuTable reloadData];
+    [self.chapterTable reloadData];
 }
 
 //
@@ -235,12 +254,14 @@
         UITableViewCell *cell = ENGLISH_CELL;
         NSString* myString = [self englishTextFromObject:indexPath];
         cell = [self setMyEnglishTextCell:cell withString:myString];
+        cell.accessoryView = [self labelForNumberRightSide:indexPath.row withCell:cell];
         return cell;
     }
     else if (tableView.tag == HEBREW_TAG) {
-        UITableViewCell *cell = HEBREW_CELL;
+        CellWithLeftSideNumberTableViewCell *cell = HEBREW_CELL;
         NSString* myString = [self hebrewTextFromObject:indexPath];
-        cell = [self setMyHebrewTextCell:cell withString:myString];
+        cell = [self setMyCustomHebrewTextCell:cell withString:myString];
+        cell.tag = indexPath.row;
         return cell;
     }
     else if (tableView.tag == COMMENT_TAG){
@@ -254,6 +275,39 @@
     }
 }
 
+
+#define FONT_NAME @"Georgia"
+#define FONT_SIZE 20.0
+#define IPAD_FONT [UIFont fontWithName: FONT_NAME size: FONT_SIZE]
+#define IPAD_FONT_LARGE [UIFont fontWithName: FONT_NAME size: FONT_SIZE*1.4]
+
+
+
+- (CellWithLeftSideNumberTableViewCell *) setMyCustomHebrewTextCell: (CellWithLeftSideNumberTableViewCell*) cell withString :(NSString *) myString
+{
+    if (myString != nil){
+        cell.textLabel.text = myString;
+        cell.textLabel.textAlignment = UIControlContentHorizontalAlignmentRight;
+        cell.textLabel.font = IPAD_FONT_LARGE;
+        
+        cell.textLabel.numberOfLines = 0;
+        [cell.textLabel sizeToFit];
+        [cell.textLabel setLineBreakMode:NSLineBreakByWordWrapping];
+        [cell setBackgroundColor:[UIColor clearColor]];
+        
+        return cell;
+    }
+    else {
+        cell.textLabel.text = @"error";
+        return cell;
+    }
+}
+
+
+//
+////
+//
+
 - (UITableViewCell *) setMyCommentCell: (UITableViewCell*) cell cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Comment* myComment = [self.commentArray objectAtIndex:indexPath.row];
@@ -265,8 +319,7 @@
         cell.textLabel.font = IPAD_FONT;
         if (self.selectedIndex == indexPath.row) {
             cell.textLabel.numberOfLines = 0;
-        }
-        else {
+        } else {
             cell.textLabel.numberOfLines = 5;
         }
         self.commentTable.contentInset = UIEdgeInsetsZero;
@@ -277,6 +330,7 @@
         
         if ([myInfo length]) {
             cell.detailTextLabel.text = myInfo;
+            cell.detailTextLabel.textColor = [UIColor grayColor];
         }
         return cell;
     }
@@ -287,29 +341,30 @@
 }
 
 //
-////
+//
+////////
+#pragma mark - Cell Color
+////////
+//
 //
 
-- (NSString*) englishTextFromObject:(NSIndexPath *)indexPath {
-    if ([self.primaryDataArray count] > indexPath.row){
-        LineText*myLine = [self.primaryDataArray objectAtIndex:indexPath.row];
-        return myLine.englishText ? myLine.englishText : @"error";
-    }
-    else {
-        NSLog(@"error conversion number");
-        return @"error";
-    }
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
 }
 
-- (NSString*) hebrewTextFromObject:(NSIndexPath *)indexPath {
-    if ([self.primaryDataArray count] > indexPath.row){
-        LineText*myLine = [self.primaryDataArray objectAtIndex:indexPath.row];
-        return myLine.hebrewText ? myLine.hebrewText : @"error";
-    }
-    else {
-        NSLog(@"error conversion number");
-        return @"error";
-    }
+- (void)tableView:(UITableView *)tableView didHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = (UITableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    [self setCellColor:COLOR_CELL_HIGHLIGHT ForCell:cell]; //highlight color
+}
+
+- (void)tableView:(UITableView *)tableView didUnhighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = (UITableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    [self setCellColor:[UIColor whiteColor] ForCell:cell];  //normal colour
+}
+
+- (void)setCellColor:(UIColor *)color ForCell:(UITableViewCell *)cell {
+    cell.contentView.backgroundColor = color;
+    cell.backgroundColor = color;
 }
 
 //
@@ -318,6 +373,30 @@
 #pragma mark - Table Height
 ////////
 //
+//
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
+{
+    if (tableView.tag == ENGLISH_TAG || tableView.tag == HEBREW_TAG) {
+        return [self primaryArrayHeight:indexPath];
+    } else if (tableView.tag == COMMENT_TAG) {
+        if (self.selectedIndex == indexPath.row) {
+            CGFloat myheight = [self commentHeight : indexPath];
+            if (myheight >= 150.0) {
+                return myheight;
+            } else {
+                return 150.0;
+            }
+        } else {
+            return 150.0;
+        }
+    } else{
+        return 55.0;
+    }
+}
+
+//
+////
 //
 
 - (CGFloat) commentHeight : (NSIndexPath *)indexPath {
@@ -352,26 +431,6 @@
     }
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
-{
-    if (tableView.tag == ENGLISH_TAG || tableView.tag == HEBREW_TAG) {
-        return [self primaryArrayHeight:indexPath];
-    } else if (tableView.tag == COMMENT_TAG) {
-        if (self.selectedIndex == indexPath.row) {
-            CGFloat myheight = [self commentHeight : indexPath];
-            if (myheight >= 150.0) {
-                return myheight;
-            } else {
-                return 150.0;
-            }
-        } else {
-            return 150.0;
-        }
-    } else{
-        return 55.0;
-    }
-}
-
 //
 //
 ////////
@@ -382,6 +441,14 @@
 
 - (void) scrollViewDidScroll : (UIScrollView *)scrollView {
     
+    if (scrollView.tag == ENGLISH_TAG){
+        self.hebrewTextTable.contentOffset = self.englishTextTable.contentOffset;
+    }
+    else if (scrollView.tag == HEBREW_TAG){
+        self.englishTextTable.contentOffset = self.hebrewTextTable.contentOffset;
+    }
+    
+    /*
     for (NSIndexPath* MIP in [self.commentTable indexPathsForVisibleRows]) {
         if (MIP.row == self.selectedIndex) {
             LOG NSLog(@"EQUAL");
@@ -391,14 +458,10 @@
             //[self performSelector:@selector(closeCellOnScroll) withObject:nil afterDelay:0.3];
         }
     }
-    if (scrollView.tag == ENGLISH_TAG){
-        //self.hebrewTextTable.contentOffset = self.englishTextTable.contentOffset;
-    }
-    else if (scrollView.tag == HEBREW_TAG){
-        //self.englishTextTable.contentOffset = self.hebrewTextTable.contentOffset;
-    }
+    */
 }
 
+/*
 - (void) closeCellOnScroll {
     if (self.selectedIndex != -1) {
         //NSInteger oldRow = self.selectedIndex;
@@ -418,7 +481,8 @@
                                      animated:YES];
     
 }
-
+*/
+ 
 //
 //
 ////////
@@ -432,13 +496,12 @@
     if (tableView.tag == MENU_TAG){
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         NSString*myCellText = cell.textLabel.text;
-        
         [self menuPress:myCellText];
-        [self setTextView];
     }
     else if (tableView.tag == CHAPTER_TAG) {
         self.theChapterNumber = indexPath.row;
         [self basicDataReload];
+        [self theMenuActionComplete];
     }
     else if (tableView.tag == ENGLISH_TAG){
         //UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
@@ -482,14 +545,27 @@
     if (self.isTextLevel) {
         self.myCurrentTextTitle = myCellText;
         self.theChapterNumber = 0;
-        //chapter number setter
         self.theChapterMax = [self getChapterCount:myCellText withContext:self.managedObjectContext];
-        //data loader
         [self updateTheData];
+        
+        self.chapterTable.alpha = 0.3;
+        [UIView transitionWithView:self.chapterTable
+                          duration:.8
+                           options:UIViewAnimationOptionTransitionCrossDissolve
+                        animations:^ {
+                            self.chapterTable.alpha = 1;
+                            [self.chapterTable reloadData];
+                        }
+                        completion:NULL];
+        
     }
     else {
+        [self.menuTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
         [self.menuChoiceArray addObject:myCellText];
         self.menuListArray = [self menuFetchFromClick:myCellText withContext:self.managedObjectContext];
+        
+        [self updateTheData];
+        [self.menuTable reloadData];
     }
 }
 
@@ -530,6 +606,8 @@
             //
             self.commentArray = [self fetchCommentByTextAndChapter:self.myCurrentTextTitle withChapter:self.theChapterNumber+1 withContext:self.managedObjectContext];
             
+            [self hideCommentViewIfEmpty];
+            [self.commentTable reloadData];
             //text writer
             mydata = [self fetchTextTitleByTitleAndChapter:myText withChapter : self.theChapterNumber withContext:self.managedObjectContext];
         }
@@ -540,62 +618,40 @@
     }
 }
 
+//
+////
+//
+
+- (void) hideCommentViewIfEmpty {
+    if ([self.commentArray count] <= 0){
+        self.mainCommentView.alpha = 0.1;
+    }
+    else {
+        self.mainCommentView.alpha = 1.0;
+        self.mainCommentView.hidden = false;
+    }
+}
+
+//
+////
+//
+
 - (void) initialLoad {
     self.menuListArray = [self menuFetchToZero:self.managedObjectContext];
-#warning (set to last text)
     self.myCurrentTextTitle = @"Genesis";
     [self.menuChoiceArray removeAllObjects];
     self.theChapterNumber = 0;
     [self basicDataReload];
+    [self.menuTable reloadData];
 }
 
 - (void) setTextView {
-#warning animate needs work!
-    NSLog(@"set text load");
-    [UIView animateWithDuration:0.1
-                          delay:0
-                        options: UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         
-                         self.englishTextTable.alpha = 0.1;
-                         self.hebrewTextTable.alpha = 0.1;
-                         self.englishTextButton.alpha = 0.1;
-                         self.hebrewTextButton.alpha = 0.1;
-                         self.englishChapterButton.alpha = 0.1;
-                         self.hebrewChapterButton.alpha = 0.1;
-                     }
-                     completion:^(BOOL finished){
-                         
-                         [self.englishTextTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
-                         [self.hebrewTextTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
-                         [self.menuTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
-                         [self.chapterTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
-                         
-                         [self buttonSetter];
-                         [self.menuTable reloadData];
-                         [self.chapterTable reloadData];
-                         [self.englishTextTable reloadData];
-                         [self.hebrewTextTable reloadData];
-                         [self.commentTable reloadData];
-
-                         [self secondStageAnimation];
-                     }];
-}
-
-- (void) secondStageAnimation {
-    [UIView animateWithDuration:1.0
-                          delay:0
-                        options: UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         self.englishTextTable.alpha = 1.0;
-                         self.hebrewTextTable.alpha = 1.0;
-                         self.englishTextButton.alpha = 1.0;
-                         self.hebrewTextButton.alpha = 1.0;
-                         self.englishChapterButton.alpha = 1.0;
-                         self.hebrewChapterButton.alpha = 1.0;
-                     }
-                     completion:^(BOOL finished){
-                     }];
+    [self.englishTextTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
+    [self.hebrewTextTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
+    [self.englishTextTable reloadData];
+    [self.hebrewTextTable reloadData];
+    [self.commentTable reloadData];
+    [self buttonSetter];
 }
 
 - (void) buttonSetter {
@@ -606,47 +662,6 @@
     
     [self.englishChapterButton setTitle:englishChapterString forState:UIControlStateNormal];
     [self.hebrewChapterButton setTitle:englishChapterString forState:UIControlStateNormal];
-}
-
-//
-//
-////////
-#pragma mark - Gestures
-////////
-//
-//
-
-- (void) gestureLoader {
-    [self.myGestureClass gestureRecognizerGroupForMainView:self.view];
-    [self.myGestureClass gestureRecognizerGroupForSecondaryGroupA:self.mainChapterView];
-    [self.myGestureClass gestureRecognizerGroupForSecondaryGroupB:self.mainMenuView];
-    [self bookGestureNotificationLoader];
-}
-
-- (void) bookGestureNotificationLoader {
-    [self basicNotifications:@"chapterNextAction" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureSwipeLeftMain]];
-    [self basicNotifications:@"chapterPreviousAction" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureSwipeRightMain]];
-    
-    [self basicNotifications:@"theMenuActionComplete" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureDoubleTapMain]];
-    
-    [self basicNotifications:@"theMenuBookActionSingle" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureLeftEdge]];
-    [self basicNotifications:@"theChapterActionsingle" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureRightEdge]];
-    
-    [self basicNotifications:@"theMenuBookActionSingle" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureSwipeLeftSecondary]];
-    [self basicNotifications:@"theChapterActionsingle" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureSwipeRightSecondary]];
-}
-
-- (void) theMenuActionComplete {
-    [self moveMenuAction : self.mainMenuView];
-    [self moveChapterAction : self.mainChapterView];
-}
-
-- (void) theMenuBookActionSingle {
-    [self moveMenuAction : self.mainMenuView];
-}
-
-- (void) theChapterActionsingle {
-    [self moveChapterAction : self.mainChapterView];
 }
 
 //
@@ -690,11 +705,11 @@
 
     self.navigationController.navigationBarHidden = false;
     [self viewStyleForLoad];
-    [self gestureLoader];
+    [self gestureLoader : self.mainMenuView withChapterView:self.mainChapterView];
+    
     [self performSelector:@selector(initialLoad) withObject:nil afterDelay:RESET_DELAY];
-    [self menuAnimationOnLoad];
+    [self menuAnimationOnLoad : self.mainMenuView withChapterView:self.mainChapterView];
 }
-
 
 - (void) viewStyleForLoad {
     [self.englishTextTable setSeparatorInset:UIEdgeInsetsZero];
@@ -709,19 +724,22 @@
 //
 //
 ////////
-#pragma mark - Menu Load
+#pragma mark - Gestures
 ////////
 //
 //
 
-- (void) menuAnimationOnLoad {
-    [self moveMenuAction:self.mainMenuView];
-    self.menuIsMoving = true;
-    self.isMenuShowing = true;
-    
-    [self moveChapterAction:self.mainChapterView];
-    self.chapterIsMoving = true;
-    self.isChapterShowing = true;
+- (void) theMenuActionComplete {
+    [self moveMenuAction : self.mainMenuView];
+    [self moveChapterAction : self.mainChapterView];
+}
+
+- (void) theMenuBookActionSingle {
+    [self moveMenuAction : self.mainMenuView];
+}
+
+- (void) theChapterActionsingle {
+    [self moveChapterAction : self.mainChapterView];
 }
 
 @end

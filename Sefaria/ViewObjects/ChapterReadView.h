@@ -8,6 +8,11 @@
 
 #import "MainFoundation.h"
 
-@interface ChapterReadView : MainFoundation <UIScrollViewDelegate>
+@interface ChapterReadView : MainFoundation <UIScrollViewDelegate,UITextFieldDelegate>
+{
+    IBOutlet UITextField *searchNavTextField;
+}
+
+@property (weak, nonatomic) IBOutlet UITextField *searchNavTextField;
 
 @end

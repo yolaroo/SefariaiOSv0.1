@@ -17,7 +17,6 @@
 #import "MainFoundation+ChapterReadAnimations.h"
 #import "MainFoundation+MenuActions.h"
 
-
 #import "MainFoundation+CommentStyle.h"
 #import "MainFoundation+TableViewStyles.h"
 
@@ -28,6 +27,8 @@
 #import "MainFoundation+GestureActions.h"
 
 #import "CellWithLeftSideNumberTableViewCell.h"
+
+#import "MainFoundation+NavBarButtons.h"
 
 
 //
@@ -70,42 +71,32 @@
 @property (weak, nonatomic) IBOutlet UIButton *englishChapterButton;
 
 //
-//// Cell expand trackers
+////
 //
 
-@property (nonatomic) NSInteger selectedIndex;
-@property (nonatomic,strong) NSIndexPath* currentIndexPath;
+@property (weak, nonatomic) IBOutlet UIButton *soundToggleButton;
+@property (weak, nonatomic) IBOutlet UIButton *bookmarkToggleButton;
+
+//
+//// Cell expand trackers
+//
 
 @end
 
 @implementation BookReadWithCommentsViewViewController
 
-//@synthesize edgeLeftPanGesture=_edgeLeftPanGesture,edgeRightPanGesture=_edgeRightPanGesture,closeMenuGesture=_closeMenuGesture,showNavigationBarGesture=_showNavigationBarGesture;
+@synthesize searchNavTextField=_searchNavTextField;
 
 #define DK 2
 #define LOG if(DK == 1)
 
 #define RESET_DELAY 0.3
 
-#define FONT_NAME @"Georgia"
-#define FONT_SIZE 20.0
-#define SMALL_FONT_SIZE 12.0
-
-#define IPAD_FONT [UIFont fontWithName: FONT_NAME size: FONT_SIZE]
-#define SMALL_IPAD_FONT [UIFont fontWithName: FONT_NAME size: SMALL_FONT_SIZE]
-
 #define MENU_CELL [tableView dequeueReusableCellWithIdentifier:@"MenuCell" forIndexPath:indexPath]
 #define ENGLISH_CELL [tableView dequeueReusableCellWithIdentifier:@"EnglishTextCell" forIndexPath:indexPath]
 #define HEBREW_CELL [tableView dequeueReusableCellWithIdentifier:@"HebrewTextCell" forIndexPath:indexPath]
 #define CHAPTER_CELL [tableView dequeueReusableCellWithIdentifier:@"ChapterCell" forIndexPath:indexPath]
 #define COMMENT_CELL [tableView dequeueReusableCellWithIdentifier:@"CommentCell" forIndexPath:indexPath]
-
-#define COMMENT_CELL_RID @"CommentCell"
-
-#define CELL_CONTENT_WIDTH 380.0f
-#define CELL_CONTENT_MARGIN 10.0f
-#define CELL_PADDING 40.0
-#define TABLE_WIDTH 380.0f
 
 #define MENU_TAG 100
 #define ENGLISH_TAG 200
@@ -123,6 +114,31 @@
 //
 //
 
+- (IBAction)soundToggleButtonPress:(UIButton *)sender {
+    [self soundPressAction : self.soundToggleButton];
+}
+
+- (IBAction)fontTogglePress:(UIButton *)sender {
+    [self fontPressAction : self.englishTextTable withHebrewTableView:self.hebrewTextTable];
+}
+
+- (IBAction)bookmarkTogglePress:(UIButton *)sender {
+    [self bookmarkPressAction : self.bookmarkToggleButton];
+}
+
+- (IBAction)navHideTogglePress:(UIButton *)sender {
+    [self navHidePressAction];
+}
+
+- (BOOL) textFieldShouldReturn : (UITextField *)textField {
+    [textField resignFirstResponder];
+    return NO;
+}
+
+//
+////
+//
+
 - (IBAction)languageChangePress:(UIButton *)sender {
     [self changeLanguageAction];
 }
@@ -132,7 +148,10 @@
 //
 
 - (IBAction)navigationShowButtonPress:(UIButton *)sender {
-    [self showNavBar];
+    if (self.self.navHideSet){
+        self.navHideSet = !self.navHideSet;
+        [self showNavBar];
+    }
 }
 
 //
@@ -217,25 +236,7 @@
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (tableView.tag == MENU_TAG){
-        return [self.menuListArray count] ? [self.menuListArray count] : 0;
-    }
-    else if (tableView.tag == CHAPTER_TAG) {
-        return [self.chapterListArray count] ? [self.chapterListArray count] : 0;
-    }
-    else if (tableView.tag == ENGLISH_TAG){
-        return [self.primaryDataArray count] ? [self.primaryDataArray count] : 0;
-    }
-    else if (tableView.tag == HEBREW_TAG){
-        return [self.primaryDataArray count] ? [self.primaryDataArray count] : 0;
-    }
-    else if (tableView.tag == COMMENT_TAG){
-        return [self.commentArray count] ? [self.commentArray count] : 0;
-    }
-    else {
-        NSLog(@"Error on cell load");
-        return 0;
-    }
+    return [self tableViewCellNumberForCoreData:tableView numberOfRowsInSection:section];
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -265,78 +266,16 @@
         return cell;
     }
     else if (tableView.tag == COMMENT_TAG){
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CommentCell" forIndexPath:indexPath];
-        cell = [self setMyCommentCell:cell cellForRowAtIndexPath:indexPath];
+        UITableViewCell *cell = COMMENT_CELL;
+        Comment* myComment = [self.commentArray objectAtIndex:indexPath.row];
+        NSString* myString = [self commentTextFromObject:myComment];
+        NSString* myInfo = [self commentDetailText : myComment];
+        cell = [self setMyCommentCell:cell cellForRowAtIndexPath:indexPath withSelectedIndex:self.selectedIndex withText:myString withInfo:myInfo];
         return cell;
     }
     else {
         NSLog(@"Error - Cell");
         return nil;
-    }
-}
-
-
-#define FONT_NAME @"Georgia"
-#define FONT_SIZE 20.0
-#define IPAD_FONT [UIFont fontWithName: FONT_NAME size: FONT_SIZE]
-#define IPAD_FONT_LARGE [UIFont fontWithName: FONT_NAME size: FONT_SIZE*1.4]
-
-
-
-- (CellWithLeftSideNumberTableViewCell *) setMyCustomHebrewTextCell: (CellWithLeftSideNumberTableViewCell*) cell withString :(NSString *) myString
-{
-    if (myString != nil){
-        cell.textLabel.text = myString;
-        cell.textLabel.textAlignment = UIControlContentHorizontalAlignmentRight;
-        cell.textLabel.font = IPAD_FONT_LARGE;
-        
-        cell.textLabel.numberOfLines = 0;
-        [cell.textLabel sizeToFit];
-        [cell.textLabel setLineBreakMode:NSLineBreakByWordWrapping];
-        [cell setBackgroundColor:[UIColor clearColor]];
-        
-        return cell;
-    }
-    else {
-        cell.textLabel.text = @"error";
-        return cell;
-    }
-}
-
-
-//
-////
-//
-
-- (UITableViewCell *) setMyCommentCell: (UITableViewCell*) cell cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    Comment* myComment = [self.commentArray objectAtIndex:indexPath.row];
-    NSString* myString = [self commentTextFromObject:myComment];
-    NSString* myInfo = [self commentDetailText : myComment];
-    if (myString != nil){
-        cell.textLabel.text = myString;
-        cell.textLabel.textAlignment = UIControlContentHorizontalAlignmentRight;
-        cell.textLabel.font = IPAD_FONT;
-        if (self.selectedIndex == indexPath.row) {
-            cell.textLabel.numberOfLines = 0;
-        } else {
-            cell.textLabel.numberOfLines = 5;
-        }
-        self.commentTable.contentInset = UIEdgeInsetsZero;
-
-        [cell.textLabel sizeToFit];
-        [cell.textLabel setLineBreakMode:NSLineBreakByCharWrapping];
-        [cell setBackgroundColor:[UIColor clearColor]];
-        
-        if ([myInfo length]) {
-            cell.detailTextLabel.text = myInfo;
-            cell.detailTextLabel.textColor = [UIColor grayColor];
-        }
-        return cell;
-    }
-    else {
-        cell.textLabel.text = @"error";
-        return cell;
     }
 }
 
@@ -378,7 +317,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
     if (tableView.tag == ENGLISH_TAG || tableView.tag == HEBREW_TAG) {
-        return [self primaryArrayHeight:indexPath];
+        return [self dualLanguagetableViewHeight:tableView cellForRowAtIndexPath:indexPath];
     } else if (tableView.tag == COMMENT_TAG) {
         if (self.selectedIndex == indexPath.row) {
             CGFloat myheight = [self commentHeight : indexPath];
@@ -391,42 +330,6 @@
             return 150.0;
         }
     } else{
-        return 55.0;
-    }
-}
-
-//
-////
-//
-
-- (CGFloat) commentHeight : (NSIndexPath *)indexPath {
-    CGSize sizeComment;
-    NSString* myString;
-    if ([self.commentArray count] > indexPath.row) {
-        Comment* myComment = [self.commentArray objectAtIndex:indexPath.row];
-        myString = [self commentTextFromObject:myComment];
-    }
-    if ([myString length]) {
-        UIFont *myFont = IPAD_FONT;
-        sizeComment = [self frameForText: myString sizeWithFont:myFont constrainedToSize:CGSizeMake(CELL_CONTENT_WIDTH, CGFLOAT_MAX)];
-        return sizeComment.height*1.1 + CELL_PADDING;
-    }
-    else {
-        return 55.0;
-    }
-}
-
-- (CGFloat) primaryArrayHeight : (NSIndexPath *)indexPath{
-    CGSize sizeEnglish;
-    NSString* myStringEnglish;
-    if ([self.primaryDataArray count] > indexPath.row){
-        myStringEnglish = [self englishTextFromObject:indexPath];
-    }
-    if ([myStringEnglish length]){
-        sizeEnglish = [self frameForText:myStringEnglish sizeWithFont:IPAD_FONT constrainedToSize:CGSizeMake(TABLE_WIDTH, CGFLOAT_MAX)];
-        return sizeEnglish.height+CELL_PADDING;
-    }
-    else {
         return 55.0;
     }
 }
@@ -514,32 +417,13 @@
         //[self foundationRunSpeech:@[myCellText]];
     }
     else if (tableView.tag == COMMENT_TAG) {
-        if (self.selectedIndex == -1) {
-            LOG NSLog(@"first open");
-            self.selectedIndex = indexPath.row;
-            self.currentIndexPath = indexPath;
-            [self.commentTable beginUpdates];
-            [self.commentTable reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            [self.commentTable endUpdates];
-        }
-        else if (self.selectedIndex == indexPath.row) {
-            LOG NSLog(@"first close");
-            self.selectedIndex = -1;
-            self.currentIndexPath = nil;
-            [self.commentTable beginUpdates];
-            [self.commentTable reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            [self.commentTable endUpdates];
-        }
-        else if (self.selectedIndex != -1 && self.selectedIndex != indexPath.row) {
-            LOG NSLog(@"change index");
-            self.selectedIndex = indexPath.row;
-            [self.commentTable beginUpdates];
-            [self.commentTable reloadRowsAtIndexPaths:@[self.currentIndexPath,indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            [self.commentTable endUpdates];
-            self.currentIndexPath = indexPath;
-        }
+        [self commentPressAction : indexPath withcommentTable:self.commentTable];
     }
 }
+
+//
+////
+//
 
 - (void) menuPress:(NSString*)myCellText {
     if (self.isTextLevel) {
@@ -610,6 +494,9 @@
             [self.commentTable reloadData];
             //text writer
             mydata = [self fetchTextTitleByTitleAndChapter:myText withChapter : self.theChapterNumber withContext:self.managedObjectContext];
+            
+            [self saveReadingPreferences];
+
         }
         return mydata;
     }
@@ -638,9 +525,8 @@
 
 - (void) initialLoad {
     self.menuListArray = [self menuFetchToZero:self.managedObjectContext];
-    self.myCurrentTextTitle = @"Genesis";
+    [self loadingReadingPreferences];
     [self.menuChoiceArray removeAllObjects];
-    self.theChapterNumber = 0;
     [self basicDataReload];
     [self.menuTable reloadData];
 }
@@ -648,6 +534,7 @@
 - (void) setTextView {
     [self.englishTextTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
     [self.hebrewTextTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
+    [self.commentTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
     [self.englishTextTable reloadData];
     [self.hebrewTextTable reloadData];
     [self.commentTable reloadData];
@@ -683,7 +570,9 @@
     self.navigationController.navigationBarHidden = false;
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.isNavBarShowing = true;
-    [self performSelector:@selector(hideNavBar) withObject:nil afterDelay:0.6];
+    [self loadPreferences : self.soundToggleButton];
+
+    //[self performSelector:@selector(hideNavBar) withObject:nil afterDelay:0.6];
 }
 
 - (void)didReceiveMemoryWarning

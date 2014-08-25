@@ -76,7 +76,7 @@
             
             id myChapter = [theTextArray objectAtIndex:i];
             NSInteger chapterNumber = i+1;
-            LOG NSLog(@"-- CH %d --",chapterNumber);
+            LOG NSLog(@"-- CH %ld --",(long)chapterNumber);
             
             if ([myChapter isKindOfClass:[NSArray class]]){
 
@@ -91,7 +91,7 @@
                             
                             id theSecondText = [(NSArray*)theText objectAtIndex:k];
                             NSInteger lineNumber = j+1;
-                            LOG NSLog(@"-- LN %d --",lineNumber);
+                            LOG NSLog(@"-- LN %ld --",(long)lineNumber);
 
                             if (k != 0){
                                 [myTempLineString appendString:(NSString*)@" "];

@@ -28,6 +28,12 @@
 #import "BestStringClass.h"
 @class BestStringClass;
 
+#import "RestTextDataFetch.h"
+@class RestTextDataFetch;
+
+#import "RestMenuDataFetch.h"
+@class RestMenuDataFetch;
+
 #import "TextTitle.h"
 #import "BookTitle.h"
 #import "LineText.h"
@@ -39,9 +45,18 @@
 
 @interface MainFoundation : UIViewController
 
+@property (strong,nonatomic) RestTextDataFetch* myRestTextDataFetch;
+@property (strong,nonatomic) RestMenuDataFetch* myRestMenuDataFetch;
+
 @property (nonatomic, strong) NSArray* fetchedRecordsArray;
 
 @property (nonatomic, strong) TanachTextClass* myTanachTextClass;
+
+@property (strong,nonatomic) NSMutableArray* searchTextArray;
+@property (strong,nonatomic) NSMutableArray* searchInfoArray;
+@property (strong,nonatomic) NSMutableArray* searchLineDataArray;
+@property (nonatomic) bool isWideView;
+
 
 @property (nonatomic, strong) NSArray* primaryDataArray;
 @property (nonatomic, strong) NSArray* primaryEnglishTextArray;
@@ -69,12 +84,17 @@
 @property (nonatomic) bool isTextLevel;
 @property (nonatomic) bool isBookLevel;
 
+@property (nonatomic) bool isSelectionText;
+@property (nonatomic) bool isSelectionComments;
+
 @property (nonatomic, strong) NSString* myCurrentTextTitle;
 @property (nonatomic) NSInteger theCurrentChapterNumber;
 
 @property (nonatomic, strong) NSMutableArray* menuChoiceArray;
 @property (nonatomic, strong) NSMutableArray* menuPathChoiceArray;
 @property (nonatomic, strong) NSMutableArray* menuTopPathChoiceArray;
+
+@property (strong,nonatomic) NSMutableString* theSearchTerm;
 
 
 @property (nonatomic,strong) UIActivityIndicatorView* myActivityIndicator;
@@ -106,14 +126,28 @@
 @property (nonatomic, strong) NSMutableArray* myEnglishDataModelArray;
 @property (nonatomic, strong) NSMutableArray* myHebrewDataModelArray;
 
+@property (nonatomic) NSInteger selectedIndex;
+@property (nonatomic,strong) NSIndexPath* currentIndexPath;
+
+
 //
 #pragma mark - Save Data
 //
 - (void) saveData:(NSManagedObjectContext*)myContext;
 
 //
+#pragma mark - nav options
+//
+@property (nonatomic) BOOL soundSet;
+@property (nonatomic) BOOL navHideSet;
+@property (nonatomic) BOOL bookmarkSet;
+@property (nonatomic) BOOL fontSizeLargeSet;
+
+//
 #pragma mark - Speech
 //
+- (void) foundationChangeSoudDefaults;
+
 @property (strong,nonatomic) SpeechClass* mySpeechClass;
 - (void) foundationRunSpeech: (NSArray*) speechArray;
 - (void) foundationStopSpeech;

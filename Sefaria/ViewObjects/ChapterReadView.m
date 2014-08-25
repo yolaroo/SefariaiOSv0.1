@@ -27,6 +27,10 @@
 
 #import "MainFoundation+GestureActions.h"
 
+#import "MainFoundation+NavBarButtons.h"
+
+#import "MainFoundation+BookMarkActions.h"
+
 //
 ////
 //
@@ -62,27 +66,28 @@
 ////
 //
 
+@property (weak, nonatomic) IBOutlet UIButton *soundToggleButton;
+@property (weak, nonatomic) IBOutlet UIButton *bookmarkToggleButton;
+
+//
+////
+//
+
 @end
 
 @implementation ChapterReadView
+
+@synthesize searchNavTextField=_searchNavTextField;
 
 #define DK 2
 #define LOG if(DK == 1)
 
 #define RESET_DELAY 0.3
 
-#define FONT_NAME @"Georgia"
-#define FONT_SIZE 20.0
-#define IPAD_FONT [UIFont fontWithName: FONT_NAME size: FONT_SIZE]
-
 #define MENU_CELL [tableView dequeueReusableCellWithIdentifier:@"MenuCell" forIndexPath:indexPath]
 #define ENGLISH_CELL [tableView dequeueReusableCellWithIdentifier:@"EnglishTextCell" forIndexPath:indexPath]
 #define HEBREW_CELL [tableView dequeueReusableCellWithIdentifier:@"HebrewTextCell" forIndexPath:indexPath]
 #define CHAPTER_CELL [tableView dequeueReusableCellWithIdentifier:@"ChapterCell" forIndexPath:indexPath]
-
-#define CELL_CONTENT_WIDTH 380.0f
-#define CELL_CONTENT_MARGIN 20.0f
-#define CELL_PADDING 40.0
 
 #define MENU_TAG 100
 #define ENGLISH_TAG 200
@@ -99,8 +104,70 @@
 //
 //
 
+- (IBAction)soundToggleButtonPress:(UIButton *)sender {
+    [self soundPressAction : self.soundToggleButton];
+}
+
+- (IBAction)fontTogglePress:(UIButton *)sender {
+    [self fontPressAction : self.englishTextTable withHebrewTableView:self.hebrewTextTable];
+}
+
+- (IBAction)bookmarkTogglePress:(UIButton *)sender {
+    [self bookmarkPressAction : self.bookmarkToggleButton];
+}
+
+- (IBAction)navHideTogglePress:(UIButton *)sender {
+    [self navHidePressAction];
+}
+
+- (BOOL) textFieldShouldReturn : (UITextField *)textField {
+    self.theSearchTerm = [textField.text mutableCopy];
+    [self.englishTextTable reloadData];
+    [self.hebrewTextTable reloadData];
+    [textField resignFirstResponder];
+    return NO;
+}
+
+//
+////
+//
+
+
+
+- (void) createChapterBookmarkAction {
+    
+    
+    
+    //get text
+    //get chapter
+    //get line (from row)
+    
+    //check isBookmarked state
+    //change state
+    //save
+    //update view
+    
+    
+}
+
+
+
+
+
+
+
+
+
+//
+////
+//
+
+
 - (IBAction)navigationShowButtonPress:(UIButton *)sender {
-    [self showNavBar];
+    if (self.navHideSet){
+        self.navHideSet = !self.navHideSet;
+        [self showNavBar];
+    }
 }
 
 //
@@ -177,22 +244,7 @@
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (tableView.tag == MENU_TAG){
-        return [self.menuListArray count] ? [self.menuListArray count] : 0;
-    }
-    else if (tableView.tag == CHAPTER_TAG) {
-        return [self.chapterListArray count] ? [self.chapterListArray count] : 0;
-    }
-    else if (tableView.tag == ENGLISH_TAG){
-        return [self.primaryDataArray count] ? [self.primaryDataArray count] : 0;
-    }
-    else if (tableView.tag == HEBREW_TAG){
-        return [self.primaryDataArray count] ? [self.primaryDataArray count] : 0;
-    }
-    else {
-        NSLog(@"Error on cell load");
-        return 0;
-    }
+    return [self tableViewCellNumberForCoreData:tableView numberOfRowsInSection:section];
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -263,26 +315,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
-    if (tableView.tag == ENGLISH_TAG || tableView.tag == HEBREW_TAG) {
-        CGSize sizeEnglish;
-        NSString* myStringEnglish;
-        if ([self.primaryDataArray count] > indexPath.row){
-            myStringEnglish = [self englishTextFromObject:indexPath];
-        }
-        if ([myStringEnglish length]){
-            sizeEnglish = [self frameForText:myStringEnglish sizeWithFont:IPAD_FONT constrainedToSize:CGSizeMake(CELL_CONTENT_WIDTH, CGFLOAT_MAX)];
-            return sizeEnglish.height+CELL_PADDING;
-        }else {
-            return 55.0;
-        }
-    }else{
-        return 55.0;
-    }
-}
-
-- (CGFloat)tableViewHeightForCoreData:(UITableView *)tableView cellForRowAtIndexPath :(NSIndexPath *)indexPath
-{
-    return 1.0;
+    return [self tableViewHeightForCoreData:tableView cellForRowAtIndexPath:indexPath];
 }
 
 //
@@ -323,16 +356,32 @@
         [self theMenuActionComplete];
     }
     else if (tableView.tag == ENGLISH_TAG){
-        //UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-        //NSString*myCellText = cell.textLabel.text;
-        //[self foundationRunSpeech:@[myCellText]];
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        NSString*myCellText = cell.textLabel.text;
+        [self foundationRunSpeech:@[myCellText]];
+        [self addBookMarkValueToLineText :tableView withIndexPath:indexPath withContext:self.managedObjectContext];
     }
     else if (tableView.tag == HEBREW_TAG){
+        [self addBookMarkValueToLineText :tableView withIndexPath:indexPath withContext:self.managedObjectContext];
+
         //UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         //NSString*myCellText = cell.textLabel.text;
         //[self foundationRunSpeech:@[myCellText]];
     }
 }
+
+
+
+
+
+
+//
+//
+////
+#pragma mark - Menu
+////
+//
+//
 
 - (void) menuPress:(NSString*) myCellText {
     if (self.isTextLevel) {
@@ -343,7 +392,7 @@
         
         [self updateTheData];
         
-        self.chapterTable.alpha = 0.3;
+        self.chapterTable.alpha = 0.4;
         [UIView transitionWithView:self.chapterTable
                           duration:.8
                            options:UIViewAnimationOptionTransitionCrossDissolve
@@ -352,7 +401,6 @@
                             [self.chapterTable reloadData];
                         }
                         completion:NULL];
-        
     }
     else {
         [self.menuTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
@@ -400,6 +448,8 @@
             
             //text writer
             mydata = [self fetchTextTitleByTitleAndChapter:myText withChapter : self.theChapterNumber withContext:self.managedObjectContext];
+            
+            [self saveReadingPreferences];
         }
         return mydata;
     }
@@ -410,9 +460,9 @@
 
 - (void) initialLoad {
     self.menuListArray = [self menuFetchToZero:self.managedObjectContext];
-    self.myCurrentTextTitle = @"Genesis";
+    [self loadingReadingPreferences];
+
     [self.menuChoiceArray removeAllObjects];
-    self.theChapterNumber = 0;
     [self basicDataReload];
     [self.menuTable reloadData];
 }
@@ -457,7 +507,8 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     self.isNavBarShowing = true;
-    [self performSelector:@selector(hideNavBar) withObject:nil afterDelay:0.6];
+    [self loadPreferences : self.soundToggleButton];
+    //[self performSelector:@selector(hideNavBar) withObject:nil afterDelay:0.6];
 }
 
 - (void)didReceiveMemoryWarning
@@ -481,6 +532,7 @@
     
     [self performSelector:@selector(initialLoad) withObject:nil afterDelay:RESET_DELAY];
     [self menuAnimationOnLoad : self.mainMenuView withChapterView:self.mainChapterView];
+    
 }
 
 - (void) viewStyleForLoad {
@@ -512,13 +564,6 @@
 - (void) theChapterActionsingle {
     [self moveChapterAction : self.mainChapterView];
 }
-
-
-
-
-
-
-
 
 //
 //
@@ -552,8 +597,9 @@
     }
 }
 
-- (void) TestLoadAction {
-    //    [self testBookTitleFetch:self.managedObjectContext];
+- (void) testFetchbookmarked {
+    NSArray* ABC = [self fetchAllBookMarkedLineText : self.managedObjectContext];
+    NSLog(@"-- Here %@ --",ABC);
 }
 
 @end

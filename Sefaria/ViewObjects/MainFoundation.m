@@ -14,7 +14,7 @@
 
 @implementation MainFoundation
 
-@synthesize thePrimaryAttribute=_thePrimaryAttribute,thePrimarybook=_thePrimarybook,theProphetText=_theProphetText,theWritingsText=_theWritingsText,theTorahText=_theTorahText,menuListArray=_menuListArray,primaryDataArray=_primaryDataArray,primaryEnglishTextArray=_primaryEnglishTextArray,primaryHebrewTextArray=_primaryHebrewTextArray,viewTitleEnglish=_viewTitleEnglish,viewTitleHebrew=_viewTitleHebrew,theChapterNumber=_theChapterNumber,myTanachTextClass=_myTanachTextClass,theChapterMax=__theChapterMax,mySpeechClass=_mySpeechClass,managedObjectContext=_managedObjectContext,menuChoiceArray=_menuChoiceArray,menuListPathArray=_menuListPathArray,menuPathChoiceArray=_menuPathChoiceArray,myGestureClass=_myGestureClass,theCurrentChapterNumber=_theCurrentChapterNumber,menuDepthCount=_menuDepthCount,myActivityIndicator=_myActivityIndicator,seedManagedObjectContext=_seedManagedObjectContext,myBestStringClass=_myBestStringClass,menuTopPathChoiceArray=_menuTopPathChoiceArray;
+@synthesize thePrimaryAttribute=_thePrimaryAttribute,thePrimarybook=_thePrimarybook,theProphetText=_theProphetText,theWritingsText=_theWritingsText,theTorahText=_theTorahText,menuListArray=_menuListArray,primaryDataArray=_primaryDataArray,primaryEnglishTextArray=_primaryEnglishTextArray,primaryHebrewTextArray=_primaryHebrewTextArray,viewTitleEnglish=_viewTitleEnglish,viewTitleHebrew=_viewTitleHebrew,theChapterNumber=_theChapterNumber,myTanachTextClass=_myTanachTextClass,theChapterMax=_theChapterMax,mySpeechClass=_mySpeechClass,managedObjectContext=_managedObjectContext,menuChoiceArray=_menuChoiceArray,menuListPathArray=_menuListPathArray,menuPathChoiceArray=_menuPathChoiceArray,myGestureClass=_myGestureClass,theCurrentChapterNumber=_theCurrentChapterNumber,menuDepthCount=_menuDepthCount,myActivityIndicator=_myActivityIndicator,seedManagedObjectContext=_seedManagedObjectContext,myBestStringClass=_myBestStringClass,menuTopPathChoiceArray=_menuTopPathChoiceArray,theSearchTerm=_theSearchTerm,soundSet=_soundSet,navHideSet=_navHideSet,bookmarkSet=_bookmarkSet,fontSizeLargeSet=_fontSizeLargeSet,selectedIndex=_selectedIndex,currentIndexPath=_currentIndexPath,searchTextArray=_searchTextArray,searchInfoArray=_searchInfoArray,searchLineDataArray=_searchLineDataArray,isWideView=_isWideView,myRestTextDataFetch=_myRestTextDataFetch,myRestMenuDataFetch=_myRestMenuDataFetch,isSelectionText=_isSelectionText,isSelectionComments=_isSelectionComments;
 
 @synthesize myEnglishDataModel=_myEnglishDataModel,myHebrewDataModel=_myHebrewDataModel,myEnglishDataModelArray=_myEnglishDataModelArray,myHebrewDataModelArray=_myHebrewDataModelArray;
 
@@ -60,7 +60,6 @@
     return _myGestureClass;
 }
 
-
 //
 //
 ////////
@@ -78,6 +77,7 @@
      name:observerName
      object:nil];
 }
+
 
 //
 //
@@ -110,16 +110,9 @@
     [self.mySpeechClass stopSpeech];
 }
 
-- (void) foundationChangeSoudDefaults:(NSNotification *)notification {
+- (void) foundationChangeSoudDefaults
+{
     [self.mySpeechClass changeSoundDefaults];
-}
-
-- (void) loadSoundDefaultsNotification {
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
-     selector:@selector(foundationChangeSoudDefaults:)
-     name:@"soundStatusChange"
-     object:nil];
 }
 
 //
@@ -232,6 +225,23 @@
     return _myBestStringClass;
 }
 
+//
+////
+//
+
+- (RestTextDataFetch*) myRestTextDataFetch {
+    if (!_myRestTextDataFetch){
+        _myRestTextDataFetch = [[RestTextDataFetch alloc] init];
+    }
+    return _myRestTextDataFetch;
+}
+
+- (RestMenuDataFetch*) myRestMenuDataFetch {
+    if (!_myRestMenuDataFetch){
+        _myRestMenuDataFetch = [[RestMenuDataFetch alloc] init];
+    }
+    return _myRestMenuDataFetch;
+}
 
 //
 ////
@@ -254,7 +264,7 @@
 
 - (void) setTheChapterNumber:(NSInteger)theChapterNumber {
     _theChapterNumber = theChapterNumber;
-    if (_theChapterNumber > __theChapterMax - 1) {
+    if (_theChapterNumber > _theChapterMax - 1) {
         LOG NSLog(@"-- Chapter upper limit --");
         _theChapterNumber = 0;
     }
@@ -266,19 +276,18 @@
 
 - (void) setTheCurrentChapterNumber:(NSInteger)theCurrentChapterNumber {
     _theCurrentChapterNumber = theCurrentChapterNumber;
-    if (__theChapterMax == 0 || __theChapterMax == 1 ) {
-        _theCurrentChapterNumber = 1;
+    if (_theCurrentChapterNumber < 1) {
+        LOG NSLog(@"-- Chapter zero limit --");
+        if (_theChapterMax == 0) {
+            _theChapterMax = 1;
+        }
+        else {
+            _theCurrentChapterNumber = _theChapterMax;
+        }
     }
-    else if (_theCurrentChapterNumber > __theChapterMax) {
+    else if (_theCurrentChapterNumber > _theChapterMax) {
         LOG NSLog(@"-- Chapter upper limit --");
         _theCurrentChapterNumber = 1;
-    }
-    else if (_theCurrentChapterNumber < 1) {
-        LOG NSLog(@"-- Chapter zero limit --");
-        _theChapterNumber = self.theChapterMax;
-        if (self.theChapterMax == 0) {
-            _theChapterNumber = 1;
-        }        
     }
 }
 
@@ -300,9 +309,37 @@
     return _myHebrewDataModelArray;
 }
 
+- (NSMutableString* ) theSearchTerm {
+    if (!_theSearchTerm) {
+        _theSearchTerm = [[NSMutableString alloc]init];
+    }
+    return _theSearchTerm;
+}
+
 //
 //// Menu Array
 //
+
+- (NSMutableArray *) searchLineDataArray {
+    if (!_searchLineDataArray){
+        _searchLineDataArray = [[NSMutableArray alloc] init];
+    }
+    return _searchLineDataArray;
+}
+
+- (NSMutableArray *) searchTextArray {
+    if (!_searchTextArray){
+        _searchTextArray = [[NSMutableArray alloc] init];
+    }
+    return _searchTextArray;
+}
+
+- (NSMutableArray *) searchInfoArray {
+    if (!_searchInfoArray){
+        _searchInfoArray = [[NSMutableArray alloc] init];
+    }
+    return _searchInfoArray;
+}
 
 - (NSMutableArray *) menuChoiceArray {
     if (!_menuChoiceArray){

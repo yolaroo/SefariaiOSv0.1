@@ -27,6 +27,7 @@
 
 #import "MainFoundation+SeedBuilder.h"
 
+#import "MainFoundation+WordUseData.h"
 
 @interface DataControlPageView ()
 
@@ -35,7 +36,6 @@
 @implementation DataControlPageView
 
 #define RESET_DELAY 1.0
-
 
 - (IBAction)dataLoadButtonPress:(UIButton *)sender {
     @try {
@@ -68,7 +68,10 @@
     @try {
         //[self testTempCommentFetch];
         //[self testMishnahFileStructure];
-        [self testFetchCommentByText:self.managedObjectContext];
+        //[self testFetchCommentByText:self.managedObjectContext];
+        [self textToWordList:self.managedObjectContext];
+        
+        
     }
     @catch (NSException *exception) {
         NSLog(@"%@",exception);
@@ -106,7 +109,6 @@
     }
 }
 
-
 - (IBAction)completeCommentCheck:(UIButton *)sender {
     @try {
         [self allCommentTest:self.managedObjectContext];
@@ -115,7 +117,6 @@
         NSLog(@"%@",exception);
     }
 }
-
 
 - (IBAction)coreDataBuilderFromRecursionButtonPress:(UIButton *)sender {
     @try {
@@ -139,7 +140,7 @@
     
     NSLog(@"-- HTT %@--",ABC.hebrewName);
 
-    [self testFetchLineText : self.managedObjectContext];
+    //[self testFetchLineText : self.managedObjectContext];
 }
 
 

@@ -12,4 +12,6 @@
 
 - (NSAttributedString*) myAttributedString : (NSString*) myString withSize : (NSInteger) fontSize withFont : (NSString*) fontName;
 
+- (NSAttributedString* )setTextHighlighted :(NSString *) theString withSentence : (NSString*) theSentence;
+
 @end

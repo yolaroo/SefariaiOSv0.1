@@ -17,7 +17,6 @@
 #define IPAD_FONT [UIFont fontWithName: FONT_NAME size: FONT_SIZE]
 #define IPAD_FONT_LARGE [UIFont fontWithName: FONT_NAME size: FONT_SIZE_LARGE]
 
-
 - (UITableViewCell *) setChapterCell: (UITableViewCell*) cell withString :(NSString *) myString
 {
     if (myString != nil){

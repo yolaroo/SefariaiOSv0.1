@@ -69,7 +69,7 @@
 {
     [self.mySpeechSynthesizer continueSpeaking ];
     if (self.speechIsPlaying)return true;
-//    if (!self.soundSet)return true;
+    if (!self.soundSet)return true;
     if (self.mySpeechSynthesizer.isSpeaking){
         if ([self.speechQue count] >=1){
             LOG NSLog(@"-- que full --");
@@ -147,15 +147,11 @@
     if ([speechString length] <= 0) return;
     LOG NSLog(@"-- Play Start --");
     
-    //    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     AVSpeechUtterance *utterance =
     [AVSpeechUtterance speechUtteranceWithString:speechString];
     utterance.rate = AVSpeechUtteranceMaximumSpeechRate / 10.0f;
     utterance.voice = [AVSpeechSynthesisVoice voiceWithLanguage:@"en-US"];    
     [self.mySpeechSynthesizer speakUtterance:utterance];
-    //        dispatch_async(dispatch_get_main_queue(), ^{
-    //        });
-    //    });
 }
 
 - (void) speechFunction: (void (^)(void)) completionHandler {

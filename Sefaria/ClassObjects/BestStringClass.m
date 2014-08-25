@@ -12,15 +12,17 @@
 
 @property (nonatomic, strong) NSMutableParagraphStyle *mutableParagraphStyle;
 @property (nonatomic, strong) NSMutableAttributedString *mutableAttributedString;
+@property (nonatomic, strong) NSMutableAttributedString *highlightMutableAttributedString;
+
 @property (nonatomic, strong) NSShadow *shadow;
 
 @end
 
 @implementation BestStringClass
 
-@synthesize mutableParagraphStyle=_mutableParagraphStyle,mutableAttributedString=_mutableAttributedString,shadow=_shadow;
+@synthesize mutableParagraphStyle=_mutableParagraphStyle,mutableAttributedString=_mutableAttributedString,shadow=_shadow,highlightMutableAttributedString=_highlightMutableAttributedString;
 
-#define BLACK_SHADOW [UIColor colorWithRed:40.0f/255.0f green:40.0f/255.0f blue:40.0f/255.0f alpha:0.4f]
+#define BLACK_SHADOW [UIColor colorWithRed:40.0f/255.0f green:40.0f/255.0f blue:40.0f/255.0f alpha:0.3f]
 
 - (NSAttributedString*) myAttributedString : (NSString*) myString withSize : (NSInteger) fontSize withFont : (NSString*) fontName
 {
@@ -28,10 +30,6 @@
     //self.mutableParagraphStyle.lineSpacing = fontSize/2;
     UIFont * labelFont = [UIFont fontWithName:fontName size:fontSize];
     UIColor * labelColor = [UIColor colorWithWhite:1 alpha:1];
-    NSShadow *shadow = [[NSShadow alloc] init];
-    [shadow setShadowColor : BLACK_SHADOW];
-    [shadow setShadowOffset : CGSizeMake (1.0, 1.0)];
-    [shadow setShadowBlurRadius : 1];
     
     [[self.mutableAttributedString mutableString] setString:myString];
 
@@ -40,11 +38,34 @@
                             NSKernAttributeName : @2.5,
                             NSFontAttributeName : labelFont,
                  NSForegroundColorAttributeName : labelColor,
-                          NSShadowAttributeName : shadow }
+                          NSShadowAttributeName : self.shadow }
                                           range : NSMakeRange(0,[myString length])];
     
     return [self.mutableAttributedString copy];
 }
+
+//
+////
+//
+
+- (NSAttributedString* )setTextHighlighted :(NSString *) theString withSentence : (NSString*) theSentence
+{
+    // NSMutableAttributedString *mutableString = [[NSMutableAttributedString alloc]initWithString:theSentence];
+    
+    [[self.highlightMutableAttributedString mutableString] setString:theSentence];
+    
+    NSRegularExpression *expression = [NSRegularExpression regularExpressionWithPattern:theString options:NSRegularExpressionCaseInsensitive error:nil];
+    NSRange range = NSMakeRange(0,[theSentence length]);
+    [expression enumerateMatchesInString:theSentence options:0 range:range usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
+        NSRange theTextRange = [result rangeAtIndex:0];
+        [self.highlightMutableAttributedString addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:theTextRange];
+    }];
+    return [self.highlightMutableAttributedString copy];
+}
+
+//
+////
+//
 
 - (NSMutableParagraphStyle*) mutableParagraphStyle {
     if (!_mutableParagraphStyle){
@@ -60,9 +81,19 @@
     return _mutableAttributedString;
 }
 
+- (NSMutableAttributedString* )  highlightMutableAttributedString {
+    if (!_highlightMutableAttributedString){
+        _highlightMutableAttributedString = [[NSMutableAttributedString alloc] init];
+    }
+    return _highlightMutableAttributedString;
+}
+
 - ( NSShadow*) shadow {
-    if (_shadow) {
+    if (!_shadow) {
         _shadow = [[NSShadow alloc]init];
+        [_shadow setShadowColor : BLACK_SHADOW];
+        [_shadow setShadowOffset : CGSizeMake (1.0, 1.0)];
+        [_shadow setShadowBlurRadius : 1];
     }
     return _shadow;
 }

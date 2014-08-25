@@ -8,6 +8,8 @@
 
 #import "MainFoundation+EnglishTextStyle.h"
 
+#import "MainFoundation+BookMarkActions.h"
+
 @implementation MainFoundation (EnglishTextStyle)
 
 #define MENU_TAG 100
@@ -15,16 +17,14 @@
 #define HEBREW_TAG 300
 #define CHAPTER_TAG 400
 
-#define CELL_CONTENT_WIDTH 380.0f
-#define CELL_CONTENT_MARGIN 10.0f
-#define CELL_PADDING 90.0
-
 #define FONT_NAME @"Georgia"
 #define FONT_SIZE 20.0
 #define IPAD_FONT [UIFont fontWithName: FONT_NAME size: FONT_SIZE]
 #define IPAD_FONT_LARGE [UIFont fontWithName: FONT_NAME size: FONT_SIZE*1.4]
 
-
+//
+//// JSON
+//
 
 - (NSString*) englishTextFromArray:(NSIndexPath *)indexPath
 {
@@ -45,6 +45,10 @@
     }
 }
 
+//
+//// Core Data
+//
+
 - (NSString*) englishTextFromObject:(NSIndexPath *)indexPath
 {
     if ([self.primaryDataArray count] > indexPath.row){
@@ -57,13 +61,15 @@
         myString = [myString stringByReplacingOccurrencesOfString:@"<em>" withString:@""];
         myString = [myString stringByReplacingOccurrencesOfString:@"</em>" withString:@""];
 
-        return myString;
+        return [self appendBookmarkIcon:myLine withString:myString];
     }
     else {
         NSLog(@"error conversion number");
         return @"error";
     }
 }
+
+
 
 //
 ////
@@ -72,13 +78,19 @@
 - (UITableViewCell *) setMyEnglishTextCell: (UITableViewCell*) cell withString :(NSString *) myString
 {
     if (myString != nil && [myString isKindOfClass:[NSString class]]){
-        cell.textLabel.text = myString;
         cell.textLabel.textAlignment = UIControlContentHorizontalAlignmentFill;
-        cell.textLabel.font = IPAD_FONT;
+        if (self.fontSizeLargeSet) {
+            cell.textLabel.font = IPAD_FONT_LARGE;
+        }
+        else {
+            cell.textLabel.font = IPAD_FONT;
+        }
         cell.textLabel.numberOfLines = 0;
         [cell.textLabel sizeToFit];
         [cell.textLabel setLineBreakMode:NSLineBreakByWordWrapping];
         [cell setBackgroundColor:[UIColor clearColor]];
+        cell.textLabel.attributedText = [self.myBestStringClass setTextHighlighted:self.theSearchTerm withSentence:myString];
+
         return cell;
     }
     else {

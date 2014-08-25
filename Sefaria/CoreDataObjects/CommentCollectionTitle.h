@@ -2,7 +2,7 @@
 //  CommentCollectionTitle.h
 //  Sefaria
 //
-//  Created by MGM on 8/4/14.
+//  Created by MGM on 8/23/14.
 //  Copyright (c) 2014 Test. All rights reserved.
 //
 
@@ -14,10 +14,10 @@
 @interface CommentCollectionTitle : NSManagedObject
 
 @property (nonatomic, retain) NSNumber * displayOrder;
-@property (nonatomic, retain) NSString * metaType;
-@property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * englishName;
 @property (nonatomic, retain) NSString * hebrewName;
+@property (nonatomic, retain) NSString * metaType;
+@property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSSet *whatComment;
 @property (nonatomic, retain) CommentAuthor *whatCommentAuthor;
 @end

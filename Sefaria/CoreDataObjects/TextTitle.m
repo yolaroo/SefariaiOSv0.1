@@ -2,7 +2,7 @@
 //  TextTitle.m
 //  Sefaria
 //
-//  Created by MGM on 8/3/14.
+//  Created by MGM on 8/23/14.
 //  Copyright (c) 2014 Test. All rights reserved.
 //
 
@@ -26,7 +26,7 @@
 @dynamic name;
 @dynamic whatBookGroup;
 @dynamic whatBookTitle;
-@dynamic whatLineText;
 @dynamic whatComment;
+@dynamic whatLineText;
 
 @end

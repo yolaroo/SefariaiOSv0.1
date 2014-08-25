@@ -19,7 +19,6 @@
 #define HIDE_CH CGPointMake(1174.0, 490.0)
 #define SHOW_CH CGPointMake(764.0, 388.0)
 
-
 //
 //
 ////////
@@ -142,7 +141,7 @@
                      }];
 }
 
-
+//
 //
 ////////
 #pragma mark - NavigationBar Hide Action
@@ -181,7 +180,7 @@
                          self.navigationController.navigationBar.frame =  CGRectOffset(self.navigationController.navigationBar.frame, 0, 40 );
                      }
                      completion:^(BOOL finished){
-                         [self performSelector:@selector(hideNavBar) withObject:nil afterDelay:2.2];
+                         //[self performSelector:@selector(hideNavBar) withObject:nil afterDelay:2.2];
                      }];
 }
 

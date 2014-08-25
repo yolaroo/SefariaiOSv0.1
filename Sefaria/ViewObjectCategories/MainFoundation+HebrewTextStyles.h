@@ -7,11 +7,13 @@
 //
 
 #import "MainFoundation.h"
+#import "CellWithLeftSideNumberTableViewCell.h"
 
 @interface MainFoundation (HebrewTextStyles)
 
 - (NSString*) hebrewTextFromArray:(NSIndexPath *)indexPath;
 - (NSString*) hebrewTextFromObject:(NSIndexPath *)indexPath;
 - (UITableViewCell *) setMyHebrewTextCell: (UITableViewCell*) cell withString :(NSString *) myString;
+- (CellWithLeftSideNumberTableViewCell *) setMyCustomHebrewTextCell: (CellWithLeftSideNumberTableViewCell*) cell withString :(NSString *) myString;
 
 @end

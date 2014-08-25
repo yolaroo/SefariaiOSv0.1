@@ -26,7 +26,7 @@
 
 - (void) animateBouncingObjects : (NSArray*) viewGroup;
 
-- (NSAttributedString*) myAttributedString : (NSString*) myString withSize : (NSInteger) fontSize withFont : (NSString*) fontName;
+
 
 
 @end

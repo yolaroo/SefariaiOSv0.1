@@ -13,4 +13,7 @@
 - (NSString*) commentDetailText : (Comment*) myComment;
 - (NSString*) commentTextFromObject:(Comment*) myComment;
 
+- (UITableViewCell *) setMyCommentCell: (UITableViewCell*) cell cellForRowAtIndexPath:(NSIndexPath *)indexPath withSelectedIndex : (NSInteger) selectedIndex withText : (NSString*) theText withInfo : (NSString*) theInfo;
+- (void) commentPressAction : (NSIndexPath *)indexPath withcommentTable : (UITableView*) commentTable;
+
 @end

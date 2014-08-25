@@ -18,5 +18,4 @@
 
 - (void) menuAnimationOnLoad : (UIView*) menuView withChapterView : (UIView*) chapterView;
 
-
 @end

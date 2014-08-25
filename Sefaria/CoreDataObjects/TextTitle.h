@@ -2,7 +2,7 @@
 //  TextTitle.h
 //  Sefaria
 //
-//  Created by MGM on 8/3/14.
+//  Created by MGM on 8/23/14.
 //  Copyright (c) 2014 Test. All rights reserved.
 //
 
@@ -24,8 +24,8 @@
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSSet *whatBookGroup;
 @property (nonatomic, retain) BookTitle *whatBookTitle;
-@property (nonatomic, retain) NSSet *whatLineText;
 @property (nonatomic, retain) NSSet *whatComment;
+@property (nonatomic, retain) NSSet *whatLineText;
 @end
 
 @interface TextTitle (CoreDataGeneratedAccessors)
@@ -35,14 +35,14 @@
 - (void)addWhatBookGroup:(NSSet *)values;
 - (void)removeWhatBookGroup:(NSSet *)values;
 
-- (void)addWhatLineTextObject:(LineText *)value;
-- (void)removeWhatLineTextObject:(LineText *)value;
-- (void)addWhatLineText:(NSSet *)values;
-- (void)removeWhatLineText:(NSSet *)values;
-
 - (void)addWhatCommentObject:(Comment *)value;
 - (void)removeWhatCommentObject:(Comment *)value;
 - (void)addWhatComment:(NSSet *)values;
 - (void)removeWhatComment:(NSSet *)values;
+
+- (void)addWhatLineTextObject:(LineText *)value;
+- (void)removeWhatLineTextObject:(LineText *)value;
+- (void)addWhatLineText:(NSSet *)values;
+- (void)removeWhatLineText:(NSSet *)values;
 
 @end

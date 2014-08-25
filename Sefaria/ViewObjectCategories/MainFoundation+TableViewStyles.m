@@ -7,6 +7,9 @@
 //
 
 #import "MainFoundation+TableViewStyles.h"
+#import "MainFoundation+EnglishTextStyle.h"
+#import "MainFoundation+HebrewTextStyles.h"
+#import "MainFoundation+CommentStyle.h"
 
 @implementation MainFoundation (TableViewStyles)
 
@@ -14,19 +17,75 @@
 #define ENGLISH_TAG 200
 #define HEBREW_TAG 300
 #define CHAPTER_TAG 400
-
+#define COMMENT_TAG 600
+#define SEARCH_TAG 700
 #define CELL_CONTENT_WIDTH 380.0f
-#define CELL_CONTENT_MARGIN 10.0f
-#define CELL_PADDING 25.0
+#define WIDE_CELL_CONTENT_WIDTH 550.0f
+#define CELL_PADDING 30.0f
 
 #define FONT_NAME @"Georgia"
 #define FONT_SIZE 20.0
 #define IPAD_FONT [UIFont fontWithName: FONT_NAME size: FONT_SIZE]
 #define IPAD_FONT_LARGE [UIFont fontWithName: FONT_NAME size: FONT_SIZE*1.4]
+#define IPAD_FONT_XTLARGE [UIFont fontWithName: FONT_NAME size: FONT_SIZE*1.8]
 
 #define ACC_FONT_NAME @"HelveticaNeue-Light"
 #define ACC_FONT_SIZE 10.0
 
+
+//
+//
+////////
+#pragma mark - Cell number
+////////
+//
+//
+
+- (NSInteger) tableViewCellNumberForCoreData:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (tableView.tag == MENU_TAG){
+        return [self.menuListArray count] ? [self.menuListArray count] : 0;
+    }
+    else if (tableView.tag == CHAPTER_TAG) {
+        return [self.chapterListArray count] ? [self.chapterListArray count] : 0;
+    }
+    else if (tableView.tag == ENGLISH_TAG){
+        return [self.primaryDataArray count] ? [self.primaryDataArray count] : 0;
+    }
+    else if (tableView.tag == HEBREW_TAG){
+        return [self.primaryDataArray count] ? [self.primaryDataArray count] : 0;
+    }
+    else if (tableView.tag == COMMENT_TAG){
+        return [self.commentArray count] ? [self.commentArray count] : 0;
+    }
+    else if (tableView.tag == SEARCH_TAG){
+        return [self.searchTextArray count] ? [self.searchTextArray count] : 0;
+    }
+    else {
+        NSLog(@"Error on cell load");
+        return 0;
+    }
+}
+
+- (NSInteger) tableViewCellNumberForREST:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (tableView.tag == MENU_TAG){
+        return [self.menuListArray count] ? [self.menuListArray count] : 0;
+    }
+    else if (tableView.tag == ENGLISH_TAG) {
+        return [self.primaryEnglishTextArray count] ? [self.primaryEnglishTextArray count] : 0;
+    }
+    else if (tableView.tag == HEBREW_TAG) {
+        return [self.primaryHebrewTextArray count] ? [self.primaryHebrewTextArray count] : 0;
+    }
+    else if (tableView.tag == CHAPTER_TAG) {
+        return [self.chapterListArray count] ? [self.chapterListArray count] : 0;
+    }
+    else {
+        NSLog(@"Error on cell load");
+        return 0;
+    }
+}
 
 //
 //
@@ -61,8 +120,6 @@
     return myLabel;
 }
 
-//        TextVerticalAlignment = UITextVerticalAlignment.Top;
-
 //
 //
 ////////
@@ -71,20 +128,79 @@
 //
 //
 
-- (CGFloat)tableViewHeightForSingleTable:(UITableView *)tableView withString : (NSString*) myString
+- (CGFloat)tableViewHeightForCoreData:(UITableView *)tableView cellForRowAtIndexPath :(NSIndexPath *)indexPath
 {
-    CGSize sizeEnglish;
-    NSLog(@"-- MS %@ --",myString);
-    sizeEnglish = [self frameForText:myString sizeWithFont:nil constrainedToSize:CGSizeMake(CELL_CONTENT_WIDTH-CELL_CONTENT_MARGIN, CGFLOAT_MAX)];
-    if (sizeEnglish.height > 44.0) {
-        NSLog(@"CG 1.0 %f",sizeEnglish.height + CELL_PADDING );
-        return sizeEnglish.height + CELL_PADDING;
+    if (tableView.tag == ENGLISH_TAG || tableView.tag == HEBREW_TAG) {
+        return [self dualLanguagetableViewHeight:tableView cellForRowAtIndexPath:indexPath];
     }
-    else {
-        NSLog(@"CG 2.0");
-        return 44.0;
+    else if (tableView.tag == SEARCH_TAG){
+        CGSize sizeEnglish;
+        NSString* myString;
+        if ([self.searchTextArray count] > indexPath.row) {
+            myString = [self.searchTextArray objectAtIndex:indexPath.row];
+        }
+        if ([myString length]) {
+            UIFont *myFont = [ UIFont fontWithName: FONT_NAME size: FONT_SIZE ];
+            sizeEnglish = [self frameForText: myString sizeWithFont:myFont constrainedToSize:CGSizeMake(WIDE_CELL_CONTENT_WIDTH, CGFLOAT_MAX)];
+            return sizeEnglish.height*1.1+CELL_PADDING+10;
+        }
+        else {
+            return 55.0;
+        }
+    }
+    else{
+        return 55.0;
     }
 }
+
+- (double) theCurrentWidth {
+    if (self.isWideView) {
+        return WIDE_CELL_CONTENT_WIDTH;
+    } else {
+        return CELL_CONTENT_WIDTH;
+    }
+}
+
+- (CGFloat)dualLanguagetableViewHeight:(UITableView *)tableView cellForRowAtIndexPath :(NSIndexPath *)indexPath
+{
+    NSInteger sizeEnglish;
+    NSInteger sizeHebrew;
+    NSString* myStringEnglish;
+    NSString* myStringHebrew;
+    if ([self.primaryDataArray count] > indexPath.row){
+        myStringEnglish = [self englishTextFromObject:indexPath];
+        myStringHebrew = [self hebrewTextFromObject:indexPath];
+    }
+    if ([myStringEnglish length] || [myStringHebrew length]){
+        if (self.self.fontSizeLargeSet) {
+            CGSize myCGSizeEnglish = [self frameForText:myStringEnglish sizeWithFont:IPAD_FONT_LARGE constrainedToSize:CGSizeMake([self theCurrentWidth], CGFLOAT_MAX)];
+            CGSize myCGSsizeHebrew = [self frameForText:myStringHebrew sizeWithFont:IPAD_FONT_XTLARGE constrainedToSize:CGSizeMake([self theCurrentWidth], CGFLOAT_MAX)];
+            sizeEnglish = myCGSizeEnglish.height*1.3;
+            sizeHebrew = myCGSsizeHebrew.height*1.3;
+        }
+        else {
+            CGSize  myCGSizeEnglish = [self frameForText:myStringEnglish sizeWithFont:IPAD_FONT constrainedToSize:CGSizeMake([self theCurrentWidth], CGFLOAT_MAX)];
+            CGSize  myCGSizeHebrew = [self frameForText:myStringHebrew sizeWithFont:IPAD_FONT_LARGE constrainedToSize:CGSizeMake([self theCurrentWidth], CGFLOAT_MAX)];
+            sizeEnglish = myCGSizeEnglish.height;
+            sizeHebrew = myCGSizeHebrew.height;
+        }
+        if (sizeEnglish > sizeHebrew) {
+            //NSLog(@"-- 0.0english EH: %ld HH:  %ld --",(long)sizeEnglish,(long)sizeHebrew);
+            return sizeEnglish+CELL_PADDING;
+        }
+        else {
+            //NSLog(@"-- 0.1hebrew EH: %ld HH:  %ld --",(long)sizeEnglish,(long)sizeHebrew);
+            return sizeHebrew+CELL_PADDING;
+        }
+    }
+    else {
+        return 55.0;
+    }
+}
+
+//
+////
+//
 
 - (CGFloat)tableViewHeightTwoTables:(UITableView *)tableView cellForRowAtIndexPath :(NSIndexPath *)indexPath
 {
@@ -106,6 +222,28 @@
         } else {
             return sizeHebrew.height + CELL_PADDING;
         }
+    }
+    else {
+        return 55.0;
+    }
+}
+
+//
+////
+//
+
+- (CGFloat) commentHeight : (NSIndexPath *)indexPath
+{
+    CGSize sizeComment;
+    NSString* myString;
+    if ([self.commentArray count] > indexPath.row) {
+        Comment* myComment = [self.commentArray objectAtIndex:indexPath.row];
+        myString = [self commentTextFromObject:myComment];
+    }
+    if ([myString length]) {
+        UIFont *myFont = IPAD_FONT;
+        sizeComment = [self frameForText: myString sizeWithFont:myFont constrainedToSize:CGSizeMake(CELL_CONTENT_WIDTH, CGFLOAT_MAX)];
+        return sizeComment.height*1.1 + CELL_PADDING;
     }
     else {
         return 55.0;

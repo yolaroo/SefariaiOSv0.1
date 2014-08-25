@@ -41,7 +41,7 @@
 }
 
 - (void) testNewFetch : (NSManagedObjectContext*) context {
-    [self testFetchLineText:context];
+    //[self testFetchLineText:context];
 }
 
 //
@@ -252,7 +252,7 @@
 
 - (void) chapterLoad: (NSArray*)chapterArray withBookTitle: (BookTitle*) myBookTitle withTextTitle: (TextTitle*) myTextTitle withContext: (NSManagedObjectContext*) context
 {
-    LOG NSLog(@"-- CAC %d --",[chapterArray count]);
+    LOG NSLog(@"-- CAC %lu --",(unsigned long)[chapterArray count]);
     for (int i = 0; i < [chapterArray count]; i++) {
         NSArray * singleChapter = [chapterArray objectAtIndex:i];
         NSInteger chapterNumber = i;
@@ -262,7 +262,7 @@
 
 - (void) lineLoad: (NSArray*) lineArray withBookTitle: (BookTitle*) myBookTitle withTextTitle: (TextTitle*) myTextTitle withChapterNumber : (NSInteger) chapterNumber withContext: (NSManagedObjectContext*) context
 {
-    LOG NSLog(@"-- LAC %d --",[lineArray count]);
+    LOG NSLog(@"-- LAC %lu --",(unsigned long)[lineArray count]);
 
     for (int i = 0; i < [lineArray count]; i++) {
         //NSLog(@"Line Start");

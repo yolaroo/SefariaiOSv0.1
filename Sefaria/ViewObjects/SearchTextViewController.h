@@ -9,5 +9,11 @@
 #import "MainFoundation.h"
 
 @interface SearchTextViewController : MainFoundation <UITextFieldDelegate>
+{
+   IBOutlet UITextField *searchTextField; 
+}
+
+
+@property (weak, nonatomic) IBOutlet UITextField *searchTextField;
 
 @end

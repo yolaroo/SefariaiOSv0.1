@@ -10,13 +10,18 @@
 
 @implementation MainFoundation (MainViewActions)
 
-
+//
+//
+////
 #pragma mark - Alert
+////
+//
+//
 
 - (void) emptyTextAlert
 {
     UIAlertView *myAlert = [[UIAlertView alloc]
-                            initWithTitle:@"The Text is Empty"
+                            initWithTitle:@"The text is not available now"
                             message:@""
                             delegate:self
                             cancelButtonTitle:nil
@@ -43,8 +48,6 @@
     }
     return nil;
 }
-
-//
 
 //
 //
@@ -79,7 +82,6 @@
     }
 }
 
-
 //
 //
 ////////
@@ -98,7 +100,6 @@
     }
     return [myChapterArray copy];
 }
-
 
 //
 //
@@ -141,7 +142,6 @@
     UIGraphicsEndImageContext();
     return [self blur: image];
 }
-
 
 - (UIImage*) blur:(UIImage*)theImage
 {

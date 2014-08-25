@@ -10,6 +10,7 @@
 
 @implementation MainFoundation (FetchTheLineText)
 
+
 - (NSArray*) fetchLineTextByAttributes: (TextTitle*) theTextTitle
                         withLineNumber: (NSInteger) lineNumber
                      withChapterNumber: (NSInteger) chapterNumber
@@ -82,16 +83,38 @@
     return fetchedRecords;
 }
 
-- (void) testFetchLineText : (NSManagedObjectContext*) context
+- (NSArray*) fetchAllBookMarkedLineText : (NSManagedObjectContext*) context
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     fetchRequest.entity = [NSEntityDescription entityForName:@"LineText" inManagedObjectContext:context];
     
+    NSPredicate *predicateWordSearch  = [NSPredicate predicateWithFormat:@"isBookmarked == 1"];
+    
+    NSArray *subPredicates = [NSArray arrayWithObjects:predicateWordSearch, nil];
+    NSPredicate *andPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:subPredicates];
+    fetchRequest.predicate = andPredicate;
+    
+    NSSortDescriptor *sortDescriptorText = [[NSSortDescriptor alloc] initWithKey:@"whatTextTitle" ascending:YES];
+    NSSortDescriptor *sortDescriptorChapter = [[NSSortDescriptor alloc] initWithKey:@"chapterNumber" ascending:YES];
+    NSSortDescriptor *sortDescriptorLine = [[NSSortDescriptor alloc] initWithKey:@"lineNumber" ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptorText,sortDescriptorChapter,sortDescriptorLine, nil];
+    [fetchRequest setSortDescriptors:sortDescriptors];
+
     NSError* error;
     NSArray *fetchedRecords = [context executeFetchRequest:fetchRequest error:&error];
-    
-    NSLog(@"-- TFLT %lu --",(unsigned long)[fetchedRecords count]);
+    return fetchedRecords;
+    //NSLog(@"-- TFLT %lu --",(unsigned long)[fetchedRecords count]);
+}
 
+
+- (NSArray*) fetchAllLineText : (NSManagedObjectContext*) context
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"LineText" inManagedObjectContext:context];
+        NSError* error;
+    NSArray *fetchedRecords = [context executeFetchRequest:fetchRequest error:&error];
+    return fetchedRecords;
+    //NSLog(@"-- TFLT %lu --",(unsigned long)[fetchedRecords count]);
 }
 
 @end

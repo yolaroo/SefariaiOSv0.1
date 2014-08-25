@@ -2,7 +2,7 @@
 //  Job.h
 //  Sefaria
 //
-//  Created by MGM on 7/29/14.
+//  Created by MGM on 8/23/14.
 //  Copyright (c) 2014 Test. All rights reserved.
 //
 
@@ -15,6 +15,7 @@
 
 @property (nonatomic, retain) NSString * metaType;
 @property (nonatomic, retain) NSString * name;
+@property (nonatomic, retain) NSString * summary;
 @property (nonatomic, retain) Person *whatPerson;
 
 @end

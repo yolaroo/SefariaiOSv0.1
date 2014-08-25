@@ -189,7 +189,7 @@
                         }
 
                         [self createTextLine:myText withHebrewText : (NSString*) theHebrewString withBookTitle:aBookTitle withTextTitle:aTextTitle withLanguage:theLanguage withChapterNumber:theChapterNumber withLineNumber:theLineNumber withContext:context];
-                        LOG NSLog(@"lvl-2 Text:  %@ %d %d",myText,theChapterNumber,theLineNumber);
+                        LOG NSLog(@"lvl-2 Text:  %@ %ld %ld",myText,(long)theChapterNumber,(long)theLineNumber);
 
                     }
                     else {

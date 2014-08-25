@@ -38,7 +38,7 @@
      NSLog(@"-- Request fetched --");
      if (data.length > 0 && connectionError == nil) {
          NSInteger httpStatus = [((NSHTTPURLResponse *)response) statusCode];
-         NSLog(@"http Status : %d",httpStatus);
+         NSLog(@"http Status : %ld",(long)httpStatus);
         [self restMenuResponseObject : pathURL withData:data withConnectionError:connectionError];
      }
  }];
@@ -147,7 +147,7 @@
             NSLog(@"-- TT %@ --",textTitle);
             if ([self checkTitle: bookDictionary]) {
                 __unused NSInteger chapterMaxNumber = [[bookDictionary objectForKey:@"length"]integerValue];
-                NSLog(@"-- CN %d --",chapterMaxNumber);
+                NSLog(@"-- CN %ld --",(long)chapterMaxNumber);
             }
             else {
                 NSLog(@"Error no chapter number");
@@ -162,7 +162,7 @@
         if ([self checkCategory: bookDictionary]) {
             __unused NSString* bookTitle = [bookDictionary objectForKey:@"category"];
             //add title to list for selection
-            NSLog(@"-- BT %@ : %d --",bookTitle,theDepth);
+            NSLog(@"-- BT %@ : %ld --",bookTitle,(long)theDepth);
         }
         else {
             NSLog(@"no book group title");

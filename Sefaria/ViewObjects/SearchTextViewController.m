@@ -8,38 +8,63 @@
 
 #import "SearchTextViewController.h"
 
-#import "MainFoundation+FetchTheLineText.h"
 #import "MainFoundation+MainViewActions.h"
 
 #import "MainFoundation+TableViewStyles.h"
 
-#import "MainFoundation+FetchTheComment.h"
+#import "MainFoundation+EnglishTextStyle.h"
+#import "MainFoundation+HebrewTextStyles.h"
+
+#import "MainFoundation+FetchTextLineForReading.h"
+#import "MainFoundation+FetchTheTextTitle.h"
+
+#import "MainFoundation+SeachTextActions.h"
 
 @interface SearchTextViewController ()
 
+#define BLACK_SHADOW [UIColor colorWithRed:40.0f/255.0f green:40.0f/255.0f blue:40.0f/255.0f alpha:0.3f]
 
-@property (weak, nonatomic) IBOutlet UITextField *searchTextField;
+@property (weak, nonatomic) IBOutlet UITableView * englishTextTable;
+@property (weak, nonatomic) IBOutlet UITableView * hebrewTextTable;
+@property (weak, nonatomic) IBOutlet UITableView * searchTextTable;
 
-@property (weak, nonatomic) IBOutlet UITableView *myTextTable;
+
+@property (weak, nonatomic) IBOutlet UIView *mainEnglishView;
+@property (weak, nonatomic) IBOutlet UIView *mainHebrewView;
+@property (weak, nonatomic) IBOutlet UIView *mainSearchView;
+
+
+@property (weak, nonatomic) IBOutlet UILabel *searchLabel;
+@property (weak, nonatomic) IBOutlet UILabel *englishLabel;
+@property (weak, nonatomic) IBOutlet UILabel *hebrewLabel;
+
+@property (weak, nonatomic) IBOutlet UIButton *searchEnglishButton;
+@property (weak, nonatomic) IBOutlet UIButton *searchHebrewButton;
+
 
 @property (strong, nonatomic) IBOutletCollection(UIView) NSArray *myViewCollection;
-
 
 //
 ////
 //
 
-@property (strong,nonatomic) NSMutableArray* myTextArray;
-@property (strong,nonatomic) NSMutableArray* myTextInfoArray;
 
 @property (strong,nonatomic) NSString* myTextName;
 @property (weak, nonatomic) IBOutlet UILabel *wordCountLabel;
+
+//
+////
+//
+
+
+@property (weak, nonatomic) IBOutlet UIButton *searchSelectionTextButton;
+@property (weak, nonatomic) IBOutlet UIButton *searchSelectionCommentsButton;
 
 @end
 
 @implementation SearchTextViewController
 
-@synthesize myTextArray=_myTextArray,myTextInfoArray=_myTextInfoArray;
+@synthesize searchTextField=_searchTextField;
 
 #define RESET_DELAY 0.3
 
@@ -52,7 +77,17 @@
 #define IPAD_FONT [UIFont fontWithName: FONT_NAME size: FONT_SIZE]
 #define IPAD_FONT_LARGE [UIFont fontWithName: FONT_NAME size: FONT_SIZE*1.4]
 
-#warning - Click on box to go to text!
+#define ENGLISH_CELL [tableView dequeueReusableCellWithIdentifier:@"EnglishTextCell" forIndexPath:indexPath]
+#define HEBREW_CELL [tableView dequeueReusableCellWithIdentifier:@"HebrewTextCell" forIndexPath:indexPath]
+#define SEARCH_CELL [tableView dequeueReusableCellWithIdentifier:@"SearchCell" forIndexPath:indexPath]
+
+#define ENGLISH_TAG 200
+#define HEBREW_TAG 300
+#define SEARCH_TAG 700
+
+#define COLOR_CELL_HIGHLIGHT [UIColor colorWithRed: 242.0f/255.0f green:249.0f/255.0f blue:251.0f/255.0f alpha:1.0f]
+
+#define SELECTED_COLOR [UIColor colorWithRed: 100.0f/255.0f green:200.0f/255.0f blue:255.0f/255.0f alpha:1.0f]
 
 //
 //
@@ -62,77 +97,125 @@
 //
 //
 
-- (IBAction)searchButtonPress:(UIButton *)sender {
-    [self englishSearchAction];
+- (IBAction)selectionChoiceTextPress:(UIButton *)sender {
+    [self selectionChoiceTextButtonAction];
 }
 
-- (IBAction)hebrewSearchButton:(UIButton *)sender {
-    [self hebrewSearchAction];
+- (IBAction)selectionChoiceCommentPress:(UIButton *)sender {
+    [self selectionChoiceCommentsButtonAction];
 }
 
-- (void) hebrewSearchAction {
-    NSString* myText = self.searchTextField.text;
-    if ([myText length]) {
-        [self hebrewTextSearch:myText];
-        [self.myTextTable reloadData];
+- (void) selectionChoiceTextButtonAction {
+    if (!self.isSelectionComments && self.isSelectionText){
+        //
+    }
+    else {
+        self.isSelectionText = !self.isSelectionText;
+        [self buttonChoiceViewChange];
     }
 }
 
-- (void) englishSearchAction {
-    NSString* myText = self.searchTextField.text;
-    if ([myText length]) {
-        [self englishTextSearch:myText];
-        [self.myTextTable reloadData];
+- (void) selectionChoiceCommentsButtonAction {
+    if (self.isSelectionComments && !self.isSelectionText){
+        //
+    }
+    else {
+        self.isSelectionComments = !self.isSelectionComments;
+        [self buttonChoiceViewChange];
+    }
+}
+
+- (void) buttonChoiceViewChange {
+    if (self.isSelectionText) {
+        [self.searchSelectionTextButton setTitleColor: SELECTED_COLOR forState:UIControlStateNormal];
+    } else {
+        [self.searchSelectionTextButton setTitleColor:  [UIColor darkTextColor] forState:UIControlStateNormal];
+    }
+    if (self.isSelectionComments) {
+        [self.searchSelectionCommentsButton setTitleColor: SELECTED_COLOR forState:UIControlStateNormal];
+    } else {
+        [self.searchSelectionCommentsButton setTitleColor:  [UIColor darkTextColor] forState:UIControlStateNormal];
     }
 }
 
 //
-//
-////////
-#pragma mark - Search Action
-////////
-//
+////
 //
 
-- (void) hebrewTextSearch : (NSString*) myString {
-    NSArray*myentries = [self fetchLineTextFromHebrewWordSearch:myString withContext : self.managedObjectContext];
-    
-    [self.myTextArray removeAllObjects];
-    [self.myTextInfoArray removeAllObjects];
-    for (LineText* TLT in myentries) {
-        NSInteger line = [TLT.lineNumber integerValue]+1;
-        NSInteger chapter = [TLT.chapterNumber integerValue]+1;
-        TextTitle* title = TLT.whatTextTitle;
-        NSString* text = title.hebrewName;
-        
-        NSString* myTextInfo = [NSString stringWithFormat:@"Text: %@ Chapter: %ld Line: %ld",text,(long)chapter,(long)line];
-        [self.myTextArray addObject:TLT.hebrewText];
-        [self.myTextInfoArray addObject:myTextInfo];
-    }
-    
-    NSString* myCountString = [NSString stringWithFormat:@"Word Count: %lu",(unsigned long)[self.myTextArray count]];
-    self.wordCountLabel.text = myCountString;
+- (IBAction)searchViewShowHebrew:(UIButton *)sender {
+    self.mainSearchView.hidden = true;
+    self.mainEnglishView.hidden = true;
+    self.mainHebrewView.hidden = false;
+}
+- (IBAction)searchViewShowEnglish:(UIButton *)sender {
+    self.mainSearchView.hidden = true;
+    self.mainHebrewView.hidden = true;
+    self.mainEnglishView.hidden = false;
 }
 
-- (void) englishTextSearch : (NSString*) myString {
-    NSArray*myentries = [self fetchLineTextFromEnglishWordSearch:myString withContext : self.managedObjectContext];
-    
-    [self.myTextArray removeAllObjects];
-    [self.myTextInfoArray removeAllObjects];
-    for (LineText* TLT in myentries) {
-        NSInteger line = [TLT.lineNumber integerValue]+1;
-        NSInteger chapter = [TLT.chapterNumber integerValue]+1;
-        TextTitle* title = TLT.whatTextTitle;
-        NSString* text = title.englishName;
-        
-        NSString* myTextInfo = [NSString stringWithFormat:@"Text: %@ Chapter: %ld Line: %ld",text,(long)chapter,(long)line];
-        
-        [self.myTextArray addObject:TLT.englishText];
-        [self.myTextInfoArray addObject:myTextInfo];
+//
+////
+//
+
+- (IBAction)englishViewShowHebrew:(UIButton *)sender {
+    self.mainEnglishView.hidden = true;
+    self.mainSearchView.hidden = true;
+    self.mainHebrewView.hidden = false;
+}
+
+- (IBAction)englishViewShowSearch:(UIButton *)sender {
+    self.mainEnglishView.hidden = true;
+    self.mainHebrewView.hidden = true;
+    self.mainSearchView.hidden = false;
+}
+
+//
+////
+//
+
+- (IBAction)hebrewViewShowSearch:(UIButton *)sender {
+    self.mainHebrewView.hidden = true;
+    self.mainEnglishView.hidden = true;
+    self.mainSearchView.hidden = false;
+}
+
+- (IBAction)hebrewViewShowEnglish:(UIButton *)sender {
+    self.mainHebrewView.hidden = true;
+    self.mainSearchView.hidden = true;
+    self.mainEnglishView.hidden = false;
+}
+
+//
+////
+//
+
+- (BOOL) textFieldShouldReturn : (UITextField *)textField {
+    if ([textField.text length]) {
+        self.theSearchTerm = [textField.text mutableCopy];
+        [self searchSelectionChoice];
+        [self.searchTextTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
+        self.mainSearchView.hidden = false;
+        self.searchEnglishButton.hidden = true;
+        self.searchHebrewButton.hidden = true;
+        self.searchLabel.text = @" ";
+        [self.searchTextTable reloadData];
     }
+    [textField resignFirstResponder];
+    return NO;
+}
+
+- (void) searchSelectionChoice {
     
-    NSString* myCountString = [NSString stringWithFormat:@"Word Count: %lu",(unsigned long)[self.myTextArray count]];
-    self.wordCountLabel.text = myCountString;
+    if (self.isSelectionComments && !self.isSelectionText){
+        self.wordCountLabel.text = [self combinedCommentSearch : self.theSearchTerm];
+    }
+    else if (!self.isSelectionComments && self.isSelectionText){
+        self.wordCountLabel.text = [self combinedTextSearch : self.theSearchTerm];
+    }
+    else if (self.isSelectionComments && self.isSelectionText){
+        self.wordCountLabel.text = [self combinedTextSearch : self.theSearchTerm];
+        self.wordCountLabel.text = [self combinedCommentSearch : self.theSearchTerm];
+    }
 }
 
 //
@@ -150,26 +233,42 @@
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.myTextArray count] ? [self.myTextArray count] : 0;
+    return [self tableViewCellNumberForCoreData : tableView numberOfRowsInSection : section];
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MyCell" forIndexPath:indexPath];
-    cell = [self setMyTextCell:cell cellForRowAtIndexPath:indexPath];
-    return cell;
+    if (tableView.tag == ENGLISH_TAG){
+        UITableViewCell *cell = ENGLISH_CELL;
+        NSString* myString = [self englishTextFromObject:indexPath];
+        cell = [self setMyEnglishTextCell:cell withString:myString];
+        cell.accessoryView = [self labelForNumberRightSide:indexPath.row withCell:cell];
+        return cell;
+    }
+    else if (tableView.tag == HEBREW_TAG) {
+        CellWithLeftSideNumberTableViewCell *cell = HEBREW_CELL;
+        NSString* myString = [self hebrewTextFromObject:indexPath];
+        cell = [self setMyCustomHebrewTextCell:cell withString:myString];
+        cell.tag = indexPath.row;
+        return cell;
+    }
+    else if (tableView.tag == SEARCH_TAG) {
+        UITableViewCell *cell = SEARCH_CELL;
+        NSString* myString = [self.searchTextArray objectAtIndex:indexPath.row];
+        NSString * myInfo = [self.searchInfoArray objectAtIndex:indexPath.row];
+        cell = [self setMyTextCell:cell withText:myString withInfo:myInfo];
+        return cell;
+    }
+    return nil;
 }
 
 //
 ////
 //
 
-- (UITableViewCell *) setMyTextCell: (UITableViewCell*) cell cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *) setMyTextCell: (UITableViewCell*) cell withText : (NSString*) myString withInfo : (NSString*) myInfo
 {
-    NSString* myString = [self.myTextArray objectAtIndex:indexPath.row];
-    NSString * myInfo = [self.myTextInfoArray objectAtIndex:indexPath.row];
     if (myString != nil){
-        cell.textLabel.text = myString;
         cell.textLabel.textAlignment = UIControlContentHorizontalAlignmentFill;
         cell.textLabel.font = IPAD_FONT;
 
@@ -177,6 +276,7 @@
         [cell.textLabel sizeToFit];
         [cell.textLabel setLineBreakMode:NSLineBreakByWordWrapping];
         [cell setBackgroundColor:[UIColor clearColor]];
+        cell.textLabel.attributedText = [self.myBestStringClass setTextHighlighted:self.theSearchTerm withSentence:myString];
         
         if ([myInfo length]) {
             cell.detailTextLabel.text = myInfo;
@@ -192,6 +292,33 @@
 //
 //
 ////////
+#pragma mark - Cell Color
+////////
+//
+//
+
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView didHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = (UITableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    [self setCellColor:COLOR_CELL_HIGHLIGHT ForCell:cell]; //highlight color
+}
+
+- (void)tableView:(UITableView *)tableView didUnhighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = (UITableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    [self setCellColor:[UIColor whiteColor] ForCell:cell];  //normal colour
+}
+
+- (void)setCellColor:(UIColor *)color ForCell:(UITableViewCell *)cell {
+    cell.contentView.backgroundColor = color;
+    cell.backgroundColor = color;
+}
+
+//
+//
+////////
 #pragma mark - Table Height
 ////////
 //
@@ -199,18 +326,117 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
-    CGSize sizeEnglish;
-    NSString* myString;
-    if ([self.myTextArray count] > indexPath.row) {
-        myString = [self.myTextArray objectAtIndex:indexPath.row];
+    return [self tableViewHeightForCoreData:tableView cellForRowAtIndexPath:indexPath];
+}
+
+//
+//
+////////
+#pragma mark - Table View Select
+////////
+//
+//
+
+- (void) tableView : (UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (tableView.tag == ENGLISH_TAG){
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        NSString*myCellText = cell.textLabel.text;
+        [self foundationRunSpeech:@[myCellText]];
     }
-    if ([myString length]) {
-        UIFont *myFont = [ UIFont fontWithName: FONT_NAME size: FONT_SIZE ];
-        sizeEnglish = [self frameForText: myString sizeWithFont:myFont constrainedToSize:CGSizeMake(CELL_CONTENT_WIDTH, CGFLOAT_MAX)];
-        return sizeEnglish.height+CELL_PADDING;
+    else if (tableView.tag == HEBREW_TAG){
+        //UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        //NSString*myCellText = cell.textLabel.text;
+        //[self foundationRunSpeech:@[myCellText]];
     }
-    else {
-        return 55.0;
+    else if (tableView.tag == SEARCH_TAG){
+        
+        if ([self.theSearchTerm length]){
+            LineText* myLineText = [self.searchLineDataArray objectAtIndex:indexPath.row];
+            TextTitle* title = myLineText.whatTextTitle;
+
+            self.theChapterMax = [title.chapterCount integerValue];
+            self.theChapterNumber = [myLineText.chapterNumber integerValue];
+            self.myCurrentTextTitle = title.englishName;
+            
+            self.searchEnglishButton.hidden = false;
+            self.searchHebrewButton.hidden = false;
+            [self setLabelsForName];
+            
+            
+            [self updateTheData];
+        }
+    }
+}
+
+- (void) setLabelsForName {
+
+    NSString* myString  = [NSString stringWithFormat:@"%@ %d",self.myCurrentTextTitle,self.theChapterNumber+1];
+    self.hebrewLabel.text = myString;
+    self.englishLabel.text = myString;
+    self.searchLabel.text = myString;
+}
+
+- (void) updateTheData {
+    self.primaryDataArray = [self myArraySetter];
+}
+
+//
+//
+////////
+#pragma mark - Text Data
+////////
+//
+//
+
+- (NSArray*) myArraySetter {
+    @try {
+        NSArray* mydata;
+        if ([self.myCurrentTextTitle length]){
+            TextTitle* myText = [[self fetchTextTitleByNameString:self.myCurrentTextTitle withContext:self.managedObjectContext]firstObject];
+            
+            //label text string setter
+            self.viewTitleEnglish = myText.englishName;
+            self.viewTitleHebrew = myText.hebrewName;
+            
+            //chapter number writer
+            self.theChapterMax = [myText.chapterCount integerValue];
+            self.chapterListArray = [self chapterNumberArray: self.theChapterMax];
+            
+            //text writer
+            mydata = [self fetchTextTitleByTitleAndChapter:myText withChapter : self.theChapterNumber withContext:self.managedObjectContext];
+            
+            [self performSelector:@selector(reloadTableView) withObject:nil afterDelay:0.3];
+
+        }
+        return mydata;
+    }
+    @catch (NSException *exception) {
+        return nil;
+    }
+}
+
+- (void) reloadTableView {
+    [self.hebrewTextTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
+    [self.englishTextTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
+    [self.englishTextTable reloadData];
+    [self.hebrewTextTable reloadData];
+}
+
+//
+//
+////////
+#pragma mark - TableView Animation Match
+////////
+//
+//
+
+- (void) scrollViewDidScroll : (UIScrollView *)scrollView {
+    if (scrollView.tag == ENGLISH_TAG){
+        self.hebrewTextTable.contentOffset = self.englishTextTable.contentOffset;
+    }
+    else if (scrollView.tag == HEBREW_TAG){
+        self.englishTextTable.contentOffset = self.hebrewTextTable.contentOffset;
     }
 }
 
@@ -225,9 +451,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self viewStyleForLoad];
-    //[self performSelector:@selector(initialLoad) withObject:nil afterDelay:RESET_DELAY];
-    
+    [self initialLoad];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -249,8 +473,10 @@
 //
 
 - (void) initialLoad {
-    
-
+    [self viewStyleForLoad];
+    self.searchEnglishButton.hidden = true;
+    self.searchHebrewButton.hidden = true;
+    self.isSelectionText = true;
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -263,47 +489,12 @@
     }
 }
 
-//
-//
-////////
-#pragma mark - Setters
-////////
-//
-//
 
-- (NSMutableArray *)myTextArray {
-    if (!_myTextArray){
-        _myTextArray = [[NSMutableArray alloc] init];
-    }
-    return _myTextArray;
-}
 
-- (NSMutableArray *)myTextInfoArray {
-    if (!_myTextInfoArray){
-        _myTextInfoArray = [[NSMutableArray alloc] init];
-    }
-    return _myTextInfoArray;
-}
 
-//
-//
-////////
-#pragma mark - Test
-////////
-//
-//
 
-- (void) testSearch {
-    NSArray*myentries = [self fetchLineTextFromEnglishWordSearch:@"lord" withContext : self.managedObjectContext];
-    for (LineText* TLT in myentries) {
-        NSInteger line = [TLT.lineNumber integerValue];
-        NSInteger chapter = [TLT.chapterNumber integerValue];
-        TextTitle* title = TLT.whatTextTitle;
-        NSString* text = title.englishName;
-        NSLog(@"-- Text: %@ Chapter %ld Line %ld --",text,(long)chapter,(long)line);
-        NSLog(@"-- %@ --",TLT.englishText);
-    }
-}
+
+
 
 
 

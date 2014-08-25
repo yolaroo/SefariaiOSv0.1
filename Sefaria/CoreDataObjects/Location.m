@@ -2,17 +2,19 @@
 //  Location.m
 //  Sefaria
 //
-//  Created by MGM on 7/29/14.
+//  Created by MGM on 8/23/14.
 //  Copyright (c) 2014 Test. All rights reserved.
 //
 
 #import "Location.h"
+#import "Event.h"
 #import "LocationAuxName.h"
 #import "LocationCoordinate.h"
-#import "LocationDirectLine.h"
 #import "LocationModernName.h"
+#import "Person.h"
 #import "Picture.h"
 #import "SatellitePicture.h"
+#import "Struggle.h"
 
 
 @implementation Location
@@ -23,9 +25,11 @@
 @dynamic uuid;
 @dynamic whatAuxName;
 @dynamic whatCoordinate;
-@dynamic whatDirectLine;
 @dynamic whatModernName;
 @dynamic whatPicture;
 @dynamic whatSatellitePicture;
+@dynamic whatPerson;
+@dynamic whatEvent;
+@dynamic whatStruggle;
 
 @end

@@ -2,15 +2,16 @@
 //  Person.m
 //  Sefaria
 //
-//  Created by MGM on 7/29/14.
+//  Created by MGM on 8/23/14.
 //  Copyright (c) 2014 Test. All rights reserved.
 //
 
 #import "Person.h"
+#import "Event.h"
 #import "Job.h"
-#import "PersonEvent.h"
-#import "PersonEventDirectLine.h"
-#import "PersonLocation.h"
+#import "LineText.h"
+#import "Location.h"
+#import "Struggle.h"
 
 
 @implementation Person
@@ -20,9 +21,10 @@
 @dynamic name;
 @dynamic summary;
 @dynamic uuid;
-@dynamic whatDirectLine;
+@dynamic whatPersonalTitle;
 @dynamic whatEvent;
-@dynamic whatJob;
 @dynamic whatLocation;
+@dynamic whatStruggle;
+@dynamic whatLineText;
 
 @end

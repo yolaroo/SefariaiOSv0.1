@@ -267,22 +267,27 @@
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
-        //NSString* stringName = @"SafariaCoreData";
-        //NSString* myStringName = [NSString stringWithFormat:@"%@.sqlite",stringName];
-        //NSString *storePath = [[self applicationDocumentsDirectory] stringByAppendingPathComponent:myStringName];
-        //NSURL *storeUrl = [NSURL fileURLWithPath:storePath];
+        /*
+        //
+        NSString* stringName = @"SafariaCoreData";
+        NSString* myStringName = [NSString stringWithFormat:@"%@.sqlite",stringName];
+        NSString *storePath = [[self applicationDocumentsDirectory] stringByAppendingPathComponent:myStringName];
+        NSURL *storeUrl = [NSURL fileURLWithPath:storePath];
+        //
+        */
         
         
         //
-        NSURL *storeUrl = [[self seedApplicationDocumentsDirectory] URLByAppendingPathComponent:@"x01.CDBStore"];
+        NSURL *storeUrl = [[self seedApplicationDocumentsDirectory] URLByAppendingPathComponent:@"x03.CDBStore"];
         NSFileManager *fileManager = [NSFileManager defaultManager];
         if (![fileManager fileExistsAtPath:[storeUrl path]]) {
-            NSURL *defaultStoreURL = [[NSBundle mainBundle] URLForResource:@"x01" withExtension:@"CDBStore"];
+            NSURL *defaultStoreURL = [[NSBundle mainBundle] URLForResource:@"x03" withExtension:@"CDBStore"];
             if (defaultStoreURL) {
                 [fileManager copyItemAtURL:defaultStoreURL toURL:storeUrl error:NULL];
             }
         }
-        //
+        
+        
         
         NSMutableDictionary *pragmaOptions = [NSMutableDictionary dictionary];
         [pragmaOptions setObject:@"DELETE" forKey:@"journal_mode"];

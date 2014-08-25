@@ -8,6 +8,12 @@
 
 #import "MainFoundation.h"
 
-@interface BookFromRestView : MainFoundation
+@interface BookFromRestView : MainFoundation  <UIScrollViewDelegate,UITextFieldDelegate>
+{
+    IBOutlet UITextField *searchNavTextField;
+}
+
+@property (weak, nonatomic) IBOutlet UITextField *searchNavTextField;
+
 
 @end

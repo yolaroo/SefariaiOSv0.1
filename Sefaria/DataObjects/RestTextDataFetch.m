@@ -25,8 +25,10 @@
 ////
 //
 
+#define NO_COMMENTARY_SUFFIX @"?commentary=0"
+
 - (NSString*) restBookNameString : (NSString*) textName withChapterNumber : (NSInteger) chapterNumber  {
-    NSString* completeString = [NSString stringWithFormat:@"%@.%d",textName,chapterNumber];
+    NSString* completeString = [NSString stringWithFormat:@"%@.%ld%@",textName,(long)chapterNumber,NO_COMMENTARY_SUFFIX];
     NSString* urlString = [BASE_REST_PATH stringByAppendingPathComponent : completeString];
     return urlString;
 }
@@ -55,7 +57,7 @@
          NSLog(@"-- Request fetched --");
          if (data.length > 0 && connectionError == nil) {
              NSInteger httpStatus = [((NSHTTPURLResponse *)response) statusCode];
-             NSLog(@"http Status : %d",httpStatus);
+             NSLog(@"http Status : %ld",(long)httpStatus);
              [self restResponseObject : pathURL withData:data withConnectionError:connectionError];
          }
      }];

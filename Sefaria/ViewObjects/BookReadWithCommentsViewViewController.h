@@ -8,6 +8,11 @@
 
 #import "MainFoundation.h"
 
-@interface BookReadWithCommentsViewViewController : MainFoundation <UIScrollViewDelegate>
+@interface BookReadWithCommentsViewViewController : MainFoundation <UIScrollViewDelegate,UITextFieldDelegate>
+{
+    IBOutlet UITextField *searchNavTextField;
+}
+
+@property (weak, nonatomic) IBOutlet UITextField *searchNavTextField;
 
 @end

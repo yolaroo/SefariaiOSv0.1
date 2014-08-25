@@ -2,31 +2,38 @@
 //  LineText.h
 //  Sefaria
 //
-//  Created by MGM on 8/3/14.
+//  Created by MGM on 8/23/14.
 //  Copyright (c) 2014 Test. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class BookGroup, BookTitle, Comment, TextTitle, TextVersionTitle;
+@class BookGroup, BookTitle, Comment, ContextGroup, Event, Person, Struggle, TextTitle, TextVersionTitle;
 
 @interface LineText : NSManagedObject
 
 @property (nonatomic, retain) NSNumber * chapterNumber;
 @property (nonatomic, retain) NSString * englishText;
 @property (nonatomic, retain) NSString * hebrewText;
+@property (nonatomic, retain) NSNumber * isBookmarked;
 @property (nonatomic, retain) NSNumber * isEnglish;
 @property (nonatomic, retain) NSNumber * isHebrew;
+@property (nonatomic, retain) NSNumber * isLiked;
 @property (nonatomic, retain) NSNumber * isTextLevel;
+@property (nonatomic, retain) NSNumber * isUnliked;
 @property (nonatomic, retain) NSNumber * lineNumber;
 @property (nonatomic, retain) NSString * metaType;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSSet *whatBookGroup;
 @property (nonatomic, retain) NSSet *whatBookTitle;
+@property (nonatomic, retain) NSSet *whatComment;
 @property (nonatomic, retain) TextTitle *whatTextTitle;
 @property (nonatomic, retain) TextVersionTitle *whatTextVersionTitle;
-@property (nonatomic, retain) NSSet *whatComment;
+@property (nonatomic, retain) NSSet *whatStruggle;
+@property (nonatomic, retain) NSSet *whatContext;
+@property (nonatomic, retain) NSSet *whatEvent;
+@property (nonatomic, retain) NSSet *whatPerson;
 @end
 
 @interface LineText (CoreDataGeneratedAccessors)
@@ -45,5 +52,25 @@
 - (void)removeWhatCommentObject:(Comment *)value;
 - (void)addWhatComment:(NSSet *)values;
 - (void)removeWhatComment:(NSSet *)values;
+
+- (void)addWhatStruggleObject:(Struggle *)value;
+- (void)removeWhatStruggleObject:(Struggle *)value;
+- (void)addWhatStruggle:(NSSet *)values;
+- (void)removeWhatStruggle:(NSSet *)values;
+
+- (void)addWhatContextObject:(ContextGroup *)value;
+- (void)removeWhatContextObject:(ContextGroup *)value;
+- (void)addWhatContext:(NSSet *)values;
+- (void)removeWhatContext:(NSSet *)values;
+
+- (void)addWhatEventObject:(Event *)value;
+- (void)removeWhatEventObject:(Event *)value;
+- (void)addWhatEvent:(NSSet *)values;
+- (void)removeWhatEvent:(NSSet *)values;
+
+- (void)addWhatPersonObject:(Person *)value;
+- (void)removeWhatPersonObject:(Person *)value;
+- (void)addWhatPerson:(NSSet *)values;
+- (void)removeWhatPerson:(NSSet *)values;
 
 @end

@@ -8,7 +8,6 @@
 
 #import "MainFoundation+RestTextActions.h"
 
-
 @implementation MainFoundation (RestTextActions)
 
 #define DK 2

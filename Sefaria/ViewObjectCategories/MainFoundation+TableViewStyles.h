@@ -21,7 +21,7 @@
 - (CGFloat) tableViewHeightForCoreData:(UITableView *)tableView cellForRowAtIndexPath :(NSIndexPath *)indexPath;
 - (CGFloat) tableViewHeightTwoTables:(UITableView *)tableView cellForRowAtIndexPath :(NSIndexPath *)indexPath;
 - (CGFloat) dualLanguagetableViewHeight:(UITableView *)tableView cellForRowAtIndexPath :(NSIndexPath *)indexPath;
-- (CGFloat) commentHeight : (NSIndexPath *)indexPath;
+- (CGFloat) commentHeight : (UITableView*) tableView withIndexPath : (NSIndexPath *)indexPath;
 
 - (CGSize) frameForText:(NSString*)text sizeWithFont:(UIFont*)font constrainedToSize:(CGSize)size;
 

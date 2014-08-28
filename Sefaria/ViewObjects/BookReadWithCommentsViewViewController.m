@@ -30,6 +30,8 @@
 
 #import "MainFoundation+NavBarButtons.h"
 
+#import "MainFoundation+BookMarkActions.h"
+
 
 //
 ////
@@ -78,6 +80,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *bookmarkToggleButton;
 
 //
+@property (weak, nonatomic) IBOutlet UIButton *bookmarkChapterToggleButton;
+
+//
 //// Cell expand trackers
 //
 
@@ -114,6 +119,16 @@
 //
 //
 
+- (IBAction)bookmarkChapterButtonPress:(UIButton *)sender {
+    UIButton* myButton = (UIButton*) sender;
+    [self bookMarkChapterPress: (UIButton*) myButton withContext : self.managedObjectContext];
+}
+
+
+//
+////
+//
+
 - (IBAction)soundToggleButtonPress:(UIButton *)sender {
     [self soundPressAction : self.soundToggleButton];
 }
@@ -131,9 +146,14 @@
 }
 
 - (BOOL) textFieldShouldReturn : (UITextField *)textField {
+    self.theSearchTerm = [textField.text mutableCopy];
+    [self.englishTextTable reloadData];
+    [self.hebrewTextTable reloadData];
+    [self.commentTable reloadData];
     [textField resignFirstResponder];
     return NO;
 }
+
 
 //
 ////
@@ -320,7 +340,7 @@
         return [self dualLanguagetableViewHeight:tableView cellForRowAtIndexPath:indexPath];
     } else if (tableView.tag == COMMENT_TAG) {
         if (self.selectedIndex == indexPath.row) {
-            CGFloat myheight = [self commentHeight : indexPath];
+            CGFloat myheight = [self commentHeight :tableView withIndexPath : (NSIndexPath *)  indexPath];
             if (myheight >= 150.0) {
                 return myheight;
             } else {
@@ -407,14 +427,18 @@
         [self theMenuActionComplete];
     }
     else if (tableView.tag == ENGLISH_TAG){
-        //UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-        //NSString*myCellText = cell.textLabel.text;
-        //[self foundationRunSpeech:@[myCellText]];
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        NSString*myCellText = cell.textLabel.text;
+        [self foundationRunSpeech:@[myCellText]];
+        [self addBookMarkValueToLineText :tableView withIndexPath:indexPath withContext:self.managedObjectContext];
+
     }
     else if (tableView.tag == HEBREW_TAG){
         //UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         //NSString*myCellText = cell.textLabel.text;
         //[self foundationRunSpeech:@[myCellText]];
+        [self addBookMarkValueToLineText :tableView withIndexPath:indexPath withContext:self.managedObjectContext];
+
     }
     else if (tableView.tag == COMMENT_TAG) {
         [self commentPressAction : indexPath withcommentTable:self.commentTable];
@@ -454,8 +478,13 @@
 }
 
 //
-////
 //
+////////
+#pragma mark - Update the Data
+////////
+//
+//
+
 
 - (void) basicDataReload {
     [self updateTheData];
@@ -464,6 +493,8 @@
 
 - (void) updateTheData {
     self.primaryDataArray = [self myArraySetter];
+    [self bookmarkChapterViewSetter : self.bookmarkChapterToggleButton];
+
 }
 
 //

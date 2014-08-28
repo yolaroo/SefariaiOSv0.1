@@ -56,6 +56,7 @@
 @property (strong,nonatomic) NSMutableArray* searchInfoArray;
 @property (strong,nonatomic) NSMutableArray* searchLineDataArray;
 @property (nonatomic) bool isWideView;
+@property (nonatomic) bool isSingleViewEnglish;
 
 
 @property (nonatomic, strong) NSArray* primaryDataArray;
@@ -64,6 +65,10 @@
 @property (nonatomic, strong) NSArray* menuListArray;
 @property (nonatomic, strong) NSArray* menuListPathArray;
 @property (nonatomic, strong) NSArray* commentArray;
+@property (nonatomic, strong) NSArray* bookmarkArray;
+@property (nonatomic, strong) NSArray* bookmarkChapterArray;
+
+
 @property (nonatomic) NSInteger menuDepthCount;
 
 @property (nonatomic, strong) NSArray* chapterListArray;
@@ -166,6 +171,13 @@
 #pragma mark - Notification
 //
 - (void) basicNotifications : (NSString*) mySelector withName : (NSString*) observerName;
+
+//
+#pragma mark - orientation lock
+//
+- (BOOL) isPortraitOrientation;
+- (void) portraitLock;
+- (void) portraitUnLock;
 
 
 

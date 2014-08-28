@@ -8,6 +8,8 @@
 
 #import "MainFoundation+CommentStyle.h"
 
+#import "MainFoundation+MainViewActions.h"
+
 @implementation MainFoundation (CommentStyle)
 
 #define FONT_NAME @"Georgia"
@@ -15,10 +17,14 @@
 #define IPAD_FONT [UIFont fontWithName: FONT_NAME size: FONT_SIZE]
 #define IPAD_FONT_LARGE [UIFont fontWithName: FONT_NAME size: FONT_SIZE*1.4]
 
-- (UITableViewCell *) setMyCommentCell: (UITableViewCell*) cell cellForRowAtIndexPath:(NSIndexPath *)indexPath withSelectedIndex : (NSInteger) selectedIndex withText : (NSString*) theText withInfo : (NSString*) theInfo
+- (UITableViewCell *) setMyCommentCell: (UITableViewCell*) cell cellForRowAtIndexPath:(NSIndexPath *)indexPath withSelectedIndex : (NSInteger) selectedIndex withText : (NSString*) myString withInfo : (NSString*) theInfo
 {
-    if (theText != nil){
-        cell.textLabel.text = theText;
+    if (myString != nil){
+        
+        
+        cell.textLabel.attributedText = [self.myBestStringClass setTextHighlighted:self.theSearchTerm withSentence:myString];
+
+        //cell.textLabel.text = theText;
         cell.textLabel.textAlignment = UIControlContentHorizontalAlignmentRight;
         cell.textLabel.font = IPAD_FONT;
         if (selectedIndex == indexPath.row) {
@@ -75,44 +81,20 @@
 {
     if ([myComment.englishText length] && [myComment.hebrewText length]) {
         NSString* englishString = myComment.englishText;
-        englishString = [englishString stringByReplacingOccurrencesOfString:@"<i>" withString:@""];
-        englishString = [englishString stringByReplacingOccurrencesOfString:@"</i>" withString:@""];
-        englishString = [englishString stringByReplacingOccurrencesOfString:@"<b>" withString:@""];
-        englishString = [englishString stringByReplacingOccurrencesOfString:@"</b>" withString:@""];
-        englishString = [englishString stringByReplacingOccurrencesOfString:@"<em>" withString:@""];
-        englishString = [englishString stringByReplacingOccurrencesOfString:@"</em>" withString:@""];
+        englishString = [self removeHTMLFromString:englishString];
 
         NSString* hebrewString = myComment.hebrewText;
-        hebrewString = [hebrewString stringByReplacingOccurrencesOfString:@"<i>" withString:@""];
-        hebrewString = [hebrewString stringByReplacingOccurrencesOfString:@"</i>" withString:@""];
-        hebrewString = [hebrewString stringByReplacingOccurrencesOfString:@"<b>" withString:@""];
-        hebrewString = [hebrewString stringByReplacingOccurrencesOfString:@"</b>" withString:@""];
-        hebrewString = [hebrewString stringByReplacingOccurrencesOfString:@"<em>" withString:@""];
-        hebrewString = [hebrewString stringByReplacingOccurrencesOfString:@"</em>" withString:@""];
+        hebrewString = [self removeHTMLFromString:hebrewString];
         
         return [NSString stringWithFormat:@"%@\n%@",hebrewString,englishString];
     }
     else if ([myComment.englishText length] && ![myComment.hebrewText length]) {
         NSString* englishString = myComment.englishText;
-        englishString = [englishString stringByReplacingOccurrencesOfString:@"<i>" withString:@""];
-        englishString = [englishString stringByReplacingOccurrencesOfString:@"</i>" withString:@""];
-        englishString = [englishString stringByReplacingOccurrencesOfString:@"<b>" withString:@""];
-        englishString = [englishString stringByReplacingOccurrencesOfString:@"</b>" withString:@""];
-        englishString = [englishString stringByReplacingOccurrencesOfString:@"<em>" withString:@""];
-        englishString = [englishString stringByReplacingOccurrencesOfString:@"</em>" withString:@""];
-
-        return englishString;
+        return [self removeHTMLFromString:englishString];
     }
     else if (![myComment.englishText length] && [myComment.hebrewText length]) {
         NSString* hebrewString = myComment.hebrewText;
-        hebrewString = [hebrewString stringByReplacingOccurrencesOfString:@"<i>" withString:@""];
-        hebrewString = [hebrewString stringByReplacingOccurrencesOfString:@"</i>" withString:@""];
-        hebrewString = [hebrewString stringByReplacingOccurrencesOfString:@"<b>" withString:@""];
-        hebrewString = [hebrewString stringByReplacingOccurrencesOfString:@"</b>" withString:@""];
-        hebrewString = [hebrewString stringByReplacingOccurrencesOfString:@"<em>" withString:@""];
-        hebrewString = [hebrewString stringByReplacingOccurrencesOfString:@"</em>" withString:@""];
-
-        return hebrewString;
+        return [self removeHTMLFromString:hebrewString];
     }
     else {
         NSLog(@"string error");

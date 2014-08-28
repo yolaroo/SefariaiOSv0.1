@@ -153,7 +153,8 @@
 }
 
 - (IBAction)migrateToSeedPress:(UIButton *)sender {
-    [self migrateToSeed];
+
+
 }
 
 

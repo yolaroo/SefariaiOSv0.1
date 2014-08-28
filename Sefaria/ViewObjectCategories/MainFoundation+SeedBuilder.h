@@ -12,7 +12,6 @@
 
 
 - (void) saveSeedToDesktop;
-- (void) migrateToSeed;
 
 
 @end

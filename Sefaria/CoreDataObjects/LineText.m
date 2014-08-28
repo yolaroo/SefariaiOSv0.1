@@ -2,7 +2,7 @@
 //  LineText.m
 //  Sefaria
 //
-//  Created by MGM on 8/23/14.
+//  Created by MGM on 8/27/14.
 //  Copyright (c) 2014 Test. All rights reserved.
 //
 
@@ -32,14 +32,15 @@
 @dynamic lineNumber;
 @dynamic metaType;
 @dynamic name;
+@dynamic isBookmarkedChapter;
 @dynamic whatBookGroup;
 @dynamic whatBookTitle;
 @dynamic whatComment;
-@dynamic whatTextTitle;
-@dynamic whatTextVersionTitle;
-@dynamic whatStruggle;
 @dynamic whatContext;
 @dynamic whatEvent;
 @dynamic whatPerson;
+@dynamic whatStruggle;
+@dynamic whatTextTitle;
+@dynamic whatTextVersionTitle;
 
 @end

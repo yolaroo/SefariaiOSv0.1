@@ -17,4 +17,9 @@
 - (void) addBookMarkValueToComment : (UITableView*) tableView  withIndexPath : (NSIndexPath *)indexPath withContext : (NSManagedObjectContext*) context
 ;
 
+- (void) bookmarkChapterViewSetter : (UIButton*) myButton;
+- (void) bookMarkChapterPress : (UIButton*) myButton withContext : (NSManagedObjectContext*) context;
+- (void) updateChapterBookmarkView : (bool) isBookmarkedChapter withButton : (UIButton*) myButton;
+
+
 @end

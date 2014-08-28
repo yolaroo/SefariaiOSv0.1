@@ -23,6 +23,7 @@
 - (NSArray*) fetchAllLineText : (NSManagedObjectContext*) context;
 
 - (NSArray*) fetchAllBookMarkedLineText : (NSManagedObjectContext*) context;
+- (NSArray*) fetchAllBookMarkedChapterLineText : (NSManagedObjectContext*) context;
 
 
 @end

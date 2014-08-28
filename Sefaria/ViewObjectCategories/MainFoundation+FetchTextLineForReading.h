@@ -13,5 +13,9 @@
 
 - (NSArray*) fetchTextTitleByTitleAndChapter:(TextTitle*) theTextTitle withChapter : (NSInteger) chapterNumber withContext: (NSManagedObjectContext*) context;
 
+- (NSArray*) fetchChapterTextByName: (NSString*) theTextTitle
+                  withChapterNumber: (NSInteger) chapterNumber
+                        withContext: (NSManagedObjectContext*) context;
+
 
 @end

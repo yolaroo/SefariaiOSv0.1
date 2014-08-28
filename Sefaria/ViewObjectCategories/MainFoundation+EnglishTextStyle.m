@@ -10,6 +10,8 @@
 
 #import "MainFoundation+BookMarkActions.h"
 
+#import "MainFoundation+MainViewActions.h"
+
 @implementation MainFoundation (EnglishTextStyle)
 
 #define MENU_TAG 100
@@ -30,14 +32,7 @@
 {
     if ([self.primaryEnglishTextArray count] > indexPath.row){
         NSString*myString = [self.primaryEnglishTextArray objectAtIndex:indexPath.row] ? [self.primaryEnglishTextArray objectAtIndex:indexPath.row] : @"error";
-        myString = [myString stringByReplacingOccurrencesOfString:@"<i>" withString:@""];
-        myString = [myString stringByReplacingOccurrencesOfString:@"</i>" withString:@""];
-        myString = [myString stringByReplacingOccurrencesOfString:@"<b>" withString:@""];
-        myString = [myString stringByReplacingOccurrencesOfString:@"</b>" withString:@""];
-        myString = [myString stringByReplacingOccurrencesOfString:@"<em>" withString:@""];
-        myString = [myString stringByReplacingOccurrencesOfString:@"</em>" withString:@""];
-
-        return myString;
+        return [self removeHTMLFromString:myString];
     }
     else {
         NSLog(@"error conversion number");
@@ -54,13 +49,7 @@
     if ([self.primaryDataArray count] > indexPath.row){
         LineText*myLine = [self.primaryDataArray objectAtIndex:indexPath.row];
         NSString*myString = myLine.englishText ? myLine.englishText : @"error";
-        myString = [myString stringByReplacingOccurrencesOfString:@"<i>" withString:@""];
-        myString = [myString stringByReplacingOccurrencesOfString:@"</i>" withString:@""];
-        myString = [myString stringByReplacingOccurrencesOfString:@"<b>" withString:@""];
-        myString = [myString stringByReplacingOccurrencesOfString:@"</b>" withString:@""];
-        myString = [myString stringByReplacingOccurrencesOfString:@"<em>" withString:@""];
-        myString = [myString stringByReplacingOccurrencesOfString:@"</em>" withString:@""];
-
+        myString = [self removeHTMLFromString:myString];
         return [self appendBookmarkIcon:myLine withString:myString];
     }
     else {
@@ -68,8 +57,6 @@
         return @"error";
     }
 }
-
-
 
 //
 ////
@@ -89,7 +76,12 @@
         [cell.textLabel sizeToFit];
         [cell.textLabel setLineBreakMode:NSLineBreakByWordWrapping];
         [cell setBackgroundColor:[UIColor clearColor]];
-        cell.textLabel.attributedText = [self.myBestStringClass setTextHighlighted:self.theSearchTerm withSentence:myString];
+        if ([self.theSearchTerm length]) {
+            cell.textLabel.attributedText = [self.myBestStringClass setTextHighlighted:self.theSearchTerm withSentence:myString];
+        }
+        else {
+            cell.textLabel.text = myString;
+        }
 
         return cell;
     }

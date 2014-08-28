@@ -12,7 +12,7 @@
 
 
 
-@synthesize managedObjectContext=_managedObjectContext,persistentStoreCoordinator=_persistentStoreCoordinator,seedManagedObjectContext=_seedManagedObjectContext,seedPersistentStoreCoordinator=_seedPersistentStoreCoordinator,managedObjectModel=_managedObjectModel,seedManagedObjectModel=_seedManagedObjectModel;
+@synthesize managedObjectContext=_managedObjectContext,persistentStoreCoordinator=_persistentStoreCoordinator,managedObjectModel=_managedObjectModel;
 
 
 
@@ -20,8 +20,9 @@
 #define LOG if(NILLOG == 1) //one is pass - two is normal
 
 #define NILSEED 2
-#define LOGG if(NILSEED == 1) //one is pass - two is normal
-
+#define SEED_BUILD if(NILSEED == 1) //one is pass - two is normal
+#define SEED_NAME @"x04"
+#define SEED_NAME_FULL @"x04.CDBStore"
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -49,6 +50,28 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
+}
+
+//
+//
+//////////
+#pragma mark - View Orientation
+//////////
+//
+//
+
+- (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window{
+    NSUInteger orientations = UIInterfaceOrientationMaskPortrait;
+    if (self.screenIsPortraitOnly) {
+        return UIInterfaceOrientationMaskPortrait;
+    }
+    else {
+        if(self.window.rootViewController){
+            UIViewController *presentedViewController = [[(UINavigationController *)self.window.rootViewController viewControllers] lastObject];
+            orientations = [presentedViewController supportedInterfaceOrientations];
+        }
+        return orientations;
+    }
 }
 
 //
@@ -90,29 +113,11 @@
 //
 //
 //////////
-#pragma mark - Migrate
+#pragma mark - Reset
 //////////
 //
 //
 
--(void) migrateFromSeed
-{
-    NSPersistentStoreCoordinator *psc = [self.seedManagedObjectContext persistentStoreCoordinator];
-    NSURL *oldURL = [psc URLForPersistentStore:[[psc persistentStores]objectAtIndex:0]];
-
-    NSError *error = nil;
-    NSPersistentStore *oldStore = [psc persistentStoreForURL:oldURL];
-    NSLog(@"-- SL %@ --",self.storeURL);
-    
-    if (![psc migratePersistentStore:oldStore
-                               toURL:self.storeURL
-                             options:nil
-                            withType:NSSQLiteStoreType
-                               error:&error]){
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
-}
 
 -(BOOL)contextIsReset
 {
@@ -131,101 +136,12 @@
     return true;
 }
 
-
-//
-//
-//////////
-#pragma mark - Seed Data Stack
-//////////
-//
-//
-
-
-
-
-- (NSPersistentStoreCoordinator *)seedPersistentStoreCoordinator
-{
-    if (_seedPersistentStoreCoordinator != nil) {
-        return _seedPersistentStoreCoordinator;
-    }
-    NSLog(@"seed store start");
-    NSURL *storeURL = [[self seedApplicationDocumentsDirectory] URLByAppendingPathComponent:@"x01.CDBStore"];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        
-        if (![fileManager fileExistsAtPath:[storeURL path]]) {
-            NSURL *defaultStoreURL = [[NSBundle mainBundle] URLForResource:@"x01" withExtension:@"CDBStore"];
-            if (defaultStoreURL) {
-                [fileManager copyItemAtURL:defaultStoreURL toURL:storeURL error:NULL];
-            }
-        }
-        
-        NSDictionary *options = @{NSMigratePersistentStoresAutomaticallyOption: @YES,
-                                        NSInferMappingModelAutomaticallyOption: @YES};
-        
-        _seedPersistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self seedManagedObjectModel]];
-        
-        NSError *error;
-        if (![_seedPersistentStoreCoordinator addPersistentStoreWithType : NSSQLiteStoreType
-                                                           configuration : @"UserConf"
-                                                                     URL : storeURL
-                                                                 options : options
-                                                                   error : &error]) {
-            
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            abort();
-        }
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            LOG NSLog(@"Persistent Store Added");
-        });
-    });
-    return _seedPersistentStoreCoordinator;
-}
-
-- (NSURL *)seedApplicationDocumentsDirectory
-{
-    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-}
-
 //
 //
 //////////
 #pragma mark - Core Data stack
 //////////
 //
-//
-
-- (NSManagedObjectContext *) seedManagedObjectContext
-{
-    //LOGG return nil;
-    //if ([self theFirstLoadCheckForSeed])return nil;
-    if (_seedManagedObjectContext != nil) {
-        return _seedManagedObjectContext;
-    }
-    NSLog(@"seed loaded");
-    NSPersistentStoreCoordinator *coordinator = [self seedPersistentStoreCoordinator];
-    if (coordinator != nil) {
-        
-        /*
-        _seedManagedObjectContext = [[NSManagedObjectContext alloc]
-                                     initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-        [_seedManagedObjectContext setPersistentStoreCoordinator: coordinator];
-        */
-        NSManagedObjectContext* moc = [[NSManagedObjectContext alloc]
-                                       initWithConcurrencyType:
-                                       NSMainQueueConcurrencyType];
-        [moc performBlockAndWait:^{
-            [moc setPersistentStoreCoordinator: coordinator];
-        }];
-        _seedManagedObjectContext = moc;
-
-        
-    }
-    return _seedManagedObjectContext;
-}
-
 //
 
 - (NSManagedObjectContext *) managedObjectContext {
@@ -267,26 +183,28 @@
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
-        /*
-        //
-        NSString* stringName = @"SafariaCoreData";
-        NSString* myStringName = [NSString stringWithFormat:@"%@.sqlite",stringName];
-        NSString *storePath = [[self applicationDocumentsDirectory] stringByAppendingPathComponent:myStringName];
-        NSURL *storeUrl = [NSURL fileURLWithPath:storePath];
-        //
-        */
         
-        
+        NSURL *storeUrl;
+        SEED_BUILD {
         //
-        NSURL *storeUrl = [[self seedApplicationDocumentsDirectory] URLByAppendingPathComponent:@"x03.CDBStore"];
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        if (![fileManager fileExistsAtPath:[storeUrl path]]) {
-            NSURL *defaultStoreURL = [[NSBundle mainBundle] URLForResource:@"x03" withExtension:@"CDBStore"];
-            if (defaultStoreURL) {
-                [fileManager copyItemAtURL:defaultStoreURL toURL:storeUrl error:NULL];
-            }
+            NSString* stringName = @"SafariaCoreData";
+            NSString* myStringName = [NSString stringWithFormat:@"%@.sqlite",stringName];
+            NSString *storePath = [[self applicationDocumentsDirectory] stringByAppendingPathComponent:myStringName];
+            storeUrl = [NSURL fileURLWithPath:storePath];
+        //
         }
-        
+        else {
+        //
+            storeUrl = [[self seedApplicationDocumentsDirectory] URLByAppendingPathComponent:SEED_NAME_FULL];
+            NSFileManager *fileManager = [NSFileManager defaultManager];
+            if (![fileManager fileExistsAtPath:[storeUrl path]]) {
+                NSURL *defaultStoreURL = [[NSBundle mainBundle] URLForResource:SEED_NAME withExtension:@"CDBStore"];
+                if (defaultStoreURL) {
+                    [fileManager copyItemAtURL:defaultStoreURL toURL:storeUrl error:NULL];
+                }
+            }
+        //
+        }
         
         
         NSMutableDictionary *pragmaOptions = [NSMutableDictionary dictionary];
@@ -342,15 +260,6 @@
     return _managedObjectModel;
 }
 
-- (NSManagedObjectModel *) seedManagedObjectModel {
-    if (_seedManagedObjectModel != nil) {
-        return _seedManagedObjectModel;
-    }
-    _seedManagedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
-    return _seedManagedObjectModel;
-}
-
-
 //
 //
 //////////
@@ -361,6 +270,12 @@
 
 - (NSString *) applicationDocumentsDirectory {
     return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES) lastObject];
+}
+
+
+- (NSURL *)seedApplicationDocumentsDirectory
+{
+    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
 

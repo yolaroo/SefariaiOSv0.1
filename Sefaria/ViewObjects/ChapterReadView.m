@@ -70,6 +70,11 @@
 @property (weak, nonatomic) IBOutlet UIButton *bookmarkToggleButton;
 
 //
+@property (weak, nonatomic) IBOutlet UIButton *bookmarkChapterToggleButton;
+
+
+
+//
 ////
 //
 
@@ -104,6 +109,15 @@
 //
 //
 
+- (IBAction)bookmarkChapterButtonPress:(UIButton *)sender {
+    UIButton* myButton = (UIButton*) sender;
+    [self bookMarkChapterPress: (UIButton*) myButton withContext : self.managedObjectContext];
+}
+
+//
+////
+//
+
 - (IBAction)soundToggleButtonPress:(UIButton *)sender {
     [self soundPressAction : self.soundToggleButton];
 }
@@ -127,36 +141,6 @@
     [textField resignFirstResponder];
     return NO;
 }
-
-//
-////
-//
-
-
-
-- (void) createChapterBookmarkAction {
-    
-    
-    
-    //get text
-    //get chapter
-    //get line (from row)
-    
-    //check isBookmarked state
-    //change state
-    //save
-    //update view
-    
-    
-}
-
-
-
-
-
-
-
-
 
 //
 ////
@@ -423,6 +407,7 @@
 
 - (void) updateTheData {
     self.primaryDataArray = [self myArraySetter];
+    [self bookmarkChapterViewSetter : self.bookmarkChapterToggleButton];
 }
 
 //

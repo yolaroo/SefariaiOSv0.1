@@ -18,14 +18,9 @@
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 
-@property (readonly, strong, nonatomic) NSManagedObjectContext *seedManagedObjectContext;
-@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *seedPersistentStoreCoordinator;
-@property (readonly, strong, nonatomic) NSManagedObjectModel *seedManagedObjectModel;
-
 @property (strong, nonatomic) NSURL* storeURL;
 @property (strong, nonatomic) NSString* stringName;
 
-- (void) migrateFromSeed;
-
+@property (nonatomic) BOOL screenIsPortraitOnly;
 
 @end

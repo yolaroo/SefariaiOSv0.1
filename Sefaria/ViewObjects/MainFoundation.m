@@ -14,7 +14,7 @@
 
 @implementation MainFoundation
 
-@synthesize thePrimaryAttribute=_thePrimaryAttribute,thePrimarybook=_thePrimarybook,theProphetText=_theProphetText,theWritingsText=_theWritingsText,theTorahText=_theTorahText,menuListArray=_menuListArray,primaryDataArray=_primaryDataArray,primaryEnglishTextArray=_primaryEnglishTextArray,primaryHebrewTextArray=_primaryHebrewTextArray,viewTitleEnglish=_viewTitleEnglish,viewTitleHebrew=_viewTitleHebrew,theChapterNumber=_theChapterNumber,myTanachTextClass=_myTanachTextClass,theChapterMax=_theChapterMax,mySpeechClass=_mySpeechClass,managedObjectContext=_managedObjectContext,menuChoiceArray=_menuChoiceArray,menuListPathArray=_menuListPathArray,menuPathChoiceArray=_menuPathChoiceArray,myGestureClass=_myGestureClass,theCurrentChapterNumber=_theCurrentChapterNumber,menuDepthCount=_menuDepthCount,myActivityIndicator=_myActivityIndicator,seedManagedObjectContext=_seedManagedObjectContext,myBestStringClass=_myBestStringClass,menuTopPathChoiceArray=_menuTopPathChoiceArray,theSearchTerm=_theSearchTerm,soundSet=_soundSet,navHideSet=_navHideSet,bookmarkSet=_bookmarkSet,fontSizeLargeSet=_fontSizeLargeSet,selectedIndex=_selectedIndex,currentIndexPath=_currentIndexPath,searchTextArray=_searchTextArray,searchInfoArray=_searchInfoArray,searchLineDataArray=_searchLineDataArray,isWideView=_isWideView,myRestTextDataFetch=_myRestTextDataFetch,myRestMenuDataFetch=_myRestMenuDataFetch,isSelectionText=_isSelectionText,isSelectionComments=_isSelectionComments;
+@synthesize thePrimaryAttribute=_thePrimaryAttribute,thePrimarybook=_thePrimarybook,theProphetText=_theProphetText,theWritingsText=_theWritingsText,theTorahText=_theTorahText,menuListArray=_menuListArray,primaryDataArray=_primaryDataArray,primaryEnglishTextArray=_primaryEnglishTextArray,primaryHebrewTextArray=_primaryHebrewTextArray,viewTitleEnglish=_viewTitleEnglish,viewTitleHebrew=_viewTitleHebrew,theChapterNumber=_theChapterNumber,myTanachTextClass=_myTanachTextClass,theChapterMax=_theChapterMax,mySpeechClass=_mySpeechClass,managedObjectContext=_managedObjectContext,menuChoiceArray=_menuChoiceArray,menuListPathArray=_menuListPathArray,menuPathChoiceArray=_menuPathChoiceArray,myGestureClass=_myGestureClass,theCurrentChapterNumber=_theCurrentChapterNumber,menuDepthCount=_menuDepthCount,myActivityIndicator=_myActivityIndicator,seedManagedObjectContext=_seedManagedObjectContext,myBestStringClass=_myBestStringClass,menuTopPathChoiceArray=_menuTopPathChoiceArray,theSearchTerm=_theSearchTerm,soundSet=_soundSet,navHideSet=_navHideSet,bookmarkSet=_bookmarkSet,fontSizeLargeSet=_fontSizeLargeSet,selectedIndex=_selectedIndex,currentIndexPath=_currentIndexPath,searchTextArray=_searchTextArray,searchInfoArray=_searchInfoArray,searchLineDataArray=_searchLineDataArray,isWideView=_isWideView,myRestTextDataFetch=_myRestTextDataFetch,myRestMenuDataFetch=_myRestMenuDataFetch,isSelectionText=_isSelectionText,isSelectionComments=_isSelectionComments,bookmarkArray=_bookmarkArray,isSingleViewEnglish=_isSingleViewEnglish,bookmarkChapterArray=_bookmarkChapterArray;
 
 @synthesize myEnglishDataModel=_myEnglishDataModel,myHebrewDataModel=_myHebrewDataModel,myEnglishDataModelArray=_myEnglishDataModelArray,myHebrewDataModelArray=_myHebrewDataModelArray;
 
@@ -126,14 +126,8 @@
 {
     @try {
         SefariaAppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
-        
-        //self.seedManagedObjectContext = nil;
-        //self.seedManagedObjectContext = appDelegate.seedManagedObjectContext;
-        
         self.managedObjectContext = nil;
         self.managedObjectContext = appDelegate.managedObjectContext;
-        //self.managedObjectContext = appDelegate.seedManagedObjectContext;
-
         LOG NSLog(@"Foundation String Name: %@",appDelegate.stringName);
     }
     @catch (NSException *exception) {
@@ -142,6 +136,40 @@
     }
     @finally {
     }
+}
+
+//
+//
+////////
+#pragma mark - Portrait Mode
+////////
+//
+//
+
+- (BOOL) isPortraitOrientation
+{
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if(orientation == UIInterfaceOrientationPortrait ||
+       orientation == UIInterfaceOrientationPortraitUpsideDown) {
+        return true;
+    }
+    if(orientation == UIInterfaceOrientationLandscapeRight ||
+       orientation == UIInterfaceOrientationLandscapeLeft) {
+        return false;
+    }
+    return false;
+}
+
+-(void) portraitLock
+{
+    SefariaAppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+    appDelegate.screenIsPortraitOnly = true;
+}
+
+-(void) portraitUnLock
+{
+    SefariaAppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+    appDelegate.screenIsPortraitOnly = false;
 }
 
 //

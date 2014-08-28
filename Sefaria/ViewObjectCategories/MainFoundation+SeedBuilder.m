@@ -13,18 +13,6 @@
 #define DK 2
 #define LOG if(DK == 1)
 
-- (void) migrateToSeed
-{
-    NSLog(@"migrate action");
-    SefariaAppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
-    @try {
-        [appDelegate migrateFromSeed];
-    }
-    @catch (NSException *exception) {
-        NSLog(@"migrate exception %@",exception);
-    }
-}
-
 - (void) saveSeedToDesktop
 {
     NSString* myStringName = [NSString stringWithFormat:@"%@.sqlite",@"SafariaCoreData"];

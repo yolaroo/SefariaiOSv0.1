@@ -13,6 +13,51 @@
 //
 //
 ////
+#pragma mark - Chapter bookmark
+////
+//
+//
+
+- (void) bookmarkChapterViewSetter : (UIButton*) myButton
+{
+    if ([self.primaryDataArray count] > 0) {
+        LineText* myLineText = [self.primaryDataArray firstObject];
+        bool isBookmarkedChapter = [myLineText.isBookmarkedChapter boolValue];
+        [self updateChapterBookmarkView : (bool) isBookmarkedChapter withButton : (UIButton*) myButton];
+    }
+    else {
+        NSLog(@"Error Bookmark Chapter Checker");
+    }
+}
+
+- (void) bookMarkChapterPress : (UIButton*) myButton withContext : (NSManagedObjectContext*) context
+{
+    if ([self.primaryDataArray count] > 0) {
+        LineText* myLineText = [self.primaryDataArray firstObject];
+        bool isBookmarkedChapter = [myLineText.isBookmarkedChapter boolValue];
+        isBookmarkedChapter = !isBookmarkedChapter;
+        myLineText.isBookmarkedChapter = [NSNumber numberWithBool:isBookmarkedChapter];
+        [self updateChapterBookmarkView : (bool) isBookmarkedChapter withButton : (UIButton*) myButton];
+        [self saveData:context];
+    }
+    else {
+        NSLog(@"Error Bookmark Data");
+    }
+
+}
+
+- (void) updateChapterBookmarkView : (bool) isBookmarkedChapter withButton : (UIButton*) myButton
+{
+    if (isBookmarkedChapter) {
+        [myButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    } else {
+        [myButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    }
+}
+
+//
+//
+////
 #pragma mark - bookmark view
 ////
 //

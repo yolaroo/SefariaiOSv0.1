@@ -2,7 +2,7 @@
 //  Location.m
 //  Sefaria
 //
-//  Created by MGM on 8/23/14.
+//  Created by MGM on 8/27/14.
 //  Copyright (c) 2014 Test. All rights reserved.
 //
 
@@ -25,11 +25,11 @@
 @dynamic uuid;
 @dynamic whatAuxName;
 @dynamic whatCoordinate;
+@dynamic whatEvent;
 @dynamic whatModernName;
+@dynamic whatPerson;
 @dynamic whatPicture;
 @dynamic whatSatellitePicture;
-@dynamic whatPerson;
-@dynamic whatEvent;
 @dynamic whatStruggle;
 
 @end

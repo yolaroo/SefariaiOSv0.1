@@ -27,7 +27,7 @@
     }
     
     NSArray* returnArray = [self stringArrayToSet : myArray];
-    NSLog(@"-- Return Count %d --",[returnArray count]);
+    NSLog(@"-- Return Count %lu --",(unsigned long)[returnArray count]);
     
     NSArray* sortedArray = [returnArray sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
     NSLog(@" %@ ",sortedArray);

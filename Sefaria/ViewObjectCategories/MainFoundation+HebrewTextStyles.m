@@ -10,6 +10,7 @@
 
 #import "MainFoundation+BookMarkActions.h"
 
+#import "MainFoundation+MainViewActions.h"
 
 @implementation MainFoundation (HebrewTextStyles)
 
@@ -28,14 +29,7 @@
 {
     if ([self.primaryHebrewTextArray count] > indexPath.row){
         NSString*myString = [self.primaryHebrewTextArray objectAtIndex:indexPath.row] ? [self.primaryHebrewTextArray objectAtIndex:indexPath.row] : @"error";
-        myString = [myString stringByReplacingOccurrencesOfString:@"<i>" withString:@""];
-        myString = [myString stringByReplacingOccurrencesOfString:@"</i>" withString:@""];
-        myString = [myString stringByReplacingOccurrencesOfString:@"<b>" withString:@""];
-        myString = [myString stringByReplacingOccurrencesOfString:@"</b>" withString:@""];
-        myString = [myString stringByReplacingOccurrencesOfString:@"<em>" withString:@""];
-        myString = [myString stringByReplacingOccurrencesOfString:@"</em>" withString:@""];
-        
-        return myString;
+        return [self removeHTMLFromString:myString];
     }
     else {
         NSLog(@"error conversion number");
@@ -48,14 +42,9 @@
     if ([self.primaryDataArray count] > indexPath.row){
         LineText*myLine = [self.primaryDataArray objectAtIndex:indexPath.row];
         NSString*myString = myLine.hebrewText ? myLine.hebrewText : @"error";
-        myString = [myString stringByReplacingOccurrencesOfString:@"<i>" withString:@""];
-        myString = [myString stringByReplacingOccurrencesOfString:@"</i>" withString:@""];
-        myString = [myString stringByReplacingOccurrencesOfString:@"<b>" withString:@""];
-        myString = [myString stringByReplacingOccurrencesOfString:@"</b>" withString:@""];
-        myString = [myString stringByReplacingOccurrencesOfString:@"<em>" withString:@""];
-        myString = [myString stringByReplacingOccurrencesOfString:@"</em>" withString:@""];
-
-        return [self appendBookmarkIcon:myLine withString:myString];
+        myString = [self removeHTMLFromString:myString];
+        myString = [self appendBookmarkIcon:myLine withString:myString];
+        return myString;
     }
     else {
         NSLog(@"error conversion number");
@@ -70,7 +59,12 @@
 - (UITableViewCell *) setMyHebrewTextCell: (UITableViewCell*) cell withString :(NSString *) myString
 {
     if (myString != nil){
-        cell.textLabel.attributedText = [self.myBestStringClass setTextHighlighted:self.theSearchTerm withSentence:myString];
+        if ([self.theSearchTerm length]) {
+            cell.textLabel.attributedText = [self.myBestStringClass setTextHighlighted:self.theSearchTerm withSentence:myString];
+        }
+        else {
+            cell.textLabel.text = myString;
+        }
         cell.textLabel.textAlignment = UIControlContentHorizontalAlignmentRight;
         if (self.fontSizeLargeSet) {
             cell.textLabel.font = IPAD_FONT_XTLARGE;
@@ -98,7 +92,12 @@
 - (CellWithLeftSideNumberTableViewCell *) setMyCustomHebrewTextCell: (CellWithLeftSideNumberTableViewCell*) cell withString :(NSString *) myString
 {
     if (myString != nil){
-        cell.textLabel.attributedText = [self.myBestStringClass setTextHighlighted:self.theSearchTerm withSentence:myString];
+        if ([self.theSearchTerm length]) {
+            cell.textLabel.attributedText = [self.myBestStringClass setTextHighlighted:self.theSearchTerm withSentence:myString];
+        }
+        else {
+            cell.textLabel.text = myString;
+        }
         cell.textLabel.textAlignment = UIControlContentHorizontalAlignmentRight;
         if (self.fontSizeLargeSet) {
             cell.textLabel.font = IPAD_FONT_XTLARGE;

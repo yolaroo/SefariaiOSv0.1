@@ -10,6 +10,25 @@
 
 @implementation MainFoundation (MainViewActions)
 
+
+
+- (NSString*) removeHTMLFromString : (NSString*) myString
+{
+    myString = [myString stringByReplacingOccurrencesOfString:@"<i>" withString:@""];
+    myString = [myString stringByReplacingOccurrencesOfString:@"</i>" withString:@""];
+    myString = [myString stringByReplacingOccurrencesOfString:@"<b>" withString:@""];
+    myString = [myString stringByReplacingOccurrencesOfString:@"</b>" withString:@""];
+    myString = [myString stringByReplacingOccurrencesOfString:@"<em>" withString:@""];
+    myString = [myString stringByReplacingOccurrencesOfString:@"</em>" withString:@""];
+    myString = [myString stringByReplacingOccurrencesOfString:@"<small>" withString:@""];
+    myString = [myString stringByReplacingOccurrencesOfString:@"</small>" withString:@""];
+
+    myString = [myString stringByReplacingOccurrencesOfString:@"  " withString:@" "];
+    myString = [myString stringByReplacingOccurrencesOfString:@"   " withString:@" "];
+    
+    return myString;
+}
+
 //
 //
 ////

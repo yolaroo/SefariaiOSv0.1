@@ -153,39 +153,6 @@
 }
 
 
-//
-//
-////
-#pragma mark - Test Class for Text
-////
-//
-//
-
-
-- (void) testClassForSingleTextExample
-{
-    [self simpleMenuArrayBuilderForPath:@"TextData" allowedDepth:1 findFilewithSuffix: @"json"];
-    
-    NSLog(@" -- ");
-    
-    [self simpleMenuArrayBuilderForPath:@"TextData/Talmud" allowedDepth:1 findFilewithSuffix: @"json"];
-    
-    NSLog(@" -- ");
-    
-    [self simpleMenuArrayBuilderForPath:@"TextData/Talmud/Yerushalmi" allowedDepth:1 findFilewithSuffix: @"json"];
-    
-    NSLog(@" -- ");
-    
-    [self simpleMenuArrayBuilderForPath:@"TextData/Talmud/Yerushalmi/Seder Moed" allowedDepth:1 findFilewithSuffix: @"json"];
-    
-    NSLog(@" -- ");
-    
-    [self simpleMenuArrayBuilderForPath:@"TextData/Talmud/Yerushalmi/Seder Moed/Jerusalem Talmud Beitzah" allowedDepth:1 findFilewithSuffix: @"json"];
-    
-    NSLog(@" -- ");
-    
-    [self simpleMenuArrayBuilderForPath:@"TextData/Talmud/Yerushalmi/Seder Moed/Jerusalem Talmud Beitzah/Hebrew" allowedDepth:1 findFilewithSuffix: @"json"];
-}
 
 //
 ////
@@ -257,6 +224,45 @@
         NSLog(@"--Count %d--", XYZ);
     }
 }
+
+
+
+
+
+//
+//
+////
+#pragma mark - Test Class for Text
+////
+//
+//
+
+
+- (void) testClassForSingleTextExample
+{
+    [self simpleMenuArrayBuilderForPath:@"TextData" allowedDepth:1 findFilewithSuffix: @"json"];
+    
+    NSLog(@" -- ");
+    
+    [self simpleMenuArrayBuilderForPath:@"TextData/Talmud" allowedDepth:1 findFilewithSuffix: @"json"];
+    
+    NSLog(@" -- ");
+    
+    [self simpleMenuArrayBuilderForPath:@"TextData/Talmud/Yerushalmi" allowedDepth:1 findFilewithSuffix: @"json"];
+    
+    NSLog(@" -- ");
+    
+    [self simpleMenuArrayBuilderForPath:@"TextData/Talmud/Yerushalmi/Seder Moed" allowedDepth:1 findFilewithSuffix: @"json"];
+    
+    NSLog(@" -- ");
+    
+    [self simpleMenuArrayBuilderForPath:@"TextData/Talmud/Yerushalmi/Seder Moed/Jerusalem Talmud Beitzah" allowedDepth:1 findFilewithSuffix: @"json"];
+    
+    NSLog(@" -- ");
+    
+    [self simpleMenuArrayBuilderForPath:@"TextData/Talmud/Yerushalmi/Seder Moed/Jerusalem Talmud Beitzah/Hebrew" allowedDepth:1 findFilewithSuffix: @"json"];
+}
+
 
 
 @end

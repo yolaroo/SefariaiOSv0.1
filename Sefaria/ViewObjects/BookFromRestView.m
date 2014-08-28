@@ -190,7 +190,7 @@
 - (void) backAction {
     self.isTextLevel = false;
     self.isBookLevel = true;
-    LOG NSLog(@"-- Back Action - %d--",self.menuDepthCount);
+    LOG NSLog(@"-- Back Action - %ld--",(long)self.menuDepthCount);
     if(self.menuDepthCount == 0) { // reset
         LOG NSLog(@"menu reset %ld --",(long)self.menuDepthCount);
         [self theZeroDepthMenuLoad];
@@ -394,7 +394,7 @@
             NSLog(@"0.01 Correct menu path and class");
             NSArray* myArray =  [self.menuPathChoiceArray lastObject];
             if ([myArray count] > indexPathRow) {
-                LOG NSLog(@" 0.03- %d %d %@ %@--",[myArray count],indexPathRow,self.myCurrentTextTitle,[myArray objectAtIndex:indexPathRow] );
+                LOG NSLog(@" 0.03- %lu %ld %@ %@--",(unsigned long)[myArray count],(long)indexPathRow,self.myCurrentTextTitle,[myArray objectAtIndex:indexPathRow] );
 
                 NSDictionary* myNewArray = [myArray objectAtIndex:indexPathRow];
 
@@ -404,10 +404,10 @@
                     self.chapterListArray = [self chapterNumberArray: self.theChapterMax];
                     [self setMyChapterView];
                 } else {
-                    NSLog(@"Error - no chapter number 0.0 - %d %d %@ --",[myArray count],indexPathRow,self.myCurrentTextTitle );
+                    NSLog(@"Error - no chapter number 0.0 - %lu %ld %@ --",(unsigned long)[myArray count],(long)indexPathRow,self.myCurrentTextTitle );
                 }
             } else {
-                NSLog(@"Error - no dictionary 0.0 - %d %d %@  --",[myArray count],indexPathRow,self.myCurrentTextTitle );
+                NSLog(@"Error - no dictionary 0.0 - %lu %ld %@  --",(unsigned long)[myArray count],(long)indexPathRow,self.myCurrentTextTitle );
             }
         }
         else {
@@ -418,7 +418,7 @@
                     NSLog(@"-- TT %@ --",myNewArray);
                     if ([[myNewArray objectForKey:@"length"]integerValue]) {
                         NSInteger myChapterMax = [[myNewArray objectForKey:@"length"]integerValue];
-                        NSLog(@"-- Bottom CM %d --",myChapterMax);
+                        NSLog(@"-- Bottom CM %ld --",(long)myChapterMax);
                         self.theChapterMax = myChapterMax;
 
                         self.chapterListArray = [self chapterNumberArray: myChapterMax];
@@ -498,7 +498,7 @@
 
 - (void) setMyChapterView {
     if (self.isTextLevel){//chapter number writer
-        NSLog(@"-- TCM %d --",self.theChapterMax);
+        NSLog(@"-- TCM %ld --",(long)self.theChapterMax);
         self.chapterListArray = [self chapterNumberArray: self.theChapterMax];
         
         self.chapterTable.alpha = 0.3;
@@ -563,7 +563,7 @@
         }
         
         if (myData.theDataChapterMax > 0) {
-            NSLog(@"-- TTaCM %@ %d --",myData.theTitle,myData.theDataChapterMax);
+            NSLog(@"-- TTaCM %@ %ld --",myData.theTitle,(long)myData.theDataChapterMax);
             self.theChapterMax = myData.theDataChapterMax;
         } else {
             NSLog(@"Error - chapter number max");

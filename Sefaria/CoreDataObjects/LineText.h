@@ -2,7 +2,7 @@
 //  LineText.h
 //  Sefaria
 //
-//  Created by MGM on 8/23/14.
+//  Created by MGM on 8/27/14.
 //  Copyright (c) 2014 Test. All rights reserved.
 //
 
@@ -25,15 +25,16 @@
 @property (nonatomic, retain) NSNumber * lineNumber;
 @property (nonatomic, retain) NSString * metaType;
 @property (nonatomic, retain) NSString * name;
+@property (nonatomic, retain) NSNumber * isBookmarkedChapter;
 @property (nonatomic, retain) NSSet *whatBookGroup;
 @property (nonatomic, retain) NSSet *whatBookTitle;
 @property (nonatomic, retain) NSSet *whatComment;
-@property (nonatomic, retain) TextTitle *whatTextTitle;
-@property (nonatomic, retain) TextVersionTitle *whatTextVersionTitle;
-@property (nonatomic, retain) NSSet *whatStruggle;
 @property (nonatomic, retain) NSSet *whatContext;
 @property (nonatomic, retain) NSSet *whatEvent;
 @property (nonatomic, retain) NSSet *whatPerson;
+@property (nonatomic, retain) NSSet *whatStruggle;
+@property (nonatomic, retain) TextTitle *whatTextTitle;
+@property (nonatomic, retain) TextVersionTitle *whatTextVersionTitle;
 @end
 
 @interface LineText (CoreDataGeneratedAccessors)
@@ -53,11 +54,6 @@
 - (void)addWhatComment:(NSSet *)values;
 - (void)removeWhatComment:(NSSet *)values;
 
-- (void)addWhatStruggleObject:(Struggle *)value;
-- (void)removeWhatStruggleObject:(Struggle *)value;
-- (void)addWhatStruggle:(NSSet *)values;
-- (void)removeWhatStruggle:(NSSet *)values;
-
 - (void)addWhatContextObject:(ContextGroup *)value;
 - (void)removeWhatContextObject:(ContextGroup *)value;
 - (void)addWhatContext:(NSSet *)values;
@@ -72,5 +68,10 @@
 - (void)removeWhatPersonObject:(Person *)value;
 - (void)addWhatPerson:(NSSet *)values;
 - (void)removeWhatPerson:(NSSet *)values;
+
+- (void)addWhatStruggleObject:(Struggle *)value;
+- (void)removeWhatStruggleObject:(Struggle *)value;
+- (void)addWhatStruggle:(NSSet *)values;
+- (void)removeWhatStruggle:(NSSet *)values;
 
 @end

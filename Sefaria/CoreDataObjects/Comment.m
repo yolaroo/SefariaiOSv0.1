@@ -2,7 +2,7 @@
 //  Comment.m
 //  Sefaria
 //
-//  Created by MGM on 8/23/14.
+//  Created by MGM on 8/27/14.
 //  Copyright (c) 2014 Test. All rights reserved.
 //
 
@@ -19,15 +19,15 @@
 @dynamic displayOrder;
 @dynamic englishText;
 @dynamic hebrewText;
+@dynamic isBookmarked;
 @dynamic isEnglish;
 @dynamic isHebrew;
+@dynamic isLiked;
+@dynamic isUnliked;
 @dynamic lineNumber;
 @dynamic metaType;
 @dynamic name;
 @dynamic uuid;
-@dynamic isBookmarked;
-@dynamic isUnliked;
-@dynamic isLiked;
 @dynamic whatAuthor;
 @dynamic whatCollectionTitle;
 @dynamic whatLineText;

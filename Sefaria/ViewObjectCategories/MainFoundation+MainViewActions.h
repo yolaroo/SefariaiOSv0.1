@@ -26,7 +26,7 @@
 
 - (void) animateBouncingObjects : (NSArray*) viewGroup;
 
-
+- (NSString*) removeHTMLFromString : (NSString*) myString;
 
 
 @end

@@ -276,8 +276,12 @@
         [cell.textLabel sizeToFit];
         [cell.textLabel setLineBreakMode:NSLineBreakByWordWrapping];
         [cell setBackgroundColor:[UIColor clearColor]];
-        cell.textLabel.attributedText = [self.myBestStringClass setTextHighlighted:self.theSearchTerm withSentence:myString];
-        
+        if ([self.theSearchTerm length]) {
+            cell.textLabel.attributedText = [self.myBestStringClass setTextHighlighted:self.theSearchTerm withSentence:myString];
+        }
+        else {
+            cell.textLabel.text = myString;
+        }
         if ([myInfo length]) {
             cell.detailTextLabel.text = myInfo;
         }

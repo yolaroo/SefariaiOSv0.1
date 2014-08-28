@@ -8,6 +8,7 @@
 
 #import "StartScreen.h"
 #import "SefariaAppDelegate.h"
+#import <objc/message.h>
 
 @interface StartScreen ()
 {
@@ -66,11 +67,27 @@
         [self myPermanentAlert:@"Welcome, Loading Data"];
         
         [self saveSoundDefaultsOnFirstLoad];
-        
-        //[self performSelector:@selector(mainMigrate) withObject:nil afterDelay:5.0];
+        [self loadTheFoundationDataBase];
         [self performSelector:@selector(saveFirstLoadDefault) withObject:nil afterDelay:2.0];
     }
 }
+
+- (void) loadTheFoundationDataBase
+{
+    NSLog(@"data loaded");
+    NSManagedObjectContext* myContext;
+    @try {
+        SefariaAppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+         myContext = appDelegate.managedObjectContext;
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Delegate Error");
+    }
+    @finally {
+        myContext = nil;
+    }
+}
+
 
 
 - (BOOL) hasFirstLoaded {
@@ -92,24 +109,6 @@
 
 }
 
-- (void) mainMigrate { //probably needs the MOC to load first?
-    NSLog(@"migrate action");
-    SefariaAppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
-    @try {
-        [appDelegate migrateFromSeed];
-    }
-    @catch (NSException *exception) {
-        NSLog(@"migrate exception %@",exception);
-        if (!retryload){
-            retryload = true;
-            [self performSelector:@selector(mainMigrate) withObject:nil afterDelay:5.0];
-        }
-    }
-    @finally {
-        [self.myPermanentAlert dismissWithClickedButtonIndex:0 animated:YES];
-    }
-}
-
 //
 //
 ////////
@@ -129,6 +128,23 @@
     [super viewWillAppear:animated];
 
     self.navigationController.navigationBarHidden = true;
+    
+    [self unlockPortrait];
+    [self flipScreen];
+    
+    
+}
+
+- (void) unlockPortrait {
+    SefariaAppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+    appDelegate.screenIsPortraitOnly = false;
+
+}
+
+- (void) flipScreen {
+    if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
+        objc_msgSend([UIDevice currentDevice], @selector(setOrientation:), UIInterfaceOrientationLandscapeLeft );
+    }
 }
 
 - (void)didReceiveMemoryWarning

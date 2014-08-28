@@ -50,17 +50,22 @@
 
 - (NSAttributedString* )setTextHighlighted :(NSString *) theString withSentence : (NSString*) theSentence
 {
-    // NSMutableAttributedString *mutableString = [[NSMutableAttributedString alloc]initWithString:theSentence];
-    
-    [[self.highlightMutableAttributedString mutableString] setString:theSentence];
-    
-    NSRegularExpression *expression = [NSRegularExpression regularExpressionWithPattern:theString options:NSRegularExpressionCaseInsensitive error:nil];
-    NSRange range = NSMakeRange(0,[theSentence length]);
-    [expression enumerateMatchesInString:theSentence options:0 range:range usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
-        NSRange theTextRange = [result rangeAtIndex:0];
-        [self.highlightMutableAttributedString addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:theTextRange];
-    }];
-    return [self.highlightMutableAttributedString copy];
+    if ([theString length]){
+        [[self.highlightMutableAttributedString mutableString] setString:theSentence];
+        
+        NSRegularExpression *expression = [NSRegularExpression regularExpressionWithPattern:theString options:NSRegularExpressionCaseInsensitive error:nil];
+        NSRange range = NSMakeRange(0,[theSentence length]);
+        [expression enumerateMatchesInString : theSentence
+                                     options : 0 range:range
+                                  usingBlock : ^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
+            NSRange theTextRange = [result rangeAtIndex:0];
+            [self.highlightMutableAttributedString addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:theTextRange];
+        }];
+        return [self.highlightMutableAttributedString copy];
+    }
+    else {
+        return [[NSAttributedString alloc]initWithString:theSentence];
+    }
 }
 
 //

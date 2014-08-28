@@ -74,18 +74,18 @@
         //NSLog(@"-- MPA %@ --",[[self.menuPathChoiceArray lastObject]objectAtIndex:indexPathRow]);
         
         if([[self.menuPathChoiceArray lastObject] count] > indexPathRow ){
-            LOG NSLog(@"-- past count %d %d %d --",self.menuDepthCount,[[self.menuPathChoiceArray lastObject] count],indexPathRow);
+            LOG NSLog(@"-- past count %ld %lu %ld --",(long)self.menuDepthCount,(unsigned long)[[self.menuPathChoiceArray lastObject] count],(long)indexPathRow);
             [self.menuPathChoiceArray addObject:[[self.menuPathChoiceArray lastObject]objectAtIndex:indexPathRow]];
         }
         else {
-            LOG NSLog(@"-- Not past count %d %d %d --",self.menuDepthCount,[[self.menuPathChoiceArray lastObject] count],indexPathRow);
+            LOG NSLog(@"-- Not past count %ld %lu %ld --",(long)self.menuDepthCount,(unsigned long)[[self.menuPathChoiceArray lastObject] count],(long)indexPathRow);
         }
         self.isTextLevel = true;
         self.isBookLevel = false;
         LOG NSLog(@"-- TDPLZ %@ --",self.menuListArray);
     }
     else {
-        LOG NSLog(@"-- Is not text level %d %@ --",self.menuDepthCount,myMenu);
+        LOG NSLog(@"-- Is not text level %ld %@ --",(long)self.menuDepthCount,myMenu);
         if ([[myMenu firstObject] count]){
             [self.menuChoiceArray addObject:[myMenu firstObject]];
         }

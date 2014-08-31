@@ -12,6 +12,10 @@
 #import "MainFoundation+FetchTheCommentCollectionTitle.h"
 #import "MainFoundation+FetchTheCommentAuthor.h"
 
+#import "MainFoundation+FetchTheContextGroupComment.h"
+#import "MainFoundation+FetchTheContextGroupData.h"
+#import "MainFoundation+FetchTheContextGroup.h"
+
 @implementation MainFoundation (DeleteRecords)
 
 - (void) masterCommentDelete
@@ -47,5 +51,39 @@
     [self saveData : self.managedObjectContext];
 }
 
+
+
+- (void) masterSourceSheetDelete
+{
+    NSLog(@"delete source sheets");
+    [self deleteAllContextGroups];
+    [self deleteAllContextGroupData];
+    [self deleteAllContextGroupComments];
+    
+}
+
+- (void) deleteAllContextGroups {
+    NSArray* myFetch = [self fetchAllContextGroups : self.managedObjectContext];
+    for (Comment* theMCT in myFetch) {
+        [self.managedObjectContext deleteObject:theMCT];
+    }
+    [self saveData : self.managedObjectContext];
+}
+
+- (void) deleteAllContextGroupData {
+    NSArray* myFetch = [self fetchAllContextGroupData : self.managedObjectContext];
+    for (Comment* theMCT in myFetch) {
+        [self.managedObjectContext deleteObject:theMCT];
+    }
+    [self saveData : self.managedObjectContext];
+}
+
+- (void) deleteAllContextGroupComments {
+    NSArray* myFetch = [self fetchAllContextGroupDataComment : self.managedObjectContext];
+    for (Comment* theMCT in myFetch) {
+        [self.managedObjectContext deleteObject:theMCT];
+    }
+    [self saveData : self.managedObjectContext];
+}
 
 @end

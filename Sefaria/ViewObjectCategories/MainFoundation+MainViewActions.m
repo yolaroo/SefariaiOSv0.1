@@ -8,6 +8,8 @@
 
 #import "MainFoundation+MainViewActions.h"
 
+#import <objc/message.h>
+
 @implementation MainFoundation (MainViewActions)
 
 
@@ -145,6 +147,20 @@
     shadowObject.layer.shadowColor = SHADOW_COLOR;
 }
 
+- (void) viewShadowDarkBorder: (UIView*)shadowObject
+{
+    [[shadowObject layer] setBorderColor:[UIColor darkGrayColor].CGColor];
+    [[shadowObject layer] setBorderWidth:0.8f];
+    CGFloat radius = shadowObject.frame.size.width / 50;
+    
+    [[shadowObject layer] setCornerRadius:radius];
+    shadowObject.layer.shadowOpacity = 1;
+    shadowObject.layer.shadowRadius = 3;
+    shadowObject.layer.shadowOffset = CGSizeMake(2.0f, 2.0f);
+    
+    shadowObject.layer.shadowColor = SHADOW_COLOR;
+}
+
 //
 ////
 //
@@ -206,11 +222,17 @@
 //
 //
 ////////
-#pragma mark - NSAttributed String
+#pragma mark - Flip Screen
 ////////
 //
 //
 
+- (void) flipScreenPortrait
+{
+    if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
+        objc_msgSend([UIDevice currentDevice], @selector(setOrientation:), UIInterfaceOrientationPortrait );
+    }
+}
 
 
 @end

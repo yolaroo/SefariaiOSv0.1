@@ -19,6 +19,9 @@
 #define HIDE_CH CGPointMake(1174.0, 490.0)
 #define SHOW_CH CGPointMake(764.0, 388.0)
 
+#define HIDE_MENU_POSITION CGPointMake(384.0, 1194.0)
+#define SHOW_MENU_POSITION CGPointMake(384.0, 740.0)
+
 //
 //
 ////////
@@ -184,6 +187,41 @@
                      }];
 }
 
+//
+//
+////////
+#pragma mark - Single Menu Animation
+////////
+//
+//
 
+- (void) showSingleMenu : (UIView*) myView
+{
+    [self.view bringSubviewToFront:myView];
+    [UIView animateWithDuration:ANIMATE_DURATION
+                          delay:0
+                        options: UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         myView.center = SHOW_MENU_POSITION;
+                         myView.alpha = 1;
+                     }
+                     completion:^(BOOL finished){
+                         self.menuIsMoving = false;
+                     }];
+}
+
+- (void) hideSingleMenu : (UIView*) myView
+{
+    [UIView animateWithDuration:ANIMATE_DURATION
+                          delay:0
+                        options: UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         myView.center = HIDE_MENU_POSITION;
+                         myView.alpha = ANIMATE_OPACITY;
+                     }
+                     completion:^(BOOL finished){
+                         self.menuIsMoving = false;
+                     }];
+}
 
 @end

@@ -22,6 +22,27 @@
 //
 //
 ////////
+#pragma mark - Small Menu
+////////
+//
+//
+
+- (NSString*) dualMenuObjectToString: (NSArray*)myObjectArray
+{
+    if ([[myObjectArray firstObject] isKindOfClass:[NSString class]]) {
+        return [myObjectArray firstObject];
+    }
+    else if ([[myObjectArray firstObject] respondsToSelector:@selector(englishName)]){
+        return [[myObjectArray firstObject] englishName];
+    }
+    else {
+        return (@"error");
+    }
+}
+
+//
+//
+////////
 #pragma mark - Core Data Menu
 ////////
 //

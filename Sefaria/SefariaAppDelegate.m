@@ -21,8 +21,8 @@
 
 #define NILSEED 2
 #define SEED_BUILD if(NILSEED == 1) //one is pass - two is normal
-#define SEED_NAME @"x04"
-#define SEED_NAME_FULL @"x04.CDBStore"
+#define SEED_NAME @"x07"
+#define SEED_NAME_FULL @"x07.CDBStore"
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -187,6 +187,7 @@
         NSURL *storeUrl;
         SEED_BUILD {
         //
+            NSLog(@"One Time Seed Build");
             NSString* stringName = @"SafariaCoreData";
             NSString* myStringName = [NSString stringWithFormat:@"%@.sqlite",stringName];
             NSString *storePath = [[self applicationDocumentsDirectory] stringByAppendingPathComponent:myStringName];
@@ -195,6 +196,7 @@
         }
         else {
         //
+            NSLog(@"Regular Seed Access");
             storeUrl = [[self seedApplicationDocumentsDirectory] URLByAppendingPathComponent:SEED_NAME_FULL];
             NSFileManager *fileManager = [NSFileManager defaultManager];
             if (![fileManager fileExistsAtPath:[storeUrl path]]) {

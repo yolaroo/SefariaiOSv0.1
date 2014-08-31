@@ -11,6 +11,7 @@
 @interface MainFoundation (MenuActions)
 
 
+- (NSString*) dualMenuObjectToString: (NSArray*)myObjectArray;
 - (NSString*) objectName: (NSManagedObject*)myObject;
 
 - (NSArray*) setMenuFromDepth: (NSString*)myString;

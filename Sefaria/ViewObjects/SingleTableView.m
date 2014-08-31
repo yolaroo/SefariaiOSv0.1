@@ -355,7 +355,7 @@
 //
 //
 
-- (void) tableView : (UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void) tableView : (UITableView *) tableView didSelectRowAtIndexPath : (NSIndexPath *) indexPath
 {
     if (tableView.tag == MENU_TAG){
         //UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
@@ -549,12 +549,6 @@
     [self portraitLock];
     [self flipScreenPortrait];
     //[self performSelector:@selector(hideNavBar) withObject:nil afterDelay:0.6];
-}
-
-- (void) flipScreenPortrait {
-    if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
-        objc_msgSend([UIDevice currentDevice], @selector(setOrientation:), UIInterfaceOrientationPortrait );
-    }
 }
 
 - (void)didReceiveMemoryWarning

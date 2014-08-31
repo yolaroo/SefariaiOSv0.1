@@ -2,7 +2,7 @@
 //  LineText.m
 //  Sefaria
 //
-//  Created by MGM on 8/27/14.
+//  Created by MGM on 8/30/14.
 //  Copyright (c) 2014 Test. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 #import "BookGroup.h"
 #import "BookTitle.h"
 #import "Comment.h"
-#import "ContextGroup.h"
+#import "ContextGroupData.h"
 #import "Event.h"
 #import "Person.h"
 #import "Struggle.h"
@@ -24,6 +24,7 @@
 @dynamic englishText;
 @dynamic hebrewText;
 @dynamic isBookmarked;
+@dynamic isBookmarkedChapter;
 @dynamic isEnglish;
 @dynamic isHebrew;
 @dynamic isLiked;
@@ -32,15 +33,14 @@
 @dynamic lineNumber;
 @dynamic metaType;
 @dynamic name;
-@dynamic isBookmarkedChapter;
 @dynamic whatBookGroup;
 @dynamic whatBookTitle;
 @dynamic whatComment;
-@dynamic whatContext;
 @dynamic whatEvent;
 @dynamic whatPerson;
 @dynamic whatStruggle;
 @dynamic whatTextTitle;
 @dynamic whatTextVersionTitle;
+@dynamic whatContextGroupData;
 
 @end

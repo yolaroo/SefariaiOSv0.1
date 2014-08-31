@@ -23,6 +23,7 @@
 #define SEARCH_TAG 700
 #define BOOKMARK_TAG 800
 #define BOOKMARK_CHAPTER_TAG 900
+#define SMALL_MENU_TAG 1100
 
 #define CELL_CONTENT_WIDTH 380.0f
 #define WIDE_CELL_CONTENT_WIDTH 550.0f
@@ -70,6 +71,9 @@
     }
     else if (tableView.tag == BOOKMARK_CHAPTER_TAG) {
         return [self.bookmarkChapterArray count] ? [self.bookmarkChapterArray count] : 0;
+    }
+    else if (tableView.tag == SMALL_MENU_TAG) {
+        return [self.fullMenuArray count] ? [self.fullMenuArray count] : 0;
     }
     else {
         NSLog(@"Error on cell load");

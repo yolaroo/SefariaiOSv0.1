@@ -27,7 +27,7 @@
         NSPredicate *predicateName = [NSPredicate predicateWithFormat:@"englishText = %@", theContentText];
         
         NSPredicate *predicatetheBookTitle = [NSPredicate predicateWithFormat:@"ANY whatBookTitle == %@", theBookTitle];
-        NSPredicate *predicatetheTextTitle = [NSPredicate predicateWithFormat:@" whatTextTitle = %@", theBookTitle];
+        NSPredicate *predicatetheTextTitle = [NSPredicate predicateWithFormat:@"whatTextTitle = %@", theBookTitle];
         NSPredicate *predicatetheChapterNumber = [NSPredicate predicateWithFormat:@"chapterNumber = %d", theChapterNumber];
         NSPredicate *predicatetheLineNumber = [NSPredicate predicateWithFormat:@"lineNumber = %d", theLineNumber];
 

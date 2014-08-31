@@ -41,8 +41,6 @@
 #import "CommentAuthor.h"
 #import "CommentCollectionTitle.h"
 
-
-
 @interface MainFoundation : UIViewController
 
 @property (strong,nonatomic) RestTextDataFetch* myRestTextDataFetch;
@@ -58,7 +56,6 @@
 @property (nonatomic) bool isWideView;
 @property (nonatomic) bool isSingleViewEnglish;
 
-
 @property (nonatomic, strong) NSArray* primaryDataArray;
 @property (nonatomic, strong) NSArray* primaryEnglishTextArray;
 @property (nonatomic, strong) NSArray* primaryHebrewTextArray;
@@ -67,7 +64,7 @@
 @property (nonatomic, strong) NSArray* commentArray;
 @property (nonatomic, strong) NSArray* bookmarkArray;
 @property (nonatomic, strong) NSArray* bookmarkChapterArray;
-
+@property (nonatomic, strong) NSArray* fullMenuArray;
 
 @property (nonatomic) NSInteger menuDepthCount;
 
@@ -88,6 +85,7 @@
 @property (nonatomic) NSInteger menuDepthLevel;
 @property (nonatomic) bool isTextLevel;
 @property (nonatomic) bool isBookLevel;
+@property (nonatomic) bool isChapterLevel;
 
 @property (nonatomic) bool isSelectionText;
 @property (nonatomic) bool isSelectionComments;
@@ -100,7 +98,6 @@
 @property (nonatomic, strong) NSMutableArray* menuTopPathChoiceArray;
 
 @property (strong,nonatomic) NSMutableString* theSearchTerm;
-
 
 @property (nonatomic,strong) UIActivityIndicatorView* myActivityIndicator;
 

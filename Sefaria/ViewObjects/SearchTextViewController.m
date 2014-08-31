@@ -20,6 +20,8 @@
 
 #import "MainFoundation+SeachTextActions.h"
 
+#import "MainFoundation+SearchStyle.h"
+
 @interface SearchTextViewController ()
 
 #define BLACK_SHADOW [UIColor colorWithRed:40.0f/255.0f green:40.0f/255.0f blue:40.0f/255.0f alpha:0.3f]
@@ -48,14 +50,12 @@
 ////
 //
 
-
 @property (strong,nonatomic) NSString* myTextName;
 @property (weak, nonatomic) IBOutlet UILabel *wordCountLabel;
 
 //
 ////
 //
-
 
 @property (weak, nonatomic) IBOutlet UIButton *searchSelectionTextButton;
 @property (weak, nonatomic) IBOutlet UIButton *searchSelectionCommentsButton;
@@ -147,6 +147,7 @@
     self.mainEnglishView.hidden = true;
     self.mainHebrewView.hidden = false;
 }
+
 - (IBAction)searchViewShowEnglish:(UIButton *)sender {
     self.mainSearchView.hidden = true;
     self.mainHebrewView.hidden = true;
@@ -256,41 +257,10 @@
         UITableViewCell *cell = SEARCH_CELL;
         NSString* myString = [self.searchTextArray objectAtIndex:indexPath.row];
         NSString * myInfo = [self.searchInfoArray objectAtIndex:indexPath.row];
-        cell = [self setMyTextCell:cell withText:myString withInfo:myInfo];
+        cell = [self setMySearchTextCell:cell withText:myString withInfo:myInfo];
         return cell;
     }
     return nil;
-}
-
-//
-////
-//
-
-- (UITableViewCell *) setMyTextCell: (UITableViewCell*) cell withText : (NSString*) myString withInfo : (NSString*) myInfo
-{
-    if (myString != nil){
-        cell.textLabel.textAlignment = UIControlContentHorizontalAlignmentFill;
-        cell.textLabel.font = IPAD_FONT;
-
-        cell.textLabel.numberOfLines = 0;
-        [cell.textLabel sizeToFit];
-        [cell.textLabel setLineBreakMode:NSLineBreakByWordWrapping];
-        [cell setBackgroundColor:[UIColor clearColor]];
-        if ([self.theSearchTerm length]) {
-            cell.textLabel.attributedText = [self.myBestStringClass setTextHighlighted:self.theSearchTerm withSentence:myString];
-        }
-        else {
-            cell.textLabel.text = myString;
-        }
-        if ([myInfo length]) {
-            cell.detailTextLabel.text = myInfo;
-        }
-        return cell;
-    }
-    else {
-        cell.textLabel.text = @"error";
-        return cell;
-    }
 }
 
 //
@@ -367,14 +337,12 @@
             self.searchHebrewButton.hidden = false;
             [self setLabelsForName];
             
-            
             [self updateTheData];
         }
     }
 }
 
 - (void) setLabelsForName {
-
     NSString* myString  = [NSString stringWithFormat:@"%@ %d",self.myCurrentTextTitle,self.theChapterNumber+1];
     self.hebrewLabel.text = myString;
     self.englishLabel.text = myString;

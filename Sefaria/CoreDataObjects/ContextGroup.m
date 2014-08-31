@@ -2,13 +2,12 @@
 //  ContextGroup.m
 //  Sefaria
 //
-//  Created by MGM on 8/27/14.
+//  Created by MGM on 8/30/14.
 //  Copyright (c) 2014 Test. All rights reserved.
 //
 
 #import "ContextGroup.h"
-#import "ContextGroupComment.h"
-#import "LineText.h"
+#import "ContextGroupData.h"
 
 
 @implementation ContextGroup
@@ -18,7 +17,8 @@
 @dynamic name;
 @dynamic summary;
 @dynamic uuid;
-@dynamic whatLineText;
-@dynamic whatComment;
+@dynamic title;
+@dynamic subTitle;
+@dynamic whatData;
 
 @end

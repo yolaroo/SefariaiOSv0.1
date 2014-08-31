@@ -152,10 +152,10 @@
     [self saveSeedToDesktop];
 }
 
-- (IBAction)migrateToSeedPress:(UIButton *)sender {
-
-
+- (IBAction)deleteSourceSheetPress:(UIButton *)sender {
+    [self masterSourceSheetDelete];
 }
+
 
 
 //

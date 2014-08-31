@@ -20,5 +20,7 @@
                               withContext : (NSManagedObjectContext*) context;
 
 - (void) chapterReadBackMenuActionStatus;
+- (void) smallChapterMenuReadBackMenuActionStatus;
+
 
 @end

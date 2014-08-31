@@ -69,16 +69,28 @@
         <attribute name="displayOrder" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="contextGroup" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="subTitle" optional="YES" attributeType="String" defaultValueString="subTitle" syncable="YES"/>
         <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" defaultValueString="Title" syncable="YES"/>
         <attribute name="uuid" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="whatComment" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ContextGroupComment" inverseName="whatContextGroup" inverseEntity="ContextGroupComment" syncable="YES"/>
-        <relationship name="whatLineText" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="LineText" inverseName="whatContext" inverseEntity="LineText" syncable="YES"/>
+        <relationship name="whatData" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ContextGroupData" inverseName="whatContextGroup" inverseEntity="ContextGroupData" syncable="YES"/>
     </entity>
     <entity name="ContextGroupComment" representedClassName="ContextGroupComment" syncable="YES">
+        <attribute name="comment" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="displayOrder" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="contextGroupComment" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="whatContextGroup" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ContextGroup" inverseName="whatComment" inverseEntity="ContextGroup" syncable="YES"/>
+        <relationship name="whatData" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ContextGroupData" inverseName="whatComment" inverseEntity="ContextGroupData" syncable="YES"/>
+    </entity>
+    <entity name="ContextGroupData" representedClassName="ContextGroupData" syncable="YES">
+        <attribute name="displayOrder" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="isComment" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isLineText" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="contextGroupData" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="whatComment" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ContextGroupComment" inverseName="whatData" inverseEntity="ContextGroupComment" syncable="YES"/>
+        <relationship name="whatContextGroup" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ContextGroup" inverseName="whatData" inverseEntity="ContextGroup" syncable="YES"/>
+        <relationship name="whatLineText" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LineText" inverseName="whatContextGroupData" inverseEntity="LineText" syncable="YES"/>
     </entity>
     <entity name="Event" representedClassName="Event" syncable="YES">
         <attribute name="displayOrder" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -108,7 +120,7 @@
         <relationship name="whatBookGroup" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BookGroup" inverseName="whatLine" inverseEntity="BookGroup" syncable="YES"/>
         <relationship name="whatBookTitle" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BookTitle" inverseName="whatLine" inverseEntity="BookTitle" syncable="YES"/>
         <relationship name="whatComment" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Comment" inverseName="whatLineText" inverseEntity="Comment" syncable="YES"/>
-        <relationship name="whatContext" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ContextGroup" inverseName="whatLineText" inverseEntity="ContextGroup" syncable="YES"/>
+        <relationship name="whatContextGroupData" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ContextGroupData" inverseName="whatLineText" inverseEntity="ContextGroupData" syncable="YES"/>
         <relationship name="whatEvent" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Event" inverseName="whatLineText" inverseEntity="Event" syncable="YES"/>
         <relationship name="whatPerson" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Person" inverseName="whatLineText" inverseEntity="Person" syncable="YES"/>
         <relationship name="whatStruggle" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Struggle" inverseName="whatLineText" inverseEntity="Struggle" syncable="YES"/>
@@ -219,8 +231,8 @@
         <element name="Comment" positionX="-9236" positionY="-4347" width="128" height="298"/>
         <element name="CommentAuthor" positionX="-9063" positionY="-4176" width="128" height="148"/>
         <element name="CommentCollectionTitle" positionX="-9063" positionY="-4351" width="128" height="148"/>
-        <element name="ContextGroup" positionX="-10118" positionY="-4804" width="128" height="148"/>
-        <element name="ContextGroupComment" positionX="-10116" positionY="-4941" width="128" height="103"/>
+        <element name="ContextGroup" positionX="-10008" positionY="-4824" width="128" height="163"/>
+        <element name="ContextGroupComment" positionX="-9846" positionY="-4644" width="128" height="118"/>
         <element name="Event" positionX="-9866" positionY="-4131" width="128" height="178"/>
         <element name="LineText" positionX="-9567" positionY="-4590" width="128" height="373"/>
         <element name="Location" positionX="-10118" positionY="-4518" width="128" height="223"/>
@@ -234,5 +246,6 @@
         <element name="Struggle" positionX="-10134" positionY="-4129" width="128" height="178"/>
         <element name="TextTitle" positionX="-9389" positionY="-4869" width="128" height="238"/>
         <element name="TextVersionTitle" positionX="-9047" positionY="-4671" width="128" height="103"/>
+        <element name="ContextGroupData" positionX="-9848" positionY="-4824" width="128" height="163"/>
     </elements>
 </model>

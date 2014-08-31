@@ -18,4 +18,8 @@
 
 - (void) menuAnimationOnLoad : (UIView*) menuView withChapterView : (UIView*) chapterView;
 
+- (void) hideSingleMenu : (UIView*) myView;
+- (void) showSingleMenu : (UIView*) myView;
+
+
 @end

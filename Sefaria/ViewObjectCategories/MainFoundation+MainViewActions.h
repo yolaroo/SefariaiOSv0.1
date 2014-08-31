@@ -13,6 +13,9 @@
 - (void) emptyTextAlert;
 
 - (void) viewShadow: (UIView*) shadowObject;
+- (void) viewShadowDarkBorder: (UIView*)shadowObject;
+
+- (void) flipScreenPortrait;
 
 - (NSArray*) chapterNumberArray: (NSInteger) maxNumber;
 

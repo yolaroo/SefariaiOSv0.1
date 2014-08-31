@@ -11,5 +11,6 @@
 @interface MainFoundation (DeleteRecords)
 
 - (void) masterCommentDelete;
+- (void) masterSourceSheetDelete;
 
 @end

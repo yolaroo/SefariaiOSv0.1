@@ -88,8 +88,6 @@
     }
 }
 
-
-
 - (BOOL) hasFirstLoaded {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if ([defaults boolForKey:@"firstLoad"] == TRUE) {

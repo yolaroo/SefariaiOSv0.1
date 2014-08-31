@@ -70,9 +70,9 @@
 
 - (NSArray*) menuFetchFromClick : (NSString*) bookString withContext: (NSManagedObjectContext*) context
 {
-    LOG NSLog(@"-- TBS %@ --",bookString);
+    //NSLog(@"-- TBS %@ --",bookString);
     NSArray* theList = [self fetchBookTitleForSubSet:bookString withContext:context];
-    LOG NSLog(@"-- TL %@ --",theList);
+    //NSLog(@"-- TL %@ --",theList);
     if ([self textCheck:theList]){
         self.isTextLevel = true;
         self.isBookLevel = false;    
@@ -133,7 +133,33 @@
     }
 }
 
+//
+/////
+//
 
+- (void) smallChapterMenuReadBackMenuActionStatus
+{
+    if (self.isChapterLevel){
+        self.isTextLevel = true;
+        self.isBookLevel = false;
+        self.isChapterLevel = false;
+        self.fullMenuArray = [self menuFetchFromClick:[self.menuChoiceArray lastObject] withContext:self.managedObjectContext];
+    }
+    else {
+        self.isTextLevel = false;
+        self.isBookLevel = true;
+        self.theChapterNumber = 0;
+        self.theChapterMax = 0;
+        if([self.menuChoiceArray count] == 1) {
+            [self.menuChoiceArray removeLastObject];
+            self.fullMenuArray = [self menuFetchToZero:self.managedObjectContext];
+        }
+        else {
+            [self.menuChoiceArray removeLastObject];
+            self.fullMenuArray = [self menuFetchFromClick:[self.menuChoiceArray lastObject] withContext:self.managedObjectContext];
+        }
+    }
+}
 
 
 

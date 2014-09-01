@@ -74,7 +74,8 @@
     TitleGroupUIView*myTitleView = [[TitleGroupUIView alloc]initWithFrame:myRect];
     myTitleView.titleString = [myHeadingText firstObject];
     myTitleView.theSubtitleString = [myHeadingText lastObject];
-    
+    myTitleView.tag = TAG_BASE;
+
     _thetitle = myTitleView;
     return myTitleView.frame.size.height;
 }
@@ -97,6 +98,7 @@
 
 - (NSInteger) setLineTextObjectView : (NSInteger) viewCurrentSize
                        withLineText : (LineText*) myLineText
+                          withDepth : (NSInteger) theDepth
                      withScrollView : (UIScrollView*) myScrollView
 {
     LOG NSLog(@"-- view size check %d - %d - %d --",viewCurrentSize,self.completeHeight,self.titleHeight);
@@ -107,6 +109,8 @@
     CGRect myRect = CGRectMake(LEFT_LINE_MARGIN, VIEW_PADDING + viewCurrentSize, myScrollView.frame.size.width - 2 * LEFT_LINE_MARGIN, computedHeight);
     LineTextGroupUIView*myLTGView = [[LineTextGroupUIView alloc]initWithFrame:myRect];
     myLTGView.theLineText = myLineText;
+    myLTGView.tag = TAG_BASE + theDepth;
+
     [self.contentArray addObject:myLTGView];
     return myLTGView.frame.size.height;
 }
@@ -136,12 +140,16 @@
 //// comment
 //
 
-- (NSInteger) setCommentTextObjectView :(NSInteger) viewCurrentSize withCommentText : (NSString*) myCommentText withScrollView : (UIScrollView*) myScrollView
+- (NSInteger) setCommentTextObjectView : (NSInteger) viewCurrentSize
+                       withCommentText : (NSString*) myCommentText
+                             withDepth : (NSInteger) theDepth
+                        withScrollView : (UIScrollView*) myScrollView
 {
     NSInteger computedHeight = [self computeTotalTextHeightForCommentTextBlock : myCommentText withSuperViewWidth : myScrollView.frame.size.width];
     CGRect myRect = CGRectMake(0, viewCurrentSize + 30, myScrollView.frame.size.width, computedHeight);
     CommentTextUIView *myComment = [[CommentTextUIView alloc]initWithFrame:myRect];
     myComment.commentString = myCommentText;
+    myComment.tag = TAG_BASE + theDepth;
 
     [self.contentArray addObject:myComment];
     return myComment.frame.size.height;

@@ -95,6 +95,7 @@
 		C67E95C919A1D32A00FD79E5 /* RestMenuDataFetch.m in Sources */ = {isa = PBXBuildFile; fileRef = C67E95C819A1D32A00FD79E5 /* RestMenuDataFetch.m */; };
 		C68A24B719B1519F00C0D49A /* SourceSheetObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C68A24B619B1519F00C0D49A /* SourceSheetObject.m */; };
 		C6A81E9A199C0BF40065F97C /* MainFoundation+TextAnalysisActions.m in Sources */ = {isa = PBXBuildFile; fileRef = C6A81E99199C0BF40065F97C /* MainFoundation+TextAnalysisActions.m */; };
+		C6B467B819B4362300D232E1 /* UIScrollViewWithTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B467B719B4362300D232E1 /* UIScrollViewWithTouch.m */; };
 		C6B5BA5A19A983CB006C4175 /* MainFoundation+WordUseData.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B5BA5919A983CB006C4175 /* MainFoundation+WordUseData.m */; };
 		C6B5BA5D19A9EB0B006C4175 /* MainFoundation+BookMarkActions.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B5BA5C19A9EB0B006C4175 /* MainFoundation+BookMarkActions.m */; };
 		C6B8A6C5199D96D600AFA475 /* MainFoundation+CommentStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B8A6C4199D96D600AFA475 /* MainFoundation+CommentStyle.m */; };
@@ -320,6 +321,8 @@
 		C68A24B619B1519F00C0D49A /* SourceSheetObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SourceSheetObject.m; path = ViewObjectCategories/SourceSheetObject.m; sourceTree = "<group>"; };
 		C6A81E98199C0BF40065F97C /* MainFoundation+TextAnalysisActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MainFoundation+TextAnalysisActions.h"; path = "ViewObjectCategories/MainFoundation+TextAnalysisActions.h"; sourceTree = "<group>"; };
 		C6A81E99199C0BF40065F97C /* MainFoundation+TextAnalysisActions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MainFoundation+TextAnalysisActions.m"; path = "ViewObjectCategories/MainFoundation+TextAnalysisActions.m"; sourceTree = "<group>"; };
+		C6B467B619B4362300D232E1 /* UIScrollViewWithTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIScrollViewWithTouch.h; sourceTree = "<group>"; };
+		C6B467B719B4362300D232E1 /* UIScrollViewWithTouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIScrollViewWithTouch.m; sourceTree = "<group>"; };
 		C6B5BA5819A983CB006C4175 /* MainFoundation+WordUseData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MainFoundation+WordUseData.h"; path = "ViewObjectCategories/MainFoundation+WordUseData.h"; sourceTree = "<group>"; };
 		C6B5BA5919A983CB006C4175 /* MainFoundation+WordUseData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MainFoundation+WordUseData.m"; path = "ViewObjectCategories/MainFoundation+WordUseData.m"; sourceTree = "<group>"; };
 		C6B5BA5B19A9EB0B006C4175 /* MainFoundation+BookMarkActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MainFoundation+BookMarkActions.h"; path = "ViewObjectCategories/MainFoundation+BookMarkActions.h"; sourceTree = "<group>"; };
@@ -1001,6 +1004,8 @@
 			children = (
 				C6D977BE19AF13D6006A208D /* SourceSheetView.h */,
 				C6D977BF19AF13D6006A208D /* SourceSheetView.m */,
+				C6B467B619B4362300D232E1 /* UIScrollViewWithTouch.h */,
+				C6B467B719B4362300D232E1 /* UIScrollViewWithTouch.m */,
 				C675A4D019B2D3DE00A65829 /* MainFoundation+SourceSheetCoreDataAction.h */,
 				C675A4D119B2D3DE00A65829 /* MainFoundation+SourceSheetCoreDataAction.m */,
 				C639D9C019B10FCF0071BA0F /* Source Sheet Object */,
@@ -1232,6 +1237,7 @@
 				C675A4A119B2B53200A65829 /* LocationAuxName.m in Sources */,
 				C66051A0198B08FD00168474 /* CommentListDataModel.m in Sources */,
 				C675A4A419B2B53200A65829 /* Picture.m in Sources */,
+				C6B467B819B4362300D232E1 /* UIScrollViewWithTouch.m in Sources */,
 				C675A4DB19B2DCC700A65829 /* ContextGroupComment.m in Sources */,
 				C65376CC19A33F8E008C82B5 /* MainFoundation+SeedBuilder.m in Sources */,
 				C612F9BE197D1F5300F0F306 /* MainFoundation+FetchTheTextTitle.m in Sources */,

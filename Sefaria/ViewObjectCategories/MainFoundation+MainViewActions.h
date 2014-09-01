@@ -10,6 +10,7 @@
 
 @interface MainFoundation (MainViewActions)
 
+
 - (void) emptyTextAlert;
 
 - (void) viewShadow: (UIView*) shadowObject;

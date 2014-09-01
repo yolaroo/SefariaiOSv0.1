@@ -43,8 +43,8 @@
 //
 
 - (NSInteger) setHeadingTextObjectView : (NSInteger) viewCurrentSize withHeadingText : (NSArray*) myHeadingText withScrollView : (UIScrollView*) myScrollView;
-- (NSInteger) setLineTextObjectView : (NSInteger) viewCurrentSize withLineText : (LineText*) myLineText withScrollView : (UIScrollView*) myScrollView;
-- (NSInteger) setCommentTextObjectView :(NSInteger) viewCurrentSize withCommentText : (NSString*) myCommentText withScrollView : (UIScrollView*) myScrollView;
+- (NSInteger) setLineTextObjectView : (NSInteger) viewCurrentSize withLineText : (LineText*) myLineText withDepth : (NSInteger) theDepth withScrollView : (UIScrollView*) myScrollView;
+- (NSInteger) setCommentTextObjectView :(NSInteger) viewCurrentSize withCommentText : (NSString*) myCommentText withDepth : (NSInteger) theDepth withScrollView : (UIScrollView*) myScrollView;
 
 - (void) titleBuild : (UIScrollView*)myScrollView;
 

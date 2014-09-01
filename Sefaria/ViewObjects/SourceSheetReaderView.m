@@ -144,6 +144,55 @@
 //
 //
 ////////
+#pragma mark - Delete
+////////
+//
+//
+
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (tableView.tag == SOURCE_SHEET_LIST_TAG) {
+        if (editingStyle == UITableViewCellEditingStyleDelete) {
+            
+            [tableView beginUpdates];
+            
+            ContextGroup*myContextGroup = [self.sourceSheetListDataArray objectAtIndex:indexPath.row];
+
+            [self deleteContextGroupAtIndex : myContextGroup withContext:self.managedObjectContext];
+            
+            [tableView endUpdates];
+            
+            [self basicDataReload];
+            
+            [self.SourceSheetListTable reloadData];
+        }
+    }
+    else {
+        NSLog(@"can't edit");
+    }
+}
+
+- (void) deleteContextGroupAtIndex : (ContextGroup* ) myContextGroup withContext : (NSManagedObjectContext*)context{
+    NSArray*myDataArray = [myContextGroup.whatData allObjects];
+    for (id MYID in myDataArray) {
+        ContextGroupData* myData = MYID;
+        if ([myData.isComment boolValue]){
+            ContextGroupComment* myComment = myData.whatComment;
+            [context deleteObject:myComment];
+        }
+        [context deleteObject:myData];
+    }
+    [context deleteObject:myContextGroup];
+    [self saveData : context];
+}
+
+//
+//
+////////
 #pragma mark - Data
 ////////
 //

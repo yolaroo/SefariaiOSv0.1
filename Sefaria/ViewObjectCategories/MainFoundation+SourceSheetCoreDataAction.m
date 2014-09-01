@@ -20,20 +20,25 @@
 
 - (void) createSourceSheetCoreDataObject : (SourceSheetObject*) mySourceSheet withContext : (NSManagedObjectContext*) context
 {
-    __unused ContextGroup* myContextGroup = [ContextGroup newContextGroup:mySourceSheet.titleString withSubTitle:mySourceSheet.subTitleString withContext:context];
+    ContextGroup* myContextGroup = [ContextGroup newContextGroup:mySourceSheet.titleString withSubTitle:mySourceSheet.subTitleString withContext:context];
     
     //fetch all ContextGroup do count -- fetch by reverse order
     myContextGroup.displayOrder = 0;
     
+    NSInteger displayOrder = 0;
     for (id MYID in mySourceSheet.dataArray) {
         if ([MYID isKindOfClass:[LineText class]]) {
             NSLog(@"add lineText");
-            __unused ContextGroupData* myContextGroupData = [ContextGroupData newContextGroupLineText:myContextGroup withLineText:MYID withContext:context];
+            ContextGroupData* myContextGroupData = [ContextGroupData newContextGroupLineText:myContextGroup withLineText:MYID withContext:context];
+            myContextGroupData.displayOrder = [NSNumber numberWithInteger: displayOrder];
+            displayOrder ++;
         }
         else if ([MYID isKindOfClass:[NSString class]]) {
             NSLog(@"add comment");
             ContextGroupData* myContextGroupData = [ContextGroupData newContextGroupComment:myContextGroup withGroupComment:MYID withContext:context];
             __unused ContextGroupComment* myContextGroupComment = [ContextGroupComment newContextGroupComment : MYID withDataGroup:myContextGroupData withContext:context];
+            myContextGroupData.displayOrder = [NSNumber numberWithInteger: displayOrder];
+            displayOrder ++;
         }
     }
     [self saveData:context];

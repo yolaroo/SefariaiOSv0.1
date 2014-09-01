@@ -8,6 +8,8 @@
 
 #import "SourceSheetView.h"
 
+#import "UIScrollViewWithTouch.h"
+
 #import "MainFoundation+TableViewStyles.h"
 
 #import "MainFoundation+TableViewStyles.h"
@@ -67,17 +69,17 @@
 ////
 //
 
-@property (weak, nonatomic) IBOutlet UIScrollView *sourceSheetScrollView;
+@property (weak, nonatomic) IBOutlet UIScrollViewWithTouch *sourceSheetScrollView;
 
 @property (weak, nonatomic) IBOutlet UITableView * smallMenuTable;
 @property (weak, nonatomic) IBOutlet UITableView * englishTextTable;
-
 @property (weak, nonatomic) IBOutlet UITableView *hebrewTextTable;
-
 @property (weak, nonatomic) IBOutlet UITableView *searchTextTable;
 
-
 @property (weak, nonatomic) IBOutlet UIButton *languageSelectionButton;
+@property (nonatomic) bool commentFrameHasMoved;
+@property (nonatomic) bool titleFrameHasMoved;
+
 
 @property (strong,nonatomic) LineText* myLineText;
 
@@ -100,6 +102,9 @@
 
 @synthesize myLineText=_myLineText,titleTextField = _titleTextField,titleTextView = _titleTextView,commentTextView=_commentTextView,searchTextField=_searchTextField;
 
+#define DK 2
+#define LOG if(DK == 1)
+
 #define RESET_DELAY 0.3
 
 #define MENU_TAG 100
@@ -120,26 +125,14 @@
 #define BOOKMARK_CELL [tableView dequeueReusableCellWithIdentifier:@"BookmarkCell" forIndexPath:indexPath]
 #define BOOKMARK_CHAPTER_CELL [tableView dequeueReusableCellWithIdentifier:@"BookmarkChapterCell" forIndexPath:indexPath]
 #define SEARCH_CELL [tableView dequeueReusableCellWithIdentifier:@"SearchCell" forIndexPath:indexPath]
-
 #define SMALL_MENU_CELL [tableView dequeueReusableCellWithIdentifier:@"SmallMenuCell" forIndexPath:indexPath]
 
 #define COLOR_CELL_HIGHLIGHT [UIColor colorWithRed: 242.0f/255.0f green:249.0f/255.0f blue:251.0f/255.0f alpha:1.0f]
 
-//
-////
-//
+#define TEXT_VIEW_MOVE 150
 
-#define TOP_MARGIN 10.0f
-#define VIEW_PADDING 20.0f
+#define TAG_BASE 20000
 
-#define MAIN_FONT @"Georgia"
-#define COMMENT_TEXT_FONT_SIZE 16.0f
-#define COMMENT_TEXT_FONT [UIFont fontWithName : MAIN_FONT size : COMMENT_TEXT_FONT_SIZE]
-
-#define OBJECT_PADDING 10
-
-#define DK 2
-#define LOG if(DK == 1)
 
 //
 //
@@ -178,6 +171,10 @@
     [self.mySourceSheet.dataArray removeAllObjects];
     self.mySourceSheet.titleString = nil;
     self.mySourceSheet.subTitleString = nil;
+    self.titleTextField.text = @"";
+    self.titleTextView.text = @"";
+    self.commentTextView.text = @"";
+    self.searchTextField.text = @"";
     
     [self cleanView];
 }
@@ -239,13 +236,15 @@
 - (void) buildLineTextObject {
     [self.mySourceSheet.contentArray removeAllObjects];
     
+    NSInteger sourceSheetDepth = 1;
     for (id MYID in self.mySourceSheet.dataArray) {
-        if ([MYID isKindOfClass:[LineText class]]) {
-            [self.mySourceSheet setLineTextObjectView : self.mySourceSheet.completeHeight withLineText:MYID withScrollView:self.sourceSheetScrollView];
+        if ([MYID isKindOfClass:[LineText class]]) { // add lineText
+            [self.mySourceSheet setLineTextObjectView : self.mySourceSheet.completeHeight withLineText:MYID withDepth : sourceSheetDepth withScrollView:self.sourceSheetScrollView];
+            sourceSheetDepth ++;
         }
-        else if ([MYID isKindOfClass:[NSString class]]) {
-            NSLog(@"add comment");
-            [self.mySourceSheet setCommentTextObjectView:self.mySourceSheet.completeHeight withCommentText:MYID withScrollView:self.sourceSheetScrollView];
+        else if ([MYID isKindOfClass:[NSString class]]) { // add comment
+            [self.mySourceSheet setCommentTextObjectView:self.mySourceSheet.completeHeight withCommentText:MYID withDepth : sourceSheetDepth withScrollView:self.sourceSheetScrollView];
+            sourceSheetDepth ++;
         }
     }
 }
@@ -261,12 +260,13 @@
     }
 }
 
-
-
-
-
-
-
+/*
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    CGPoint locationPoint = [[touches anyObject] locationInView:self.view];
+    UIView* viewYouWishToObtain = [self.view hitTest:locationPoint withEvent:event];
+    NSLog(@"-- touch tag %d --",viewYouWishToObtain.tag);
+}
+*/
 
 //
 //
@@ -313,6 +313,13 @@
     return NO;
 }
 
+- (void)textViewDidBeginEditing:(UITextView *)textView {
+    NSLog(@"started !!");
+    [self moveCommentTextViewUp];
+    [self moveSubtitleTextViewUp];
+}
+
+/*
 - (BOOL) textView : (UITextView *) textView shouldChangeTextInRange : (NSRange)range replacementText : (NSString *) text {
     if([text isEqualToString:@"\n"])
     {
@@ -327,9 +334,19 @@
     }
     return YES;
 }
+*/
 
 -(void)textViewDidEndEditing:(UITextView *)textView {
     NSLog(@"ended !!");
+    if (textView.tag == 2600) {
+        self.mySourceSheet.subTitleString = textView.text;
+    }
+    else if (textView.tag == 2500) {
+        self.mySourceSheet.commentString = textView.text;
+    }
+    [self moveCommentTextViewDown];
+    [self moveSubtitleTextViewDown];
+    
 }
 
 //
@@ -361,6 +378,7 @@
 //
 
 - (void) titleBarAction {
+    [self moveCommentTextViewDown];
     self.titleInputBackgroundView.hidden=false;
     self.menuInputBackgroundView.hidden=true;
     self.commentInputBackgroundView.hidden=true;
@@ -368,25 +386,72 @@
 }
 
 - (void) textBarAction {
+    [self moveCommentTextViewDown];
+    [self moveSubtitleTextViewDown];
     self.menuInputBackgroundView.hidden=false;
     self.titleInputBackgroundView.hidden=true;
     self.commentInputBackgroundView.hidden=true;
     self.searchInputBackgroundView.hidden=true;
+
 }
 
 - (void) searchBarAction {
+    [self moveCommentTextViewDown];
+    [self moveSubtitleTextViewDown];
     self.searchInputBackgroundView.hidden=false;
     self.menuInputBackgroundView.hidden=true;
     self.titleInputBackgroundView.hidden=true;
     self.commentInputBackgroundView.hidden=true;
 
+
 }
 
 - (void) commentBarAction {
+    [self moveSubtitleTextViewDown];
     self.commentInputBackgroundView.hidden=false;
     self.menuInputBackgroundView.hidden=true;
     self.titleInputBackgroundView.hidden=true;
     self.searchInputBackgroundView.hidden=true;
+}
+
+//
+//
+////////
+#pragma mark - Move text view box
+////////
+//
+//
+
+- (void) moveCommentTextViewUp {
+    if (!self.commentFrameHasMoved && !self.commentInputBackgroundView.hidden){
+        CGRect currentFrame = self.commentInputBackgroundView.frame;
+        self.commentInputBackgroundView.frame =  CGRectOffset(currentFrame,0,-1*TEXT_VIEW_MOVE);
+        self.commentFrameHasMoved = true;
+    }
+}
+
+- (void) moveCommentTextViewDown {
+    if (self.commentFrameHasMoved && !self.commentInputBackgroundView.hidden){
+        CGRect currentFrame = self.commentInputBackgroundView.frame;
+        self.commentInputBackgroundView.frame =  CGRectOffset(currentFrame,0,TEXT_VIEW_MOVE);
+        self.commentFrameHasMoved = false;
+    }
+}
+
+- (void) moveSubtitleTextViewUp {
+    if (!self.titleFrameHasMoved && !self.titleInputBackgroundView.hidden){
+        CGRect currentFrame = self.titleInputBackgroundView.frame;
+        self.titleInputBackgroundView.frame =  CGRectOffset(currentFrame,0,-1*TEXT_VIEW_MOVE);
+        self.titleFrameHasMoved = true;
+    }
+}
+
+- (void) moveSubtitleTextViewDown {
+    if (self.titleFrameHasMoved && !self.titleInputBackgroundView.hidden){
+        CGRect currentFrame = self.titleInputBackgroundView.frame;
+        self.titleInputBackgroundView.frame =  CGRectOffset(currentFrame,0,TEXT_VIEW_MOVE);
+        self.titleFrameHasMoved = false;
+    }
 }
 
 //
@@ -751,6 +816,7 @@
     [self.smallMenuTable reloadData];
     [self.menuChoiceArray removeAllObjects];
     self.titleTextView.delegate = self;
+    [self addDeleteGesture];
 }
 
 - (void) initialSetUp {
@@ -765,6 +831,35 @@
     
     for(UIView* UIV in self.myViewCollection){
         [self viewShadow:UIV];
+    }
+}
+
+//
+//
+////////
+#pragma mark - Delete Section
+////////
+//
+//
+
+- (void) addDeleteGesture {
+    NSLog(@"delete gesture loaded");
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(deleteAction:)
+     name:@"deleteSheetObject"
+     object:nil];
+}
+
+- (void)deleteAction : (NSNotification *) notification {
+    NSDictionary* userInfo = notification.userInfo;
+    if ([userInfo objectForKey:@"numberIndexForDelete"]){
+        LOG NSLog(@"-- data info %@ --",[userInfo objectForKey:@"numberIndexForDelete"]);
+        NSInteger index = [[userInfo objectForKey:@"numberIndexForDelete"] integerValue]-1;
+        if ([self.mySourceSheet.dataArray count] >= index){
+            [self.mySourceSheet.dataArray removeObjectAtIndex:index];
+            [self drawSheet];
+        }
     }
 }
 
@@ -820,8 +915,8 @@
     SourceSheetObject* myObject = [[SourceSheetObject alloc]init];
     myObject.theWidth = self.sourceSheetScrollView.frame.size.width;
     viewCurrentSize = viewCurrentSize + [myObject setHeadingTextObjectView:viewCurrentSize withHeadingText:@[heading,subHeading] withScrollView:self.sourceSheetScrollView];
-    viewCurrentSize = viewCurrentSize + [myObject setLineTextObjectView : viewCurrentSize withLineText:self.myLineText withScrollView:self.sourceSheetScrollView];
-    viewCurrentSize = viewCurrentSize + [myObject setCommentTextObjectView:viewCurrentSize withCommentText:subHeading withScrollView:self.sourceSheetScrollView];
+//    viewCurrentSize = viewCurrentSize + [myObject setLineTextObjectView : viewCurrentSize withLineText:self.myLineText MYID withDepth : 0 withScrollView:self.sourceSheetScrollView];
+//    viewCurrentSize = viewCurrentSize + [myObject setCommentTextObjectView:viewCurrentSize withCommentText:subHeading MYID withDepth : 0 withScrollView:self.sourceSheetScrollView];
     
     NSLog(@"-- my obj %@ --",myObject.contentArray);
     

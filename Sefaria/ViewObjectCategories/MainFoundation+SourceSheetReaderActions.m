@@ -39,8 +39,17 @@
     theSourceSheet.subTitleString = groupObject.subTitle;
     
     NSArray* dataObjects = [groupObject.whatData allObjects];
-    [self coreDataUnpack : dataObjects withSourceSheet : theSourceSheet];
     
+    NSMutableArray* orderedData = [[NSMutableArray alloc]init];
+    for (int i = 0; i < [dataObjects count]; i++) {
+        for (int j = 0; j < [dataObjects count]; j++) {
+            ContextGroupData* myOBJ = [dataObjects objectAtIndex:j];
+            if ([myOBJ.displayOrder integerValue] == i){
+                [orderedData addObject:myOBJ];
+            }
+        }
+    }
+    [self coreDataUnpack : [orderedData copy] withSourceSheet : theSourceSheet];
 }
 
 - (void) coreDataUnpack : (NSArray*) dataObjects withSourceSheet : (SourceSheetObject*) theSourceSheet {
@@ -98,12 +107,15 @@
 - (void) buildLineTextObject : (UIScrollView*) theScrollView withSourceSheet : (SourceSheetObject*) theSourceSheet
 {
     [theSourceSheet.contentArray removeAllObjects];
+    NSInteger sourceSheetDepth = 1;
     for (id MYID in theSourceSheet.dataArray) {
         if ([MYID isKindOfClass:[LineText class]]) {
-            [theSourceSheet setLineTextObjectView : theSourceSheet.completeHeight withLineText:MYID withScrollView:theScrollView];
+            [theSourceSheet setLineTextObjectView : theSourceSheet.completeHeight withLineText:MYID withDepth:sourceSheetDepth withScrollView:theScrollView];
+            sourceSheetDepth++;
         }
         else if ([MYID isKindOfClass:[NSString class]]) {
-            [theSourceSheet setCommentTextObjectView:theSourceSheet.completeHeight withCommentText:MYID withScrollView:theScrollView];
+            [theSourceSheet setCommentTextObjectView:theSourceSheet.completeHeight withCommentText:MYID withDepth:sourceSheetDepth withScrollView:theScrollView];
+            sourceSheetDepth++;
         }
     }
 }

@@ -233,6 +233,7 @@
         <element name="CommentCollectionTitle" positionX="-9063" positionY="-4351" width="128" height="148"/>
         <element name="ContextGroup" positionX="-10008" positionY="-4824" width="128" height="163"/>
         <element name="ContextGroupComment" positionX="-9846" positionY="-4644" width="128" height="118"/>
+        <element name="ContextGroupData" positionX="-9848" positionY="-4824" width="128" height="163"/>
         <element name="Event" positionX="-9866" positionY="-4131" width="128" height="178"/>
         <element name="LineText" positionX="-9567" positionY="-4590" width="128" height="373"/>
         <element name="Location" positionX="-10118" positionY="-4518" width="128" height="223"/>
@@ -246,6 +247,5 @@
         <element name="Struggle" positionX="-10134" positionY="-4129" width="128" height="178"/>
         <element name="TextTitle" positionX="-9389" positionY="-4869" width="128" height="238"/>
         <element name="TextVersionTitle" positionX="-9047" positionY="-4671" width="128" height="103"/>
-        <element name="ContextGroupData" positionX="-9848" positionY="-4824" width="128" height="163"/>
     </elements>
 </model>

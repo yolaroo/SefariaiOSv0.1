@@ -48,26 +48,6 @@
 
 #define TAG_BASE 20000
 
-//
-//// comment
-//
-
-- (NSInteger) setCommentTextObjectView :(NSInteger) viewCurrentSize withCommentText : (NSString*) myCommentText withScrollView : (UIScrollView*) myScrollView
-{
-    NSInteger computedHeight = [self computeTotalTextHeightForCommentTextBlock : myCommentText withSuperViewWidth : myScrollView.frame.size.width];
-    CGRect myRect = CGRectMake(0, viewCurrentSize+ 30, myScrollView.frame.size.width, computedHeight);
-    CommentTextUIView *myComment = [[CommentTextUIView alloc]initWithFrame:myRect];
-    myComment.commentString = myCommentText;
-    [myScrollView addSubview:myComment];
-    return myComment.frame.size.height;
-}
-
-- (NSInteger) computeTotalTextHeightForCommentTextBlock : (NSString*) myCommentText  withSuperViewWidth : (NSInteger) superViewWidth {
-    CGSize commentSize = [self frameForText : myCommentText sizeWithFont : COMMENT_TEXT_FONT constrainedToSize : CGSizeMake(superViewWidth, CGFLOAT_MAX)];
-    NSInteger myTotal = 1.2*commentSize.height + 2*VIEW_PADDING;
-    NSLog(@"-- Computed comment height %d--",myTotal);
-    return myTotal;
-}
 
 //
 //// title
@@ -80,6 +60,7 @@
     TitleGroupUIView*myTitleView = [[TitleGroupUIView alloc]initWithFrame:myRect];
     myTitleView.titleString = [myHeadingText firstObject];
     myTitleView.theSubtitleString = [myHeadingText lastObject];
+    myTitleView.tag = TAG_BASE;
     [myScrollView addSubview:myTitleView];
     return myTitleView.frame.size.height-VIEW_PADDING;
 }
@@ -99,12 +80,14 @@
 ///// line
 //
 
-- (NSInteger) setLineTextObjectView : (NSInteger) viewCurrentSize withLineText : (LineText*) myLineText withScrollView : (UIScrollView*) myScrollView
+- (NSInteger) setLineTextObjectView : (NSInteger) viewCurrentSize withLineText : (LineText*) myLineText withScrollView : (UIScrollView*) myScrollView withDepth : (NSInteger) theDepth
 {
     NSInteger computedHeight = [self computeTotalTextHeightForLineTextBlock : myLineText withSuperViewWidth: myScrollView.frame.size.width];
     CGRect myRect = CGRectMake(LEFT_MARGIN, 1.5*VIEW_PADDING+viewCurrentSize, myScrollView.frame.size.width - 2*LEFT_MARGIN, computedHeight);
     LineTextGroupUIView*myLTGView = [[LineTextGroupUIView alloc]initWithFrame:myRect];
     myLTGView.theLineText = myLineText;
+    myLTGView.tag = TAG_BASE + theDepth;
+
     [myScrollView addSubview:myLTGView];
     return myLTGView.frame.size.height;
 }
@@ -123,6 +106,29 @@
     CGSize hebSize = [self frameForText:myHebrewString sizeWithFont:TEXT_FONT_LARGE constrainedToSize:CGSizeMake(superViewWidth, CGFLOAT_MAX)];
     CGSize commentSize = [self frameForText:lineInfo sizeWithFont:INFO_FONT constrainedToSize:CGSizeMake(superViewWidth, CGFLOAT_MAX)];
     NSInteger myTotal = 1.2*engSize.height + 1.2*hebSize.height + 1.2*commentSize.height + 3*VIEW_PADDING;
+    return myTotal;
+}
+
+//
+//// comment
+//
+
+- (NSInteger) setCommentTextObjectView :(NSInteger) viewCurrentSize withCommentText : (NSString*) myCommentText withScrollView : (UIScrollView*) myScrollView withDepth : (NSInteger) theDepth
+{
+    NSInteger computedHeight = [self computeTotalTextHeightForCommentTextBlock : myCommentText withSuperViewWidth : myScrollView.frame.size.width];
+    CGRect myRect = CGRectMake(0, viewCurrentSize+ 30, myScrollView.frame.size.width, computedHeight);
+    CommentTextUIView *myComment = [[CommentTextUIView alloc]initWithFrame:myRect];
+    myComment.commentString = myCommentText;
+    myComment.tag = TAG_BASE + theDepth;
+
+    [myScrollView addSubview:myComment];
+    return myComment.frame.size.height;
+}
+
+- (NSInteger) computeTotalTextHeightForCommentTextBlock : (NSString*) myCommentText  withSuperViewWidth : (NSInteger) superViewWidth {
+    CGSize commentSize = [self frameForText : myCommentText sizeWithFont : COMMENT_TEXT_FONT constrainedToSize : CGSizeMake(superViewWidth, CGFLOAT_MAX)];
+    NSInteger myTotal = 1.2*commentSize.height + 2*VIEW_PADDING;
+    NSLog(@"-- Computed comment height %d--",myTotal);
     return myTotal;
 }
 

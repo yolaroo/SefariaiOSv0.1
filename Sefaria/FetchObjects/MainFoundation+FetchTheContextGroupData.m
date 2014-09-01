@@ -15,6 +15,10 @@
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     fetchRequest.entity = [NSEntityDescription entityForName:@"ContextGroupData" inManagedObjectContext:context];
     
+    NSSortDescriptor *sortDescriptorisplayOrder = [[NSSortDescriptor alloc] initWithKey:@"displayOrder" ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptorisplayOrder, nil];
+    [fetchRequest setSortDescriptors:sortDescriptors];
+    
     NSError* error;
     NSArray *fetchedRecords = [context executeFetchRequest:fetchRequest error:&error];
     

@@ -193,6 +193,11 @@
         <attribute name="uuid" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="whatLocation" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Location" inverseName="whatSatellitePicture" inverseEntity="Location" syncable="YES"/>
     </entity>
+    <entity name="Searches" representedClassName="Searches" syncable="YES">
+        <attribute name="displayOrder" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="searches" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="Struggle" representedClassName="Struggle" syncable="YES">
         <attribute name="displayOrder" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="metaType" optional="YES" attributeType="String" defaultValueString="struggle" syncable="YES"/>
@@ -247,5 +252,6 @@
         <element name="Struggle" positionX="-10134" positionY="-4129" width="128" height="178"/>
         <element name="TextTitle" positionX="-9389" positionY="-4869" width="128" height="238"/>
         <element name="TextVersionTitle" positionX="-9047" positionY="-4671" width="128" height="103"/>
+        <element name="Searches" positionX="-9578" positionY="-4869" width="128" height="88"/>
     </elements>
 </model>

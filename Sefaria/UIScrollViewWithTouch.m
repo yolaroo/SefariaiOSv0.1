@@ -18,7 +18,6 @@
 
 #define RESET_DELAY 0.3
 
-
 //
 //
 ////////
@@ -57,23 +56,48 @@
     self.touchPoint = [touch locationInView:self];
     self.touchView = [self hitTest:self.touchPoint withEvent:event];
     
-    if (self.touchView.tag > 20000){
+    if (self.touchView.tag > TAG_BASE){
         LOG NSLog(@"touch move %d",self.touchView.tag);
         
         CGPoint location = [touch locationInView:self];
         NSInteger previousTimestamp = event.timestamp;
         NSTimeInterval timeSincePrevious = event.timestamp - previousTimestamp;
         CGPoint prevLocation = [touch previousLocationInView:self];
-
         NSInteger velocity = (location.x - prevLocation.x) / timeSincePrevious;
         
-        LOG NSLog(@"x : %f y : %f ",self.touchPoint.x,self.touchPoint.y);
-        if (self.touchPoint.x < self.objectTouchCenter && velocity < -30) {
-            CGPoint myPoint = CGPointMake(location.x,self.touchView.center.y);
+        LOG NSLog(@"x : %f y : %f v : %d",self.touchPoint.x,self.touchPoint.y,velocity);
+        if (velocity < -2) {
+            CGPoint myPoint = CGPointMake(self.touchView.center.x-5,self.touchView.center.y);
             self.touchView.center = myPoint;
             self.tagForDelete = self.touchView.tag - TAG_BASE;
-            [self performSelector:@selector(showAlert) withObject:nil afterDelay:RESET_DELAY];
+            [self animationFroSwipe];
         }
+    }
+}
+
+#define ANIMATE_DURATION 0.6
+
+- (void) animationFroSwipe {
+    
+    //NSLog(@"animation start");
+    
+    if (!self.isAnimating){
+        self.isAnimating = true;
+        [self viewDeepShadow : self.touchView];
+        [UIView animateWithDuration : ANIMATE_DURATION
+                              delay : 0
+                            options : UIViewAnimationOptionCurveEaseIn
+                         animations : ^{
+                             CGPoint myPoint = CGPointMake(150,self.touchView.center.y);
+                             self.touchView.center = myPoint;
+                         }
+                         completion:^(BOOL finished){
+                             //empty
+                             [self showAlert];
+                             self.touchView.layer.shadowColor = [[UIColor clearColor] CGColor];
+
+                             self.isAnimating = false;
+                         }];
     }
 }
 
@@ -85,7 +109,6 @@
     if (self.touchView.tag >= 20000){
         LOG NSLog(@"touch end %d",self.touchView.tag);
     }
-
 }
 
 //
@@ -135,6 +158,7 @@
 }
 
 - (void) deleteObject {
+    LOG NSLog(@"delete notification");
     
     NSDictionary* data = @{@"numberIndexForDelete":[NSNumber numberWithInteger : self.tagForDelete]};
     
@@ -162,6 +186,27 @@
 - (void) setTouchView:(UIView*)touchView
 {
     _touchView=touchView;
+}
+
+//
+//
+////////
+#pragma mark - Shadow
+////////
+//
+//
+
+#define SHADOW_ALPHA 0.6f
+#define SHADOW_COLOR [[UIColor colorWithRed:5.0f/255.0f green:5.0f/255.0f blue:5.0f/255.0f alpha:SHADOW_ALPHA] CGColor]
+
+- (void) viewDeepShadow: (UIView*)shadowObject
+{
+    CGFloat radius = shadowObject.frame.size.width / 50;
+    [[shadowObject layer] setCornerRadius:radius];
+    shadowObject.layer.shadowOpacity = 1;
+    shadowObject.layer.shadowRadius = 5;
+    shadowObject.layer.shadowOffset = CGSizeMake(6.0f, 6.0f);
+    shadowObject.layer.shadowColor = SHADOW_COLOR;
 }
 
 //

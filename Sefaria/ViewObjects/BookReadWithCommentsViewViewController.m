@@ -45,7 +45,7 @@
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *hebrewTextTable;
-@property (weak, nonatomic) IBOutlet UITableView * englishTextTable;
+@property (weak, nonatomic) IBOutlet UITableView *englishTextTable;
 
 @property (weak, nonatomic) IBOutlet UITableView *menuTable;
 @property (weak, nonatomic) IBOutlet UITableView *chapterTable;
@@ -55,7 +55,6 @@
 @property (weak, nonatomic) IBOutlet UIView *mainChapterView;
 @property (weak, nonatomic) IBOutlet UIView *mainCommentView;
 @property (weak, nonatomic) IBOutlet UIView *mainHebrewView;
-
 
 //
 ////
@@ -133,7 +132,9 @@
     [self soundPressAction : self.soundToggleButton];
 }
 
+#warning here
 - (IBAction)fontTogglePress:(UIButton *)sender {
+    NSLog(@"press here");
     [self fontPressAction : self.englishTextTable withHebrewTableView:self.hebrewTextTable];
 }
 

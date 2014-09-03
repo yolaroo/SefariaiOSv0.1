@@ -80,7 +80,6 @@
 @property (nonatomic) bool commentFrameHasMoved;
 @property (nonatomic) bool titleFrameHasMoved;
 
-
 @property (strong,nonatomic) LineText* myLineText;
 
 //
@@ -133,7 +132,6 @@
 
 #define TAG_BASE 20000
 
-
 //
 //
 ////////
@@ -149,28 +147,22 @@
 }
 
 - (bool) contentCheck {
-    if ([self.mySourceSheet.dataArray count]>1 && self.mySourceSheet.titleString && self.mySourceSheet.subTitleString){
+    if ([self.mySourceSheet.dataArray count] >= 1 && self.mySourceSheet.titleString && self.mySourceSheet.subTitleString){
         return true;
     }
     return false;
 }
 
 - (void) mainSourceSheetSaveToCoreDataAction { //INTERFACE
-   
-    // create object
-    // create data
-
-    NSLog(@"attempt at source CD ");
     [self createSourceSheetCoreDataObject:self.mySourceSheet withContext:self.managedObjectContext];
-    //[self testFetchSourceSheetwithContext:self.managedObjectContext];
     [self performSelector:@selector(cleanSourceSheet) withObject:nil afterDelay:RESET_DELAY];
-
 }
 
 - (void) cleanSourceSheet {
     [self.mySourceSheet.dataArray removeAllObjects];
     self.mySourceSheet.titleString = nil;
     self.mySourceSheet.subTitleString = nil;
+    self.mySourceSheet.commentString = nil;
     self.titleTextField.text = @"";
     self.titleTextView.text = @"";
     self.commentTextView.text = @"";
@@ -260,24 +252,19 @@
     }
 }
 
-/*
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    CGPoint locationPoint = [[touches anyObject] locationInView:self.view];
-    UIView* viewYouWishToObtain = [self.view hitTest:locationPoint withEvent:event];
-    NSLog(@"-- touch tag %d --",viewYouWishToObtain.tag);
-}
-*/
-
 //
 //
 ////////
-#pragma mark - Textfield Return
+#pragma mark - Title Button Save to Source Sheet
 ////////
 //
 //
 
 - (IBAction) titleSaveButtonPress:(UIButton *)sender {
     NSLog(@"pressed");
+    if ([self.titleTextView.text length]){
+        self.mySourceSheet.subTitleString = self.titleTextView.text;
+    }
     if ([self.mySourceSheet.subTitleString length] && [self.mySourceSheet.titleString length]){
         [self saveTitle];
     }
@@ -287,11 +274,32 @@
 }
 
 //
-////
+//
+////////
+#pragma mark - Comment Button Save to Source Sheet
+////////
+//
+//
+
+- (IBAction)saveCommentButtonPress:(UIButton *)sender {
+    if ([self.commentTextView.text length]){
+        self.mySourceSheet.commentString = self.commentTextView.text;
+    }
+    if (self.mySourceSheet.commentString !=nil){
+        [self saveCommentDataAction];
+    }
+}
+
+//
+//
+////////
+#pragma mark - Textfield Return
+////////
+//
 //
 
 - (void) searchResultAction {
-    [self combinedTextSearch : self.theSearchTerm];
+    [self searchDataSetterForTextOnly: self.theSearchTerm];
     [self.searchTextTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
     [self.searchTextTable reloadData];
 }
@@ -319,23 +327,6 @@
     [self moveSubtitleTextViewUp];
 }
 
-/*
-- (BOOL) textView : (UITextView *) textView shouldChangeTextInRange : (NSRange)range replacementText : (NSString *) text {
-    if([text isEqualToString:@"\n"])
-    {
-        if (textView.tag == 2600) {
-            self.mySourceSheet.subTitleString = textView.text;
-        }
-        else if (textView.tag == 2500) {
-            self.mySourceSheet.commentString = textView.text;
-        }
-        [textView resignFirstResponder];
-        return NO;
-    }
-    return YES;
-}
-*/
-
 -(void)textViewDidEndEditing:(UITextView *)textView {
     NSLog(@"ended !!");
     if (textView.tag == 2600) {
@@ -346,7 +337,6 @@
     }
     [self moveCommentTextViewDown];
     [self moveSubtitleTextViewDown];
-    
 }
 
 //
@@ -392,7 +382,6 @@
     self.titleInputBackgroundView.hidden=true;
     self.commentInputBackgroundView.hidden=true;
     self.searchInputBackgroundView.hidden=true;
-
 }
 
 - (void) searchBarAction {
@@ -402,8 +391,6 @@
     self.menuInputBackgroundView.hidden=true;
     self.titleInputBackgroundView.hidden=true;
     self.commentInputBackgroundView.hidden=true;
-
-
 }
 
 - (void) commentBarAction {
@@ -457,20 +444,6 @@
 //
 //
 ////////
-#pragma mark - Comment Button Save to Source Sheet
-////////
-//
-//
-
-- (IBAction)saveCommentButtonPress:(UIButton *)sender {
-    if (self.mySourceSheet.commentString !=nil){
-        [self saveCommentDataAction];
-    }
-}
-
-//
-//
-////////
 #pragma mark - Table View
 ////////
 //
@@ -510,8 +483,19 @@
     }
     else if (tableView.tag == SEARCH_TAG) {
         UITableViewCell *cell = SEARCH_CELL;
-        NSString* myString = [self.searchTextArray objectAtIndex:indexPath.row];
-        NSString * myInfo = [self.searchInfoArray objectAtIndex:indexPath.row];
+        
+        NSString* myString;
+        NSString * myInfo;
+        if ([self.searchLineDataArray count] >= indexPath.row){
+            NSManagedObject* myLineObject = [self.searchLineDataArray objectAtIndex:indexPath.row];
+            NSArray* writeData = [self combinedTextSearchLineWrite : myLineObject];
+            myString = [writeData firstObject];
+            myInfo = [writeData lastObject];
+        }
+        else {
+            myString = @"error";
+            myInfo = @"error";
+        }
         cell = [self setMySearchTextCell:cell withText:myString withInfo:myInfo];
         return cell;
     }
@@ -576,7 +560,10 @@
 
 - (void) setCurrentSearchLineText : (NSInteger) selectedIndex {
     if ([self.searchLineDataArray count] >= selectedIndex) {
-        self.myLineText = [self.searchLineDataArray objectAtIndex:selectedIndex];
+        NSManagedObject * myObject = [self.searchLineDataArray objectAtIndex:selectedIndex];
+        if ([myObject isKindOfClass:[LineText class]]){
+            self.myLineText = [self.searchLineDataArray objectAtIndex:selectedIndex];
+        }
     }
 }
 
@@ -796,11 +783,19 @@
     self.isNavBarShowing = true;
     [self portraitLock];
     [self flipScreenPortrait];
+    [self currentSelectionForInterface];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+}
+
+- (void) currentSelectionForInterface {
+    self.titleInputBackgroundView.hidden=false;
+    self.menuInputBackgroundView.hidden=true;
+    self.commentInputBackgroundView.hidden=true;
+    self.searchInputBackgroundView.hidden=true;
 }
 
 //
@@ -852,10 +847,11 @@
 }
 
 - (void)deleteAction : (NSNotification *) notification {
+    NSLog(@"delete action run");
     NSDictionary* userInfo = notification.userInfo;
     if ([userInfo objectForKey:@"numberIndexForDelete"]){
-        LOG NSLog(@"-- data info %@ --",[userInfo objectForKey:@"numberIndexForDelete"]);
-        NSInteger index = [[userInfo objectForKey:@"numberIndexForDelete"] integerValue]-1;
+        NSLog(@"-- data info %@ --",[userInfo objectForKey:@"numberIndexForDelete"]);
+        NSInteger index = [[userInfo objectForKey:@"numberIndexForDelete"] integerValue] - 1;
         if ([self.mySourceSheet.dataArray count] >= index){
             [self.mySourceSheet.dataArray removeObjectAtIndex:index];
             [self drawSheet];

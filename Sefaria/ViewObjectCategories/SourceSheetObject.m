@@ -80,8 +80,8 @@
     return myTitleView.frame.size.height;
 }
 
-- (NSInteger) computeTotalTextHeightForHeadingTextBlock : (NSArray*) myHeadingText  withSuperViewWidth : (NSInteger) superViewWidth {
-    
+- (NSInteger) computeTotalTextHeightForHeadingTextBlock : (NSArray*) myHeadingText  withSuperViewWidth : (NSInteger) superViewWidth
+{
     NSString* heading = [myHeadingText firstObject];
     NSString* subHeading = [myHeadingText lastObject];
     CGSize headingSize = [self frameForText : heading sizeWithFont : TITLE_FONT constrainedToSize : CGSizeMake(superViewWidth, CGFLOAT_MAX)];
@@ -115,8 +115,8 @@
     return myLTGView.frame.size.height;
 }
 
-- (NSInteger) computeTotalTextHeightForLineTextBlock : (LineText*) myLineText withSuperViewWidth : (NSInteger) superViewWidth {
-    
+- (NSInteger) computeTotalTextHeightForLineTextBlock : (LineText*) myLineText withSuperViewWidth : (NSInteger) superViewWidth
+{    
     NSString* myEnglishString = myLineText.englishText;
     NSString* myHebrewString = myLineText.hebrewText;
     

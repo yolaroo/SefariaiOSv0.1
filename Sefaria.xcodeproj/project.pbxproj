@@ -36,6 +36,10 @@
 		C612F9CA197D2E4300F0F306 /* ChapterReadView.m in Sources */ = {isa = PBXBuildFile; fileRef = C612F9C9197D2E4300F0F306 /* ChapterReadView.m */; };
 		C6140EFE196A4D0800E87926 /* TextData in Resources */ = {isa = PBXBuildFile; fileRef = C6140EFD196A4D0800E87926 /* TextData */; };
 		C615A7EE19A4631C006AA7E0 /* BestStringClass.m in Sources */ = {isa = PBXBuildFile; fileRef = C615A7ED19A4631C006AA7E0 /* BestStringClass.m */; };
+		C62D80F219B6A60A00C6424D /* Searches.m in Sources */ = {isa = PBXBuildFile; fileRef = C62D80F119B6A60A00C6424D /* Searches.m */; };
+		C62D80F419B6A85400C6424D /* x08.CDBStore in Resources */ = {isa = PBXBuildFile; fileRef = C62D80F319B6A85400C6424D /* x08.CDBStore */; };
+		C62D80F719B6ABE600C6424D /* Searches+Create.m in Sources */ = {isa = PBXBuildFile; fileRef = C62D80F619B6ABE600C6424D /* Searches+Create.m */; };
+		C62D80FA19B6AC8800C6424D /* MainFoundation+FetchSearchTitles.m in Sources */ = {isa = PBXBuildFile; fileRef = C62D80F919B6AC8800C6424D /* MainFoundation+FetchSearchTitles.m */; };
 		C63167D1197759BF00EF9722 /* TextComments in Resources */ = {isa = PBXBuildFile; fileRef = C63167D0197759BF00EF9722 /* TextComments */; };
 		C639D9C319B11E400071BA0F /* CommentTextUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = C639D9C219B11E400071BA0F /* CommentTextUIView.m */; };
 		C641D47319B2FDF600F7DC61 /* MainFoundation+SearchStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = C641D47219B2FDF600F7DC61 /* MainFoundation+SearchStyle.m */; };
@@ -209,6 +213,13 @@
 		C6140EFD196A4D0800E87926 /* TextData */ = {isa = PBXFileReference; lastKnownFileType = folder; path = TextData; sourceTree = "<group>"; };
 		C615A7EC19A4631C006AA7E0 /* BestStringClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BestStringClass.h; path = ClassObjects/BestStringClass.h; sourceTree = "<group>"; };
 		C615A7ED19A4631C006AA7E0 /* BestStringClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BestStringClass.m; path = ClassObjects/BestStringClass.m; sourceTree = "<group>"; };
+		C62D80F019B6A60A00C6424D /* Searches.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Searches.h; path = CoreDataObjects/Searches.h; sourceTree = "<group>"; };
+		C62D80F119B6A60A00C6424D /* Searches.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Searches.m; path = CoreDataObjects/Searches.m; sourceTree = "<group>"; };
+		C62D80F319B6A85400C6424D /* x08.CDBStore */ = {isa = PBXFileReference; lastKnownFileType = file; path = x08.CDBStore; sourceTree = "<group>"; };
+		C62D80F519B6ABE600C6424D /* Searches+Create.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Searches+Create.h"; path = "ObjectCreateClassMethods/Searches+Create.h"; sourceTree = "<group>"; };
+		C62D80F619B6ABE600C6424D /* Searches+Create.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Searches+Create.m"; path = "ObjectCreateClassMethods/Searches+Create.m"; sourceTree = "<group>"; };
+		C62D80F819B6AC8800C6424D /* MainFoundation+FetchSearchTitles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MainFoundation+FetchSearchTitles.h"; path = "FetchObjects/MainFoundation+FetchSearchTitles.h"; sourceTree = "<group>"; };
+		C62D80F919B6AC8800C6424D /* MainFoundation+FetchSearchTitles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MainFoundation+FetchSearchTitles.m"; path = "FetchObjects/MainFoundation+FetchSearchTitles.m"; sourceTree = "<group>"; };
 		C63167D0197759BF00EF9722 /* TextComments */ = {isa = PBXFileReference; lastKnownFileType = folder; path = TextComments; sourceTree = "<group>"; };
 		C639D9C119B11E400071BA0F /* CommentTextUIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommentTextUIView.h; path = ViewObjects/CommentTextUIView.h; sourceTree = "<group>"; };
 		C639D9C219B11E400071BA0F /* CommentTextUIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommentTextUIView.m; path = ViewObjects/CommentTextUIView.m; sourceTree = "<group>"; };
@@ -557,6 +568,8 @@
 			isa = PBXGroup;
 			children = (
 				C660A2DC196DEC9300A2E94F /* SefariaDataModel.xcdatamodeld */,
+				C62D80F019B6A60A00C6424D /* Searches.h */,
+				C62D80F119B6A60A00C6424D /* Searches.m */,
 				C675A4DF19B2DCC700A65829 /* ContextGroup.h */,
 				C675A4E019B2DCC700A65829 /* ContextGroup.m */,
 				C675A4DC19B2DCC700A65829 /* LineText.h */,
@@ -664,6 +677,8 @@
 				C675A4CB19B2C4CA00A65829 /* ContextGroupData+Create.m */,
 				C675A4CD19B2CBF900A65829 /* ContextGroup+Create.h */,
 				C675A4CE19B2CBF900A65829 /* ContextGroup+Create.m */,
+				C62D80F519B6ABE600C6424D /* Searches+Create.h */,
+				C62D80F619B6ABE600C6424D /* Searches+Create.m */,
 			);
 			name = "Create Objects";
 			sourceTree = "<group>";
@@ -691,6 +706,8 @@
 				C675A4E519B2E3E700A65829 /* MainFoundation+FetchTheContextGroupData.m */,
 				C675A4E719B2E40400A65829 /* MainFoundation+FetchTheContextGroupComment.h */,
 				C675A4E819B2E40400A65829 /* MainFoundation+FetchTheContextGroupComment.m */,
+				C62D80F819B6AC8800C6424D /* MainFoundation+FetchSearchTitles.h */,
+				C62D80F919B6AC8800C6424D /* MainFoundation+FetchSearchTitles.m */,
 			);
 			name = "Fetch Objects";
 			sourceTree = "<group>";
@@ -897,6 +914,7 @@
 			children = (
 				C675A4C519B2BAF800A65829 /* x06.CDBStore */,
 				C675A4E219B2DF6B00A65829 /* x07.CDBStore */,
+				C62D80F319B6A85400C6424D /* x08.CDBStore */,
 				C6B978C61987498C002175EF /* BG */,
 				C6C41FD61968CC10001C8883 /* Sefaria */,
 				C6C41FA51968CBF8001C8883 /* Supporting Files */,
@@ -1151,6 +1169,7 @@
 			files = (
 				C6DAC1C419763AAC008B948A /* SefariaTitle.json in Resources */,
 				C675A4E319B2DF6B00A65829 /* x07.CDBStore in Resources */,
+				C62D80F419B6A85400C6424D /* x08.CDBStore in Resources */,
 				C64AC4A319AD4EA900A9D2CB /* NewWoodBGPortrait.png in Resources */,
 				C675A4C619B2BAF800A65829 /* x06.CDBStore in Resources */,
 				C6C41FB51968CBF8001C8883 /* Main_iPad.storyboard in Resources */,
@@ -1212,6 +1231,7 @@
 				C60307551986F35A00D7B6FF /* FileRecursion.m in Sources */,
 				C675A49819B2B53200A65829 /* Job.m in Sources */,
 				C67618D519A097100036CD4E /* RestTextDataFetch.m in Sources */,
+				C62D80F219B6A60A00C6424D /* Searches.m in Sources */,
 				C675A49E19B2B53200A65829 /* LocationCoordinate.m in Sources */,
 				C67E95C619A1D15300FD79E5 /* RestMenuDataModel.m in Sources */,
 				C6FA4439199A9723002F7B70 /* BookReadWithCommentsViewViewController.m in Sources */,
@@ -1223,6 +1243,7 @@
 				C675A4A719B2B53200A65829 /* Person.m in Sources */,
 				C675A4B619B2B53200A65829 /* CommentAuthor.m in Sources */,
 				C60307761986F3F200D7B6FF /* MainFoundation.m in Sources */,
+				C62D80FA19B6AC8800C6424D /* MainFoundation+FetchSearchTitles.m in Sources */,
 				C6C140D61990EA3200EF9D29 /* MainFoundation+FetchTheCommentCollectionTitle.m in Sources */,
 				C60307721986F3DB00D7B6FF /* TanachDataModel.m in Sources */,
 				C675A4D519B2D7B900A65829 /* MainFoundation+FetchTheContextGroup.m in Sources */,
@@ -1274,6 +1295,7 @@
 				C6DCA47F19A0031D007136D7 /* BookFromRestView.m in Sources */,
 				C603076A1986F3CC00D7B6FF /* MenuBuilderDataModel.m in Sources */,
 				C675A4B919B2B53200A65829 /* Event.m in Sources */,
+				C62D80F719B6ABE600C6424D /* Searches+Create.m in Sources */,
 				C675A4E119B2DCC700A65829 /* ContextGroup.m in Sources */,
 				C60307671986F3AE00D7B6FF /* CompleteBookClass.m in Sources */,
 				C6C058A51980F70F003EC2DC /* BookGroup+Create.m in Sources */,

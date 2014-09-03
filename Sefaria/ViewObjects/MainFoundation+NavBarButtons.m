@@ -58,6 +58,7 @@
 {
     if (!self.soundSet) {
         [soundButton setTitle:@"📣" forState:UIControlStateNormal];
+        [self foundationStopSpeech];
     } else {
         [soundButton setTitle:@"📢" forState:UIControlStateNormal];
     }

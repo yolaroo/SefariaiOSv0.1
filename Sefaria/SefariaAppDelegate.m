@@ -21,8 +21,8 @@
 
 #define NILSEED 2
 #define SEED_BUILD if(NILSEED == 1) //one is pass - two is normal
-#define SEED_NAME @"x07"
-#define SEED_NAME_FULL @"x07.CDBStore"
+#define SEED_NAME @"x08"
+#define SEED_NAME_FULL @"x08.CDBStore"
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {

@@ -10,7 +10,19 @@
 
 @interface MainFoundation (SeachTextActions)
 
-- (NSString*) combinedTextSearch : (NSString*) myString;
-- (NSString*) combinedCommentSearch : (NSString*) myString;
+- (NSArray*) combinedTextSearchLineWrite : (NSObject*) myObject;
+
+- (NSString*) searchDataSetterForTextOnly : (NSString*) myString;
+- (NSString*) searchDataSetterForCommentsOnly : (NSString*) myString;
+- (NSString*) searchDataSetterForAllCases : (NSString*) myString;
+
+- (void) addBookMarkValueToSearchText : (UITableView*) tableView withLineText : (LineText*) myLineText withIndexPath : (NSIndexPath *)indexPath withContext : (NSManagedObjectContext*) context;
+
+- (void) createSearchTitle : (NSManagedObjectContext*) context;
+- (void) fetchSearchTitleDataArray : (NSManagedObjectContext*) context;
+
+
+
+
 
 @end

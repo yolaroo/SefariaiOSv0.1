@@ -65,6 +65,8 @@
 @property (nonatomic, strong) NSArray* bookmarkArray;
 @property (nonatomic, strong) NSArray* bookmarkChapterArray;
 @property (nonatomic, strong) NSArray* fullMenuArray;
+@property (strong, nonatomic) NSArray* searchTitlesArray;
+
 
 @property (nonatomic) NSInteger menuDepthCount;
 

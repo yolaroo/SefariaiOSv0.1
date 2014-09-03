@@ -22,6 +22,12 @@
 
 #import "MainFoundation+SearchStyle.h"
 
+#import "MainFoundation+NavBarButtons.h"
+
+#import "MainFoundation+FetchSearchTitles.h"
+
+#import "Searches+Create.h"
+
 @interface SearchTextViewController ()
 
 #define BLACK_SHADOW [UIColor colorWithRed:40.0f/255.0f green:40.0f/255.0f blue:40.0f/255.0f alpha:0.3f]
@@ -29,7 +35,7 @@
 @property (weak, nonatomic) IBOutlet UITableView * englishTextTable;
 @property (weak, nonatomic) IBOutlet UITableView * hebrewTextTable;
 @property (weak, nonatomic) IBOutlet UITableView * searchTextTable;
-
+@property (weak, nonatomic) IBOutlet UITableView * searchResultTextTable;
 
 @property (weak, nonatomic) IBOutlet UIView *mainEnglishView;
 @property (weak, nonatomic) IBOutlet UIView *mainHebrewView;
@@ -46,6 +52,12 @@
 
 @property (strong, nonatomic) IBOutletCollection(UIView) NSArray *myViewCollection;
 
+
+//
+////
+//
+
+
 //
 ////
 //
@@ -59,6 +71,13 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *searchSelectionTextButton;
 @property (weak, nonatomic) IBOutlet UIButton *searchSelectionCommentsButton;
+
+//
+////
+//
+
+@property (weak, nonatomic) IBOutlet UIButton *soundToggleButton;
+@property (weak, nonatomic) IBOutlet UIButton *bookmarkToggleButton;
 
 @end
 
@@ -80,10 +99,12 @@
 #define ENGLISH_CELL [tableView dequeueReusableCellWithIdentifier:@"EnglishTextCell" forIndexPath:indexPath]
 #define HEBREW_CELL [tableView dequeueReusableCellWithIdentifier:@"HebrewTextCell" forIndexPath:indexPath]
 #define SEARCH_CELL [tableView dequeueReusableCellWithIdentifier:@"SearchCell" forIndexPath:indexPath]
+#define SEARCH_RESULT_CELL [tableView dequeueReusableCellWithIdentifier:@"SearchResultCell" forIndexPath:indexPath]
 
 #define ENGLISH_TAG 200
 #define HEBREW_TAG 300
 #define SEARCH_TAG 700
+#define SEARCH_RESULT_TAG 750
 
 #define COLOR_CELL_HIGHLIGHT [UIColor colorWithRed: 242.0f/255.0f green:249.0f/255.0f blue:251.0f/255.0f alpha:1.0f]
 
@@ -95,6 +116,18 @@
 #pragma mark - Button Press
 ////////
 //
+//
+
+- (IBAction)bookmarkTogglePress:(UIButton *)sender {
+    [self bookmarkPressAction : self.bookmarkToggleButton];
+}
+
+- (IBAction)soundToggleButtonPress:(UIButton *)sender {
+    [self soundPressAction : self.soundToggleButton];
+}
+
+//
+////
 //
 
 - (IBAction)selectionChoiceTextPress:(UIButton *)sender {
@@ -187,36 +220,28 @@
 }
 
 //
-////
+//
+////////
+#pragma mark - Text Field Return
+////////
+//
 //
 
-- (BOOL) textFieldShouldReturn : (UITextField *)textField {
+- (BOOL) textFieldShouldReturn : (UITextField *)textField { // INTERFACE
     if ([textField.text length]) {
         self.theSearchTerm = [textField.text mutableCopy];
-        [self searchSelectionChoice];
-        [self.searchTextTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
-        self.mainSearchView.hidden = false;
-        self.searchEnglishButton.hidden = true;
-        self.searchHebrewButton.hidden = true;
-        self.searchLabel.text = @" ";
-        [self.searchTextTable reloadData];
+        [self createSearchTitle : self.managedObjectContext];
+        [self setSearchTitleView];
+        [self searchAction];
     }
     [textField resignFirstResponder];
     return NO;
 }
 
-- (void) searchSelectionChoice {
-    
-    if (self.isSelectionComments && !self.isSelectionText){
-        self.wordCountLabel.text = [self combinedCommentSearch : self.theSearchTerm];
-    }
-    else if (!self.isSelectionComments && self.isSelectionText){
-        self.wordCountLabel.text = [self combinedTextSearch : self.theSearchTerm];
-    }
-    else if (self.isSelectionComments && self.isSelectionText){
-        self.wordCountLabel.text = [self combinedTextSearch : self.theSearchTerm];
-        self.wordCountLabel.text = [self combinedCommentSearch : self.theSearchTerm];
-    }
+- (void) setSearchTitleView {
+    [self fetchSearchTitleDataArray : self.managedObjectContext];
+    [self.searchResultTextTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
+    [self.searchResultTextTable reloadData];
 }
 
 //
@@ -227,17 +252,17 @@
 //
 //
 
-- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger) numberOfSectionsInTableView : (UITableView *) tableView
 {
     return 1;
 }
 
-- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger) tableView:(UITableView *) tableView numberOfRowsInSection : (NSInteger) section
 {
     return [self tableViewCellNumberForCoreData : tableView numberOfRowsInSection : section];
 }
 
-- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *) tableView : (UITableView *) tableView cellForRowAtIndexPath : (NSIndexPath *) indexPath
 {
     if (tableView.tag == ENGLISH_TAG){
         UITableViewCell *cell = ENGLISH_CELL;
@@ -255,9 +280,35 @@
     }
     else if (tableView.tag == SEARCH_TAG) {
         UITableViewCell *cell = SEARCH_CELL;
-        NSString* myString = [self.searchTextArray objectAtIndex:indexPath.row];
-        NSString * myInfo = [self.searchInfoArray objectAtIndex:indexPath.row];
+        NSString* myString;
+        NSString * myInfo;
+        if ([self.searchLineDataArray count] >= indexPath.row){
+            NSManagedObject* myLineObject = [self.searchLineDataArray objectAtIndex:indexPath.row];
+            NSArray* writeData = [self combinedTextSearchLineWrite : myLineObject];
+            
+            
+            myString = [writeData firstObject];
+            myInfo = [writeData lastObject];
+        }
+        else {
+            myString = @"error";
+            myInfo = @"error";
+        }
+        
         cell = [self setMySearchTextCell:cell withText:myString withInfo:myInfo];
+        return cell;
+    }
+    else if (tableView.tag == SEARCH_RESULT_TAG) {
+        UITableViewCell *cell = SEARCH_RESULT_CELL;
+        
+        Searches* mySearchTitle = [self.searchTitlesArray objectAtIndex:indexPath.row];
+        NSString* searchTitle = mySearchTitle.name;
+        if ([searchTitle length]){
+            cell.textLabel.text = searchTitle;
+        }
+        else {
+            cell.textLabel.text = @"error";
+        }
         return cell;
     }
     return nil;
@@ -324,23 +375,153 @@
         //[self foundationRunSpeech:@[myCellText]];
     }
     else if (tableView.tag == SEARCH_TAG){
-        
         if ([self.theSearchTerm length]){
-            LineText* myLineText = [self.searchLineDataArray objectAtIndex:indexPath.row];
-            TextTitle* title = myLineText.whatTextTitle;
+            NSManagedObject* objectAtIndex = [self.searchLineDataArray objectAtIndex:indexPath.row];
+            [self loadReadingData:tableView withIndex:indexPath withManagedObject:objectAtIndex];
+        }
+    }
+    else if (tableView.tag == SEARCH_RESULT_TAG){
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        NSString*myCellText = cell.textLabel.text;
 
-            self.theChapterMax = [title.chapterCount integerValue];
-            self.theChapterNumber = [myLineText.chapterNumber integerValue];
-            self.myCurrentTextTitle = title.englishName;
-            
-            self.searchEnglishButton.hidden = false;
-            self.searchHebrewButton.hidden = false;
-            [self setLabelsForName];
-            
-            [self updateTheData];
+        if ([myCellText length]) {
+            self.theSearchTerm = [myCellText mutableCopy];
+            [self searchFromTableTouch];
         }
     }
 }
+
+- (void) searchFromTableTouch {
+    [self searchAction];
+
+}
+
+//
+//
+////////
+#pragma mark - Delete
+////////
+//
+//
+
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (tableView.tag == SEARCH_RESULT_TAG) {
+        if (editingStyle == UITableViewCellEditingStyleDelete) {
+            
+            [tableView beginUpdates];
+            [self deleteSearchTitleObject:self.managedObjectContext withIndex:indexPath];
+            [tableView endUpdates];
+            [self setSearchTitleView];
+        }
+    }
+    else {
+        NSLog(@"can't edit");
+    }
+}
+
+- (void) deleteSearchTitleObject : (NSManagedObjectContext*) context withIndex : (NSIndexPath*) indexPath{
+    
+    if ([self.searchTitlesArray count] >= indexPath.row){
+        Searches* mySearchTitle = [self.searchTitlesArray objectAtIndex:indexPath.row];
+        [context deleteObject:mySearchTitle];
+        [self saveData:context];
+    }
+    
+}
+
+
+//
+//
+////////
+#pragma mark - Load Reading Data
+////////
+//
+//
+
+- (void) loadReadingData : (UITableView *)tableView withIndex : (NSIndexPath *)indexPath withManagedObject : (NSManagedObject*) objectAtIndex {
+    if ([objectAtIndex isKindOfClass:[LineText class]]){
+        LineText* myLineText = [self.searchLineDataArray objectAtIndex:indexPath.row];
+        TextTitle* title = myLineText.whatTextTitle;
+        
+        self.theChapterMax = [title.chapterCount integerValue];
+        self.theChapterNumber = [myLineText.chapterNumber integerValue];
+        self.myCurrentTextTitle = title.englishName;
+        
+        [self addBookMarkValueToSearchText:tableView withLineText:myLineText withIndexPath:indexPath withContext:self.managedObjectContext];
+        
+        [self setReadingDataView];
+        [self updateTheData];
+    }
+}
+
+- (void) setReadingDataView {
+    self.searchEnglishButton.hidden = false;
+    self.searchHebrewButton.hidden = false;
+    [self setLabelsForName];
+}
+
+//
+//
+////////
+#pragma mark - Data Set
+////////
+//
+//
+
+- (void) searchAction { // INTERFACE
+    [self searchSelectionChoice];
+    [self searchViewSetter];
+}
+
+- (void) searchViewSetter {
+    [self.searchTextTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
+    self.mainSearchView.hidden = false;
+    self.searchEnglishButton.hidden = true;
+    self.searchHebrewButton.hidden = true;
+    self.searchLabel.text = @" ";
+    [self.searchTextTable reloadData];
+}
+
+//
+//
+////////
+#pragma mark - Data Action
+////////
+//
+//
+
+- (void) searchSelectionChoice {
+    if (self.isSelectionComments && !self.isSelectionText){
+        [self setSearchDataCommentArray];
+    }
+    else if (!self.isSelectionComments && self.isSelectionText){
+        [self setSearchDataTextArray];
+    }
+    else if (self.isSelectionComments && self.isSelectionText){
+        [self setSearchDataCombinedArray];
+    }
+}
+
+- (void) setSearchDataTextArray {
+    self.wordCountLabel.text = [self searchDataSetterForTextOnly : self.theSearchTerm];
+}
+
+- (void) setSearchDataCommentArray {
+    self.wordCountLabel.text = [self searchDataSetterForCommentsOnly: self.theSearchTerm];
+}
+
+- (void) setSearchDataCombinedArray {
+    self.wordCountLabel.text = [self searchDataSetterForAllCases: self.theSearchTerm];
+}
+
+//
+////
+//
 
 - (void) setLabelsForName {
     NSString* myString  = [NSString stringWithFormat:@"%@ %d",self.myCurrentTextTitle,self.theChapterNumber+1];
@@ -428,6 +609,8 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self loadPreferences : self.soundToggleButton];
+
     self.navigationController.navigationBarHidden = false;
 }
 
@@ -446,6 +629,7 @@
 
 - (void) initialLoad {
     [self viewStyleForLoad];
+    [self performSelector:@selector(setSearchTitleView) withObject:nil afterDelay:0.3];
     self.searchEnglishButton.hidden = true;
     self.searchHebrewButton.hidden = true;
     self.isSelectionText = true;
@@ -460,13 +644,6 @@
         [self viewShadow:UIV];
     }
 }
-
-
-
-
-
-
-
 
 
 

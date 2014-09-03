@@ -19,7 +19,7 @@
 - (UITableViewCell *) setMySearchTextCell: (UITableViewCell*) cell withText : (NSString*) myString withInfo : (NSString*) myInfo
 {
     if (myString != nil){
-        cell.textLabel.textAlignment = UIControlContentHorizontalAlignmentFill;
+        cell.textLabel.textAlignment = UIControlContentHorizontalAlignmentRight;
         cell.textLabel.font = IPAD_FONT;
         
         cell.textLabel.numberOfLines = 0;

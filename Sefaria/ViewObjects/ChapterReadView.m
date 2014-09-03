@@ -329,7 +329,7 @@
 
 - (void) tableView : (UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView.tag == MENU_TAG){
+    if (tableView.tag == MENU_TAG) {
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         NSString*myCellText = cell.textLabel.text;
         [self menuPress:myCellText];
@@ -339,13 +339,13 @@
         [self basicDataReload];
         [self theMenuActionComplete];
     }
-    else if (tableView.tag == ENGLISH_TAG){
+    else if (tableView.tag == ENGLISH_TAG) {
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         NSString*myCellText = cell.textLabel.text;
         [self foundationRunSpeech:@[myCellText]];
         [self addBookMarkValueToLineText :tableView withIndexPath:indexPath withContext:self.managedObjectContext];
     }
-    else if (tableView.tag == HEBREW_TAG){
+    else if (tableView.tag == HEBREW_TAG) {
         [self addBookMarkValueToLineText :tableView withIndexPath:indexPath withContext:self.managedObjectContext];
 
         //UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
@@ -353,11 +353,6 @@
         //[self foundationRunSpeech:@[myCellText]];
     }
 }
-
-
-
-
-
 
 //
 //

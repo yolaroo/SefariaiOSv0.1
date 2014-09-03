@@ -21,6 +21,8 @@
 @property (nonatomic) NSInteger objectTouchCenter;
 
 @property (nonatomic) bool isShowingAlert;
+@property (nonatomic) bool isAnimating;
+
 @property (nonatomic) NSInteger tagForDelete;
 
 

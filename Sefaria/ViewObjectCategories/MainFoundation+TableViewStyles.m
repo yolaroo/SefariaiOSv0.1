@@ -10,6 +10,7 @@
 #import "MainFoundation+EnglishTextStyle.h"
 #import "MainFoundation+HebrewTextStyles.h"
 #import "MainFoundation+CommentStyle.h"
+#import "MainFoundation+SeachTextActions.h"
 
 #import "MainFoundation+BookMarkStyle.h"
 
@@ -21,6 +22,8 @@
 #define CHAPTER_TAG 400
 #define COMMENT_TAG 600
 #define SEARCH_TAG 700
+#define SEARCH_RESULT_TAG 750
+
 #define BOOKMARK_TAG 800
 #define BOOKMARK_CHAPTER_TAG 900
 #define SMALL_MENU_TAG 1100
@@ -64,7 +67,7 @@
         return [self.commentArray count] ? [self.commentArray count] : 0;
     }
     else if (tableView.tag == SEARCH_TAG){
-        return [self.searchTextArray count] ? [self.searchTextArray count] : 0;
+        return [self.searchLineDataArray count] ? [self.searchLineDataArray count] : 0;
     }
     else if (tableView.tag == BOOKMARK_TAG){
         return [self.bookmarkArray count] ? [self.bookmarkArray count] : 0;
@@ -75,13 +78,16 @@
     else if (tableView.tag == SMALL_MENU_TAG) {
         return [self.fullMenuArray count] ? [self.fullMenuArray count] : 0;
     }
+    else if (tableView.tag == SEARCH_RESULT_TAG) {
+        return [self.searchTitlesArray count] ? [self.searchTitlesArray count] : 0;
+    }
     else {
         NSLog(@"Error on cell load");
         return 0;
     }
 }
 
-- (NSInteger) tableViewCellNumberForREST:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger) tableViewCellNumberForREST : (UITableView *) tableView numberOfRowsInSection : (NSInteger) section
 {
     if (tableView.tag == MENU_TAG){
         return [self.menuListArray count] ? [self.menuListArray count] : 0;
@@ -178,8 +184,16 @@
     CGSize sizeEnglish;
     NSString* myString;
     CGFloat frameWidth = tableView.frame.size.width;
-    if ([self.searchTextArray count] > indexPath.row) {
-        myString = [self.searchTextArray objectAtIndex:indexPath.row];
+    if ([self.searchLineDataArray count] > indexPath.row) {
+        
+        NSManagedObject* myLineObject = [self.searchLineDataArray objectAtIndex:indexPath.row];
+        NSArray* writeData = [self combinedTextSearchLineWrite : myLineObject];
+        myString = [writeData firstObject];
+
+#warning
+        
+        
+        //myString = [self.searchTextArray objectAtIndex:indexPath.row];
     }
     if ([myString length]) {
         

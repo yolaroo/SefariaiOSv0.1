@@ -69,8 +69,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *hebrewChapterButton;
 
 @property (weak, nonatomic) IBOutlet UIButton *soundToggleButton;
-@property (weak, nonatomic) IBOutlet UIButton *bookmarkToggleButton;
-
 
 @end
 
@@ -111,10 +109,6 @@
 
 - (IBAction)fontTogglePress:(UIButton *)sender {
     [self fontPressAction : self.englishTextTable withHebrewTableView:self.hebrewTextTable];
-}
-
-- (IBAction)bookmarkTogglePress:(UIButton *)sender {
-    [self bookmarkPressAction : self.bookmarkToggleButton];
 }
 
 - (IBAction)navHideTogglePress:(UIButton *)sender {
@@ -359,9 +353,9 @@
         [self didSelectRestChapterMenuAtIndex : indexPath.row];
     }
     else if (tableView.tag == ENGLISH_TAG){
-        //UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-        //NSString*myCellText = cell.textLabel.text;
-        //[self foundationRunSpeech:@[myCellText]];
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        NSString*myCellText = cell.textLabel.text;
+        [self foundationRunSpeech:@[myCellText]];
     }
     else if (tableView.tag == HEBREW_TAG){
 
@@ -671,6 +665,8 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     self.isNavBarShowing = true;
+    [self loadPreferences : self.soundToggleButton];
+
     //[self performSelector:@selector(hideNavBar) withObject:nil afterDelay:0.6];
 }
 

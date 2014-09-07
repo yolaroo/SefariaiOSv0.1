@@ -3,8 +3,8 @@
 * Install Xcode, if you don't have it already. 
 * Clone the repository or download the zip file 
 * Open the Sefaria.xcodeproj file
-** Select iPad2 or iPad Retina (for device).
-** Build (Product > Build)
-** Run (Product > Run)
+  * Select iPad2 or iPad Retina (for device).
+  * Build (Product > Build)
+  * Run (Product > Run)
 
 This will give you an iPad2 simulator with the software running.

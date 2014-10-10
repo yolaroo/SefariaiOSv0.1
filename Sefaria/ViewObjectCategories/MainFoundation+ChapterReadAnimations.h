@@ -10,6 +10,7 @@
 
 @interface MainFoundation (ChapterReadAnimations)
 
+- (void) moveSmallMenuAction : (UIView*) myView;
 - (void) moveMenuAction : (UIView*) myView;
 - (void) moveChapterAction : (UIView*) myView;
 

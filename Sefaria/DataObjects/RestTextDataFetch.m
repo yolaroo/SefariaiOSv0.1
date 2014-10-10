@@ -46,7 +46,7 @@
 {
     //__block RestTextDataModel* myRestData = nil;
     NSLog(@"-- request... %@ --", pathURL);
-    NSURLRequest *request = [NSURLRequest requestWithURL:pathURL cachePolicy:NSURLCacheStorageNotAllowed timeoutInterval:10.0];
+    NSURLRequest *request = [NSURLRequest requestWithURL:pathURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
     //NSURLRequestReloadIgnoringCacheData
     [NSURLConnection sendAsynchronousRequest:request
                                        queue:[NSOperationQueue mainQueue]

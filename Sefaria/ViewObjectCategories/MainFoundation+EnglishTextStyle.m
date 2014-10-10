@@ -9,7 +9,6 @@
 #import "MainFoundation+EnglishTextStyle.h"
 
 #import "MainFoundation+BookMarkActions.h"
-
 #import "MainFoundation+MainViewActions.h"
 
 @implementation MainFoundation (EnglishTextStyle)

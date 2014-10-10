@@ -42,7 +42,7 @@
     
     _thisViewHeight = [self addEnglishText:_commentString withCurrentOverallSize:_thisViewHeight withFont:COMMENT_TEXT_FONT]+VIEW_PADDING;
 
-    LOG NSLog(@"-- Comment in object height %d--",_thisViewHeight);
+    LOG NSLog(@"-- Comment in object height %ld--",(long)_thisViewHeight);
 }
 
 //

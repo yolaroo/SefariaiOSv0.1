@@ -10,6 +10,9 @@
 
 @implementation MainFoundation (ChapterReadAnimations)
 
+#define DK 2
+#define LOG if(DK == 1)
+
 #define ANIMATE_DURATION 0.6
 #define ANIMATE_OPACITY 0.2
 
@@ -22,6 +25,76 @@
 #define HIDE_MENU_POSITION CGPointMake(384.0, 1194.0)
 #define SHOW_MENU_POSITION CGPointMake(384.0, 740.0)
 
+
+//
+//
+////////
+#pragma mark - Small Menu Animation
+////////
+//
+//
+
+- (CGPoint) hideSmallPoint : (UIView*)myView {
+    return CGPointMake(-self.view.frame.size.width/(myView.frame.size.width/145), myView.center.y);
+}
+
+- (CGPoint) showSmallPoint : (UIView*)myView {
+    return CGPointMake(self.view.frame.size.width/2, myView.center.y);
+}
+
+- (void) moveSmallMenuAction : (UIView*) myView
+{
+    LOG NSLog(@"-- animated --");
+    if (!self.menuIsMoving) {
+        if (self.isMenuShowing) {
+            [self hideSmallMenu : myView];
+            self.menuIsMoving = true;
+            self.isMenuShowing = !self.isMenuShowing;
+        }
+        else {
+            [self showSmallMenu : myView];
+            self.menuIsMoving = true;
+            self.isMenuShowing = !self.isMenuShowing;
+        }
+    }
+}
+
+//
+////
+//
+
+- (void) hideSmallMenu : (UIView*) myView {
+    LOG NSLog(@"-- hide --");
+    [UIView animateWithDuration:ANIMATE_DURATION
+                          delay:0
+                        options: UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         myView.center = [self hideSmallPoint : myView];
+                         myView.alpha = ANIMATE_OPACITY;
+                     }
+                     completion:^(BOOL finished){
+                         self.menuIsMoving = false;
+                     }];
+}
+
+- (void) showSmallMenu : (UIView*) myView {
+    LOG NSLog(@"-- show --");
+
+    [self.view bringSubviewToFront:myView];
+    [UIView animateWithDuration:ANIMATE_DURATION
+                          delay:0
+                        options: UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         myView.center = [self showSmallPoint : myView];
+                         myView.alpha = 1;
+                     }
+                     completion:^(BOOL finished){
+                         self.menuIsMoving = false;
+                     }];
+}
+
+
+
 //
 //
 ////////
@@ -32,6 +105,7 @@
 
 - (void) menuAnimationOnLoad : (UIView*) menuView withChapterView : (UIView*) chapterView
 {
+    LOG NSLog(@"main animated");
     [self moveMenuAction:menuView];
     self.menuIsMoving = true;
     self.isMenuShowing = true;
@@ -51,6 +125,8 @@
 
 - (void) moveMenuAction : (UIView*) myView
 {
+    LOG NSLog(@"basic menu action");
+
     if (!self.menuIsMoving) {
         if (self.isMenuShowing) {
             [self hideMenu : myView];

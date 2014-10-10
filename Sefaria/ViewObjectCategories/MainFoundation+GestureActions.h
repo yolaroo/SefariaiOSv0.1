@@ -10,6 +10,8 @@
 
 @interface MainFoundation (GestureActions)
 
+- (void) noMenuGesture;
 - (void) gestureLoader : (UIView*)firstView withChapterView : (UIView*)chapterView;
+- (void) iphoneGestureLoader : (UIView*) smallMenuView;
 
 @end

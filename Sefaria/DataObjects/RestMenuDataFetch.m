@@ -28,7 +28,9 @@
     NSString* theURLString = @"http://www.sefaria.org/api/index";
     NSURL *pathURL = [NSURL URLWithString: theURLString];
     NSLog(@"-- request... --");
-    NSURLRequest *request = [NSURLRequest requestWithURL:pathURL cachePolicy:NSURLCacheStorageNotAllowed timeoutInterval:10.0];
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:pathURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
+    
     [NSURLConnection sendAsynchronousRequest:request
                                        queue:[NSOperationQueue mainQueue]
                            completionHandler:^(NSURLResponse* response,

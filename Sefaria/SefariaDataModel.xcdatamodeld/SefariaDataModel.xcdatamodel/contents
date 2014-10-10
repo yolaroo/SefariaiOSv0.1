@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13D65" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6244" systemVersion="14A379a" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="BookGroup" representedClassName="BookGroup" syncable="YES">
         <attribute name="displayOrder" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="englishName" optional="YES" attributeType="String" syncable="YES"/>
@@ -234,8 +234,8 @@
         <element name="BookGroup" positionX="-9047" positionY="-4870" width="128" height="163"/>
         <element name="BookTitle" positionX="-9218" positionY="-4869" width="128" height="283"/>
         <element name="Comment" positionX="-9236" positionY="-4347" width="128" height="298"/>
-        <element name="CommentAuthor" positionX="-9063" positionY="-4176" width="128" height="148"/>
-        <element name="CommentCollectionTitle" positionX="-9063" positionY="-4351" width="128" height="148"/>
+        <element name="CommentAuthor" positionX="-9036" positionY="-4176" width="128" height="148"/>
+        <element name="CommentCollectionTitle" positionX="-9036" positionY="-4351" width="128" height="148"/>
         <element name="ContextGroup" positionX="-10008" positionY="-4824" width="128" height="163"/>
         <element name="ContextGroupComment" positionX="-9846" positionY="-4644" width="128" height="118"/>
         <element name="ContextGroupData" positionX="-9848" positionY="-4824" width="128" height="163"/>
@@ -249,9 +249,9 @@
         <element name="PersonalTitle" positionX="-9693" positionY="-3784" width="128" height="103"/>
         <element name="Picture" positionX="-9857" positionY="-5114" width="128" height="148"/>
         <element name="SatellitePicture" positionX="-10026" positionY="-5112" width="128" height="133"/>
+        <element name="Searches" positionX="-9578" positionY="-4869" width="128" height="88"/>
         <element name="Struggle" positionX="-10134" positionY="-4129" width="128" height="178"/>
         <element name="TextTitle" positionX="-9389" positionY="-4869" width="128" height="238"/>
         <element name="TextVersionTitle" positionX="-9047" positionY="-4671" width="128" height="103"/>
-        <element name="Searches" positionX="-9578" positionY="-4869" width="128" height="88"/>
     </elements>
 </model>

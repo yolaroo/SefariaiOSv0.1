@@ -42,7 +42,7 @@
     self.theChapterMax = [defaults integerForKey:@"chapterMax"];
     self.theChapterNumber = [defaults integerForKey:@"currentChapter"];
     
-    NSLog(@"-- numbers %d %d --",self.theChapterNumber,self.theChapterMax);
+    NSLog(@"-- numbers %ld %ld --",(long)self.theChapterNumber,(long)self.theChapterMax);
 }
 
 - (void) saveReadingPreferences

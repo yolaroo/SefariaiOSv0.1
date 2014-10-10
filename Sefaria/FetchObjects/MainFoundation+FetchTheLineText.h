@@ -15,8 +15,6 @@
 
 - (NSArray*) fetchLineTextByAttributes: (TextTitle*) theTextTitle withLineNumber: (NSInteger) lineNumber  withChapterNumber: (NSInteger) chapterNumber withContext: (NSManagedObjectContext*) context;
 
-//- (void) testFetchLineText : (NSManagedObjectContext*) context;
-
 - (NSArray*) fetchLineTextFromEnglishWordSearch : (NSString*)myText withContext : (NSManagedObjectContext*) context;
 - (NSArray*) fetchLineTextFromHebrewWordSearch : (NSString*)myText withContext : (NSManagedObjectContext*) context;
 

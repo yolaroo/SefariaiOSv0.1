@@ -65,7 +65,8 @@
 
 - (NSString*) appendBookmarkIcon : (LineText*) myLine withString :(NSString*) myString
 {
-    if ([myLine.isBookmarked boolValue]){
+    if ([myLine.isBookmarked
+         boolValue]){
         myString = [myString stringByAppendingString:@" ✓"];
     }
     return myString;
@@ -98,19 +99,5 @@
 ////
 //
 
-- (void) addBookMarkValueToComment : (UITableView*) tableView  withIndexPath : (NSIndexPath *)indexPath withContext : (NSManagedObjectContext*) context
-{
-    if (!self.bookmarkSet) return;
-    if ([self.commentArray count] < indexPath.row) return;
-    Comment* myComment = [self.commentArray objectAtIndex:indexPath.row];
-    bool isBookMarked = [myComment.isBookmarked boolValue];
-    myComment.isBookmarked = [NSNumber numberWithBool:!isBookMarked];
-    
-    [tableView beginUpdates];
-    [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    [tableView endUpdates];
-    
-    [self saveData:context];
-}
 
 @end

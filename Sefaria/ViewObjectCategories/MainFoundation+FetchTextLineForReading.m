@@ -11,7 +11,9 @@
 @implementation MainFoundation (FetchTextLineForReading)
 
 
-- (NSArray*) fetchTextTitleByTitleAndChapter:(TextTitle*) theTextTitle withChapter : (NSInteger) chapterNumber withContext: (NSManagedObjectContext*) context
+- (NSArray*) fetchTextTitleByTitleAndChapter : (TextTitle*) theTextTitle
+                                 withChapter : (NSInteger) chapterNumber
+                                 withContext : (NSManagedObjectContext*) context
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     fetchRequest.entity = [NSEntityDescription entityForName:@"LineText" inManagedObjectContext:context];

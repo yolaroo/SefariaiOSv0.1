@@ -29,7 +29,7 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-    NSString* myLineNumber = [NSString stringWithFormat:@"%d",self.tag+1];
+    NSString* myLineNumber = [NSString stringWithFormat:@"%ld",(long)self.tag+1];
     _numberLabel.text = myLineNumber;
     CGRect myRect = CGRectMake(0,0,30,self.frame.size.height);
     _numberLabel.frame = myRect;

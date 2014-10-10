@@ -28,6 +28,11 @@
 
 #import "Searches+Create.h"
 
+#import "MainFoundation+GestureActions.h"
+#import "MainFoundation+ChapterReadAnimations.h"
+
+#import "MainFoundation+BookMarkActions.h"
+
 @interface SearchTextViewController ()
 
 #define BLACK_SHADOW [UIColor colorWithRed:40.0f/255.0f green:40.0f/255.0f blue:40.0f/255.0f alpha:0.3f]
@@ -41,7 +46,6 @@
 @property (weak, nonatomic) IBOutlet UIView *mainHebrewView;
 @property (weak, nonatomic) IBOutlet UIView *mainSearchView;
 
-
 @property (weak, nonatomic) IBOutlet UILabel *searchLabel;
 @property (weak, nonatomic) IBOutlet UILabel *englishLabel;
 @property (weak, nonatomic) IBOutlet UILabel *hebrewLabel;
@@ -49,14 +53,12 @@
 @property (weak, nonatomic) IBOutlet UIButton *searchEnglishButton;
 @property (weak, nonatomic) IBOutlet UIButton *searchHebrewButton;
 
-
 @property (strong, nonatomic) IBOutletCollection(UIView) NSArray *myViewCollection;
 
-
 //
-////
+//// search menu
 //
-
+@property (weak, nonatomic) IBOutlet UIView *iphoneSearchResultView;
 
 //
 ////
@@ -109,6 +111,35 @@
 #define COLOR_CELL_HIGHLIGHT [UIColor colorWithRed: 242.0f/255.0f green:249.0f/255.0f blue:251.0f/255.0f alpha:1.0f]
 
 #define SELECTED_COLOR [UIColor colorWithRed: 100.0f/255.0f green:200.0f/255.0f blue:255.0f/255.0f alpha:1.0f]
+
+#define isDeviceIPad UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad
+#define isDeviceIPhone UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPhone
+
+//
+//
+////////
+#pragma mark - Empty Gesture Control
+////////
+//
+//
+
+- (void) chapterNextAction {
+}
+
+- (void) chapterPreviousAction {
+}
+
+- (void) theMenuActionComplete {
+    [self moveSmallMenuAction:self.iphoneSearchResultView];
+}
+
+- (void) theMenuBookActionSingle {
+    [self moveSmallMenuAction:self.iphoneSearchResultView];
+}
+
+- (void) theChapterActionsingle {
+    [self moveSmallMenuAction:self.iphoneSearchResultView];
+}
 
 //
 //
@@ -286,7 +317,6 @@
             NSManagedObject* myLineObject = [self.searchLineDataArray objectAtIndex:indexPath.row];
             NSArray* writeData = [self combinedTextSearchLineWrite : myLineObject];
             
-            
             myString = [writeData firstObject];
             myInfo = [writeData lastObject];
         }
@@ -300,9 +330,9 @@
     }
     else if (tableView.tag == SEARCH_RESULT_TAG) {
         UITableViewCell *cell = SEARCH_RESULT_CELL;
-        
         Searches* mySearchTitle = [self.searchTitlesArray objectAtIndex:indexPath.row];
         NSString* searchTitle = mySearchTitle.name;
+
         if ([searchTitle length]){
             cell.textLabel.text = searchTitle;
         }
@@ -368,6 +398,7 @@
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         NSString*myCellText = cell.textLabel.text;
         [self foundationRunSpeech:@[myCellText]];
+        [self addBookMarkValueToLineText :tableView withIndexPath:indexPath withContext:self.managedObjectContext];
     }
     else if (tableView.tag == HEBREW_TAG){
         //UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
@@ -387,6 +418,9 @@
         if ([myCellText length]) {
             self.theSearchTerm = [myCellText mutableCopy];
             [self searchFromTableTouch];
+            if (isDeviceIPhone) {
+                [self moveSmallMenuAction:self.iphoneSearchResultView];
+            }
         }
     }
 }
@@ -524,7 +558,7 @@
 //
 
 - (void) setLabelsForName {
-    NSString* myString  = [NSString stringWithFormat:@"%@ %d",self.myCurrentTextTitle,self.theChapterNumber+1];
+    NSString* myString  = [NSString stringWithFormat:@"%@ %ld",self.myCurrentTextTitle, (long)self.theChapterNumber+1];
     self.hebrewLabel.text = myString;
     self.englishLabel.text = myString;
     self.searchLabel.text = myString;
@@ -633,6 +667,11 @@
     self.searchEnglishButton.hidden = true;
     self.searchHebrewButton.hidden = true;
     self.isSelectionText = true;
+    
+    if (isDeviceIPhone) {
+        [self iphoneGestureLoader : self.iphoneSearchResultView];
+    }
+    
 }
 
 - (BOOL)prefersStatusBarHidden {

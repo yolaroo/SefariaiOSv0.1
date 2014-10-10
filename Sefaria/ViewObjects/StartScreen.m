@@ -27,6 +27,14 @@
 #define SHADOW_ALPHA 0.4f
 #define SHADOW_COLOR [[UIColor colorWithRed:5.0f/255.0f green:5.0f/255.0f blue:5.0f/255.0f alpha:SHADOW_ALPHA] CGColor]
 
+#define isDeviceIPad UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad
+#define isDeviceIPhone UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPhone
+
+
+#define DK 2
+#define LOG if(DK == 1)
+
+
 //
 //
 ////////
@@ -72,9 +80,56 @@
     }
 }
 
+//
+////
+//
+
+#define SEED_NAME @"x08"
+#define SEED_NAME_FULL @"x08.CDBStore"
+
+- (void) seedLoadOnStart {
+    LOG NSLog(@"seed load aciton start");
+    NSURL *storeUrl;
+    storeUrl = [[self seedApplicationDocumentsDirectory] URLByAppendingPathComponent:SEED_NAME_FULL];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    
+    if (![fileManager fileExistsAtPath:[storeUrl path]]) {
+        NSURL *defaultStoreURL = [[NSBundle mainBundle] URLForResource:SEED_NAME withExtension:@"CDBStore"];
+        if (defaultStoreURL) {
+            [fileManager copyItemAtURL:defaultStoreURL toURL:storeUrl error:NULL];
+        }
+    }
+}
+
+- (NSURL *)seedApplicationDocumentsDirectory
+{
+    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
+- (void) deleteSeed {
+    NSURL *defaultStoreURL = [[NSBundle mainBundle] URLForResource:SEED_NAME withExtension:@"CDBStore"];
+    NSError* error;
+    [[NSFileManager defaultManager] removeItemAtPath: [defaultStoreURL path] error: &error];
+}
+
+//
+////
+//
+
 - (void) loadTheFoundationDataBase
 {
     NSLog(@"data loaded");
+    
+    @try {
+        [self seedLoadOnStart];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@",exception);
+    }
+    @finally {
+        [self deleteSeed];
+    }
+    
     NSManagedObjectContext* myContext;
     @try {
         SefariaAppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
@@ -127,8 +182,14 @@
 
     self.navigationController.navigationBarHidden = true;
     
-    [self unlockPortrait];
-    [self flipScreen];
+    if (isDeviceIPhone){
+        
+    }
+    else {
+        [self unlockPortrait];
+        [self flipScreen];
+    }
+    
     
     
 }

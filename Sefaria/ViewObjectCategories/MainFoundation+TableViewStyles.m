@@ -119,7 +119,7 @@
 {
     CGRect myRect = CGRectMake(0,0,30,cell.frame.size.height);
     UILabel* myLabel = [[UILabel alloc]initWithFrame:myRect];
-    NSString* myLineNumber = [NSString stringWithFormat:@"%d",indexPathRow+1];
+    NSString* myLineNumber = [NSString stringWithFormat:@"%ld",(long)indexPathRow+1];
     myLabel.text = myLineNumber;
     myLabel.textColor = [UIColor grayColor];
     myLabel.font = [UIFont fontWithName: ACC_FONT_NAME size:ACC_FONT_SIZE];
@@ -131,7 +131,7 @@
 {
     CGRect myRect = CGRectMake(0,0,30,cell.frame.size.height);
     UILabel* myLabel = [[UILabel alloc]initWithFrame:myRect];
-    NSString* myLineNumber = [NSString stringWithFormat:@"%d",indexPathRow+1];
+    NSString* myLineNumber = [NSString stringWithFormat:@"%ld",(long)indexPathRow+1];
     myLabel.text = myLineNumber;
     myLabel.textColor = [UIColor grayColor];
     myLabel.font = [UIFont fontWithName: ACC_FONT_NAME size:ACC_FONT_SIZE];
@@ -162,6 +162,18 @@
     else if (tableView.tag == BOOKMARK_CHAPTER_TAG) {
         return 55.0;
     }
+    else if (tableView.tag == COMMENT_TAG) {
+        if (self.selectedIndex == indexPath.row) {
+            CGFloat myheight = [self commentHeight :tableView withIndexPath : (NSIndexPath *)  indexPath];
+            if (myheight >= 150.0) {
+                return myheight;
+            } else {
+                return 150.0;
+            }
+        } else {
+            return 150.0;
+        }
+    }
     else{
         return 55.0;
     }
@@ -185,21 +197,15 @@
     NSString* myString;
     CGFloat frameWidth = tableView.frame.size.width;
     if ([self.searchLineDataArray count] > indexPath.row) {
-        
         NSManagedObject* myLineObject = [self.searchLineDataArray objectAtIndex:indexPath.row];
         NSArray* writeData = [self combinedTextSearchLineWrite : myLineObject];
         myString = [writeData firstObject];
-
-#warning
-        
-        
-        //myString = [self.searchTextArray objectAtIndex:indexPath.row];
     }
     if ([myString length]) {
         
         UIFont *myFont = [ UIFont fontWithName: FONT_NAME size: FONT_SIZE ];
         sizeEnglish = [self frameForText: myString sizeWithFont:myFont constrainedToSize:CGSizeMake(frameWidth, CGFLOAT_MAX)];
-        return sizeEnglish.height*1.1+CELL_PADDING+10;
+        return sizeEnglish.height*1.1+CELL_PADDING+20;
     }
     else {
         return 55.0;

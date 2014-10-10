@@ -10,11 +10,7 @@
 
 @implementation SefariaAppDelegate
 
-
-
 @synthesize managedObjectContext=_managedObjectContext,persistentStoreCoordinator=_persistentStoreCoordinator,managedObjectModel=_managedObjectModel;
-
-
 
 #define NILLOG 2
 #define LOG if(NILLOG == 1) //one is pass - two is normal
@@ -169,6 +165,9 @@
 ////
 //
 
+
+
+
 - (NSPersistentStoreCoordinator *) persistentStoreCoordinator {
     LOG NSLog(@"**PERS ATTEMPT**");
     if (_persistentStoreCoordinator != nil) {
@@ -199,15 +198,26 @@
             NSLog(@"Regular Seed Access");
             storeUrl = [[self seedApplicationDocumentsDirectory] URLByAppendingPathComponent:SEED_NAME_FULL];
             NSFileManager *fileManager = [NSFileManager defaultManager];
+            
+            
+            /*
             if (![fileManager fileExistsAtPath:[storeUrl path]]) {
                 NSURL *defaultStoreURL = [[NSBundle mainBundle] URLForResource:SEED_NAME withExtension:@"CDBStore"];
                 if (defaultStoreURL) {
                     [fileManager copyItemAtURL:defaultStoreURL toURL:storeUrl error:NULL];
-                }
+                    
+                    //NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+                    //NSString *documentsDirectory = [paths objectAtIndex:0];
+                    //NSString *filePath = [documentsDirectory stringByAppendingPathComponent:SEED_NAME_FULL];
+                    //NSError* error;
+                    //[[NSFileManager defaultManager] removeItemAtPath: filePath error: &error];
+
+             }
             }
+            */
+            
         //
         }
-        
         
         NSMutableDictionary *pragmaOptions = [NSMutableDictionary dictionary];
         [pragmaOptions setObject:@"DELETE" forKey:@"journal_mode"];

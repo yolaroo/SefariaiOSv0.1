@@ -25,7 +25,7 @@
         LineText*myLine = [self.bookmarkChapterArray objectAtIndex:indexPath.row];
         NSString*textTitleEnglishName = myLine.whatTextTitle.englishName;
         NSInteger chapterNumber = [myLine.chapterNumber integerValue];
-        NSString* completeString = [NSString stringWithFormat:@"%@ - Chapter %d",textTitleEnglishName,chapterNumber+1];
+        NSString* completeString = [NSString stringWithFormat:@"%@ - Chapter %ld",textTitleEnglishName,(long)chapterNumber+1];
         return completeString;
     }
     else {
@@ -66,7 +66,7 @@
         NSString*textTitleEnglishName = myLine.whatTextTitle.englishName;
         NSInteger chapterNumber = [myLine.chapterNumber integerValue];
         NSInteger lineNumber = [myLine.lineNumber integerValue];
-        NSString* completeString = [NSString stringWithFormat:@"%@ - Chapter %d Line %d",textTitleEnglishName,chapterNumber+1,lineNumber+1];
+        NSString* completeString = [NSString stringWithFormat:@"%@ - Chapter %ld Line %ld",textTitleEnglishName,(long)chapterNumber+1,(long)lineNumber+1];
         return completeString;
     }
     else {

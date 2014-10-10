@@ -36,6 +36,72 @@
 @implementation DataControlPageView
 
 #define RESET_DELAY 1.0
+#define SEED_NAME_FULL @"x08.CDBStore"
+#define SEED_NAME @"x08"
+
+
+- (IBAction)seeddelete:(UIButton *)sender {
+    [self deleteAction];
+
+}
+
+- (void) deleteAction {
+    
+    NSLog(@"delete action");
+    __unused NSString* path = @"path";
+    
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    __unused NSString *filePath = [documentsDirectory stringByAppendingPathComponent:SEED_NAME_FULL];
+    
+    
+    NSURL *defaultStoreURL = [[NSBundle mainBundle] URLForResource:SEED_NAME withExtension:@"CDBStore"];
+
+    [self fileExistsTest:[defaultStoreURL path]];
+
+    
+    NSError* error;
+    [[NSFileManager defaultManager] removeItemAtPath: [defaultStoreURL path] error: &error];
+
+    [self fileExistsTest:[defaultStoreURL path]];
+
+    
+    //[self saveData:self.managedObjectContext];
+    
+//    NSLog(@"file check");
+    
+//    NSURL *testdefaultStoreURL = [[NSBundle mainBundle] URLForResource:SEED_NAME withExtension:@"CDBStore"];
+//    NSString* testmyPath = [defaultStoreURL absoluteString];
+
+//    [self fileExistsTest:myPath];
+
+    
+
+
+}
+
+
+- (NSURL *)tempSeedApplicationDocumentsDirectory
+{
+    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
+
+- (void) fileExistsTest : (NSString*)storePath {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *pathForFile = storePath;
+    if ([fileManager fileExistsAtPath:pathForFile]){
+        NSLog(@"exists : %@",storePath);
+    }
+    else {
+        NSLog(@"doesnt exist : %@",storePath);
+    }
+}
+
+//
+////
+//
 
 - (IBAction)dataLoadButtonPress:(UIButton *)sender {
     @try {

@@ -40,6 +40,8 @@
 {
     if ((self = [super init])) {
         [self loadDefaults];
+        //NSArray* speechVoices = [AVSpeechSynthesisVoice speechVoices];
+        //NSLog(@"Voices: (%lu) %@", (long)[speechVoices count], speechVoices);
     }
     return self;
 }

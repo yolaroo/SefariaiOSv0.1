@@ -72,7 +72,7 @@
     CGSize headingSize = [self frameForText : heading sizeWithFont : TITLE_FONT constrainedToSize : CGSizeMake(superViewWidth, CGFLOAT_MAX)];
     CGSize subHeadingSize = [self frameForText : subHeading sizeWithFont : SUBHEADING_FONT constrainedToSize : CGSizeMake(superViewWidth, CGFLOAT_MAX)];
     NSInteger myTotal = 1.2*headingSize.height + 1.2*subHeadingSize.height + 1.5*VIEW_PADDING;
-    NSLog(@"-- MECT %d--",myTotal);
+    NSLog(@"-- MECT %ld--",(long)myTotal);
     return myTotal;
 }
 
@@ -100,7 +100,7 @@
     NSString* textTitle = myLineText.whatTextTitle.englishName;
     NSInteger chapterNumber = [myLineText.chapterNumber integerValue];
     NSInteger lineNumber = [myLineText.lineNumber integerValue];
-    NSString* lineInfo = [NSString stringWithFormat:@"%@ Chapter %d Line %d", textTitle,chapterNumber+1,lineNumber+1];
+    NSString* lineInfo = [NSString stringWithFormat:@"%@ Chapter %ld Line %ld", textTitle,(long)chapterNumber+1,(long)lineNumber+1];
     
     CGSize engSize = [self frameForText:myEnglishString sizeWithFont:TEXT_FONT constrainedToSize:CGSizeMake(superViewWidth, CGFLOAT_MAX)];
     CGSize hebSize = [self frameForText:myHebrewString sizeWithFont:TEXT_FONT_LARGE constrainedToSize:CGSizeMake(superViewWidth, CGFLOAT_MAX)];
@@ -128,7 +128,7 @@
 - (NSInteger) computeTotalTextHeightForCommentTextBlock : (NSString*) myCommentText  withSuperViewWidth : (NSInteger) superViewWidth {
     CGSize commentSize = [self frameForText : myCommentText sizeWithFont : COMMENT_TEXT_FONT constrainedToSize : CGSizeMake(superViewWidth, CGFLOAT_MAX)];
     NSInteger myTotal = 1.2*commentSize.height + 2*VIEW_PADDING;
-    NSLog(@"-- Computed comment height %d--",myTotal);
+    NSLog(@"-- Computed comment height %ld--",(long)myTotal);
     return myTotal;
 }
 

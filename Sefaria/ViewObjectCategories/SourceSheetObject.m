@@ -63,12 +63,12 @@
 {
     LOG NSLog(@"-- passed %@ --",@[self.titleString,self.subTitleString]);
     self.titleHeight = [self setHeadingTextObjectView:0 withHeadingText:@[self.titleString,self.subTitleString] withScrollView:myScrollView];
-    LOG NSLog(@"-- VCS check %d --",self.titleHeight);
+    LOG NSLog(@"-- VCS check %ld --",(long)self.titleHeight);
 }
 
 - (NSInteger) setHeadingTextObjectView : (NSInteger) viewCurrentSize withHeadingText : (NSArray*) myHeadingText withScrollView : (UIScrollView*) myScrollView
 {
-    LOG NSLog(@"-- VCS %d --",viewCurrentSize);
+    LOG NSLog(@"-- VCS %ld --",(long)viewCurrentSize);
     NSInteger computedHeight = [self computeTotalTextHeightForHeadingTextBlock : myHeadingText withSuperViewWidth : myScrollView.frame.size.width];
     CGRect myRect = CGRectMake(LEFT_MARGIN, viewCurrentSize, myScrollView.frame.size.width - 2*LEFT_MARGIN, computedHeight);
     TitleGroupUIView*myTitleView = [[TitleGroupUIView alloc]initWithFrame:myRect];
@@ -88,7 +88,7 @@
     CGSize subHeadingSize = [self frameForText : subHeading sizeWithFont : SUBHEADING_FONT constrainedToSize : CGSizeMake(superViewWidth, CGFLOAT_MAX)];
     NSInteger myTotal = 1.2*headingSize.height + 1.2*subHeadingSize.height + 2*VIEW_PADDING;
     self.completeHeight = self.completeHeight + myTotal;
-    LOG NSLog(@"-- view size check - %d - %d --",self.completeHeight,self.titleHeight);
+    LOG NSLog(@"-- view size check - %ld - %ld --",(long)self.completeHeight,(long)self.titleHeight);
     return myTotal;
 }
 
@@ -101,7 +101,7 @@
                           withDepth : (NSInteger) theDepth
                      withScrollView : (UIScrollView*) myScrollView
 {
-    LOG NSLog(@"-- view size check %d - %d - %d --",viewCurrentSize,self.completeHeight,self.titleHeight);
+    LOG NSLog(@"-- view size check %ld - %ld - %ld --",(long)viewCurrentSize,(long)self.completeHeight,(long)self.titleHeight);
 
     NSInteger computedHeight = [self computeTotalTextHeightForLineTextBlock : myLineText
                                                          withSuperViewWidth : myScrollView.frame.size.width];
@@ -123,7 +123,7 @@
     NSString* textTitle = myLineText.whatTextTitle.englishName;
     NSInteger chapterNumber = [myLineText.chapterNumber integerValue];
     NSInteger lineNumber = [myLineText.lineNumber integerValue];
-    NSString* lineInfo = [NSString stringWithFormat:@"%@ Chapter %d Line %d", textTitle,chapterNumber+1,lineNumber+1];
+    NSString* lineInfo = [NSString stringWithFormat:@"%@ Chapter %ld Line %ld", textTitle,(long)chapterNumber+1,(long)lineNumber+1];
     
     CGSize engSize = [self frameForText:myEnglishString sizeWithFont:TEXT_FONT constrainedToSize:CGSizeMake(superViewWidth - 2 * LEFT_LINE_MARGIN, CGFLOAT_MAX)];
     CGSize hebSize = [self frameForText:myHebrewString sizeWithFont:TEXT_FONT_LARGE constrainedToSize:CGSizeMake(superViewWidth - 2 * LEFT_LINE_MARGIN, CGFLOAT_MAX)];
@@ -132,7 +132,7 @@
     NSInteger myTotal = 1.2 * engSize.height + 1.2 * hebSize.height + 1.2 * commentSize.height + 3 * VIEW_PADDING;
     self.completeHeight = self.completeHeight + myTotal+10;
 
-    LOG NSLog(@"-- computed title %d --",_completeHeight);
+    LOG NSLog(@"-- computed title %ld --",(long)_completeHeight);
     return myTotal;
 }
 
@@ -158,7 +158,7 @@
 - (NSInteger) computeTotalTextHeightForCommentTextBlock : (NSString*) myCommentText  withSuperViewWidth : (NSInteger) superViewWidth {
     CGSize commentSize = [self frameForText : myCommentText sizeWithFont : COMMENT_TEXT_FONT constrainedToSize : CGSizeMake(superViewWidth - 2 * LEFT_LINE_MARGIN, CGFLOAT_MAX)];
     NSInteger myTotal = 1.2*commentSize.height + 2*VIEW_PADDING;
-    LOG NSLog(@"-- Computed comment height %d--",myTotal);
+    LOG NSLog(@"-- Computed comment height %ld--",(long)myTotal);
     self.completeHeight = self.completeHeight + myTotal+10;
     return myTotal;
 }

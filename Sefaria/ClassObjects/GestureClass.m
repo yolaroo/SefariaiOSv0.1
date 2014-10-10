@@ -36,7 +36,6 @@
 #define DK 2
 #define LOG if(DK == 1)
 
-
 //
 //
 ////////
@@ -50,6 +49,7 @@
     LOG NSLog(@"Gesture Loaded");
     [theView addGestureRecognizer:self.edgeLeftPanGesture];
     [theView addGestureRecognizer:self.edgeRightPanGesture];
+    
     [theView addGestureRecognizer:self.swipeLeftMainGesture];
     [theView addGestureRecognizer:self.swipeRightMainGesture];
     //
@@ -85,7 +85,7 @@
              @"doubleTapMain",
              @"swipeLeftSecondary",
              @"swipeRightSecondary",
-             @"pressLongGesture"
+             @"pressLongGesture",
              ];
 }
 
@@ -110,6 +110,10 @@
      postNotificationName:@"pressLongGesture"
      object:self];
 }
+
+//
+////
+//
 
 - (UIScreenEdgePanGestureRecognizer *) edgeLeftPanGesture {
     if (!_edgeLeftPanGesture){

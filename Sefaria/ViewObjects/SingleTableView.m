@@ -7,28 +7,20 @@
 //
 
 #import "SingleTableView.h"
-
 #import "MainFoundation+GestureActions.h"
-
 #import "MainFoundation+FetchTheLineText.h"
-
 #import "MainFoundation+TableViewStyles.h"
-
 #import "MainFoundation+ChapterAndMenuTextStyles.h"
-
 #import "MainFoundation+EnglishTextStyle.h"
 #import "MainFoundation+HebrewTextStyles.h"
-
 #import "MainFoundation+MenuActions.h"
-
 #import "MainFoundation+MainViewActions.h"
-
 #import "MainFoundation+BookMarkStyle.h"
-
 #import "CellWithLeftSideNumberTableViewCell.h"
-
 #import "MainFoundation+FetchTextLineForReading.h"
-
+#import "MainFoundation+NavBarButtons.h"
+#import "MainFoundation+GestureActions.h"
+#import "MainFoundation+BookMarkActions.h"
 #import <objc/message.h>
 
 @interface SingleTableView ()
@@ -44,7 +36,6 @@
 @property (weak, nonatomic) IBOutlet UITableView * bookmarkTable;
 @property (weak, nonatomic) IBOutlet UITableView * bookmarkChapterTable;
 
-
 @property (weak, nonatomic) IBOutlet UITableView * chapterTextTable;
 
 @property (weak, nonatomic) IBOutlet UITableView *menuTable;
@@ -58,12 +49,15 @@
 @property (weak, nonatomic) IBOutlet UIButton *chapterChoiceSelectionButton;
 @property (weak, nonatomic) IBOutlet UIButton *textChoiceSelectionButton;
 
-
 @property (weak, nonatomic) IBOutlet UIButton *hebrewLanguageSelection;
 
 
 @property (weak, nonatomic) IBOutlet UIButton *readingLanguageSelectionButton;
 @property (weak, nonatomic) IBOutlet UILabel *readingChapterLabel;
+
+//
+@property (weak, nonatomic) IBOutlet UIButton *soundToggleButton;
+@property (weak, nonatomic) IBOutlet UIButton *bookmarkToggleButton;
 
 @end
 
@@ -87,6 +81,31 @@
 
 #define SELECTED_COLOR [UIColor colorWithRed: 100.0f/255.0f green:200.0f/255.0f blue:255.0f/255.0f alpha:1.0f]
 
+#define isDeviceIPhone UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPhone
+
+
+//
+//
+////////
+#pragma mark - Empty Gesture
+////////
+//
+//
+
+- (void) chapterNextAction {
+}
+
+- (void) chapterPreviousAction {
+}
+
+- (void) theMenuActionComplete {
+}
+
+- (void) theMenuBookActionSingle {
+}
+
+- (void) theChapterActionsingle {
+}
 
 //
 //
@@ -96,6 +115,17 @@
 //
 //
 
+- (IBAction)soundToggleButtonPress:(UIButton *)sender {
+    [self soundPressAction : self.soundToggleButton];
+}
+
+- (IBAction)bookmarkTogglePress:(UIButton *)sender {
+    [self bookmarkPressAction : self.bookmarkToggleButton];
+}
+
+//
+////
+//
 
 - (IBAction)readingLanguageSelectionButtonPress:(UIButton *)sender {
     [self setCurrentTextChoiceView];
@@ -114,7 +144,6 @@
     }
 }
 
-
 //
 ////
 //
@@ -123,7 +152,6 @@
     [self hebrewLanguageChoiceAction];
 
 }
-
 
 - (void) hebrewLanguageChoiceAction {
     self.isSingleViewEnglish = !self.isSingleViewEnglish;
@@ -292,7 +320,6 @@
 //
 
 - (void) scrollViewDidScroll : (UIScrollView *)scrollView {
-    
     if (scrollView.tag == ENGLISH_TAG){
         self.hebrewTextTable.contentOffset = self.englishTextTable.contentOffset;
     }
@@ -311,7 +338,12 @@
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return YES;
+    if (tableView.tag == BOOKMARK_TAG || tableView.tag == BOOKMARK_CHAPTER_TAG) {
+        return YES;
+    }
+    else {
+        return NO;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -371,24 +403,20 @@
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         NSString*myCellText = cell.textLabel.text;
         [self foundationRunSpeech:@[myCellText]];
-        //[self addBookMarkValueToLineText :tableView withIndexPath:indexPath withContext:self.managedObjectContext];
-        
+        [self addBookMarkValueToLineText :tableView withIndexPath:indexPath withContext:self.managedObjectContext];
     }
     else if (tableView.tag == HEBREW_TAG){
         //UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         //NSString*myCellText = cell.textLabel.text;
         //[self foundationRunSpeech:@[myCellText]];
-        //[self addBookMarkValueToLineText :tableView withIndexPath:indexPath withContext:self.managedObjectContext];
+        [self addBookMarkValueToLineText :tableView withIndexPath:indexPath withContext:self.managedObjectContext];
     }
     else if (tableView.tag == BOOKMARK_TAG){
         [self dataFetchForBookmarkPress : indexPath];
-    
     }
     else if (tableView.tag == BOOKMARK_CHAPTER_TAG){
         [self dataFetchForBookmarkChapterPress : indexPath];
-        
     }
-    
 }
 
 - (void) dataFetchForBookmarkChapterPress : (NSIndexPath*) indexPath {
@@ -416,7 +444,6 @@
 ////////
 //
 //
-
 
 - (void) basicDataReload {
     [self updateTheData];
@@ -454,9 +481,19 @@
     
     self.bookmarkChapterTable.hidden=true;
     self.bookmarkTable.hidden=true;
-    self.englishTextTable.hidden = true;
-    self.hebrewTextTable.hidden = false;
+    [self showReadingText];
     [self setReadingChapterInfo];
+}
+
+- (void) showReadingText {
+    if (self.isSingleViewEnglish){
+        self.englishTextTable.hidden = false;
+        self.hebrewTextTable.hidden = true;
+    }
+    else {
+        self.englishTextTable.hidden = true;
+        self.hebrewTextTable.hidden = false;
+    }
 }
 
 - (void) setReadingChapterInfo {
@@ -465,7 +502,7 @@
     self.hebrewLanguageSelection.hidden = true;
 
     if ([self.myCurrentTextTitle length]) {
-        self.readingChapterLabel.text = [NSString stringWithFormat:@"%@  Chapter %d",self.myCurrentTextTitle,self.theChapterNumber+1];
+        self.readingChapterLabel.text = [NSString stringWithFormat:@"%@  Chapter %ld", self.myCurrentTextTitle, (long)self.theChapterNumber+1];
     }
 }
 
@@ -496,7 +533,6 @@
     }
 }
 
-
 - (NSArray*) mySecondaryArraySetter {
     @try {
         NSArray* mydata;
@@ -507,7 +543,6 @@
         return nil;
     }
 }
-
 
 - (NSArray*) myArraySetter {
     @try {
@@ -531,7 +566,6 @@
 //
 //
 
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -548,13 +582,14 @@
     self.isNavBarShowing = true;
     [self portraitLock];
     [self flipScreenPortrait];
+    [self loadPreferences : self.soundToggleButton];
+
     //[self performSelector:@selector(hideNavBar) withObject:nil afterDelay:0.6];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-
 }
 
 //
@@ -566,21 +601,14 @@
 //
 
 - (void) initialSetUp {
-    
-    
     // get first data
     //[self menuAnimationOnLoad : self.mainMenuView withChapterView:self.mainChapterView];
-    //[self gestureLoader : self.mainMenuView withChapterView:self.mainChapterView];
+    [self noMenuGesture];
     [self viewStyleForLoad];
     self.readingChapterLabel.hidden = true;
     self.readingLanguageSelectionButton.hidden = true;
-
     [self performSelector:@selector(basicDataReload) withObject:nil afterDelay:0.3];
-
-    
 }
-
-
 
 - (void) viewStyleForLoad {
     //[self.englishTextTable setSeparatorInset:UIEdgeInsetsZero];

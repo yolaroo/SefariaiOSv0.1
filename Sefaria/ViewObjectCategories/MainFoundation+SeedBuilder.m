@@ -28,7 +28,7 @@
         NSLog(@"error with path");
     }
     else {
-        LOG NSLog(@"Copied");
+        NSLog(@"Copied");
     }
 }
 

@@ -50,7 +50,7 @@
     NSString* textTitle = _theLineText.whatTextTitle.englishName;
     NSInteger chapterNumber = [_theLineText.chapterNumber integerValue];
     NSInteger lineNumber = [_theLineText.lineNumber integerValue];
-    NSString* lineInfo = [NSString stringWithFormat:@"%@ Chapter %d Line %d", textTitle,chapterNumber+1,lineNumber+1];
+    NSString* lineInfo = [NSString stringWithFormat:@"%@ Chapter %ld Line %ld", textTitle,(long)chapterNumber+1,(long)lineNumber+1];
     
     [self cleanTheSubview];
 
@@ -245,7 +245,7 @@ withCurrentOverallSize : (NSInteger) myOveralSize
 //
 
 - (void) testValues {
-    NSLog(@"-- MVH %d --",_thisViewHeight);
+    NSLog(@"-- MVH %ld --",(long)_thisViewHeight);
     NSLog(@"-- MVW %f --",self.frame.size.width);
     
     NSLog(@"-- origin %f %f --",self.frame.origin.x,self.frame.origin.y);

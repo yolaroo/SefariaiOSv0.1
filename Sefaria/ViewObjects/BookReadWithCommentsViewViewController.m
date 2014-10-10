@@ -132,9 +132,7 @@
     [self soundPressAction : self.soundToggleButton];
 }
 
-#warning here
 - (IBAction)fontTogglePress:(UIButton *)sender {
-    NSLog(@"press here");
     [self fontPressAction : self.englishTextTable withHebrewTableView:self.hebrewTextTable];
 }
 
@@ -337,22 +335,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
-    if (tableView.tag == ENGLISH_TAG || tableView.tag == HEBREW_TAG) {
-        return [self dualLanguagetableViewHeight:tableView cellForRowAtIndexPath:indexPath];
-    } else if (tableView.tag == COMMENT_TAG) {
-        if (self.selectedIndex == indexPath.row) {
-            CGFloat myheight = [self commentHeight :tableView withIndexPath : (NSIndexPath *)  indexPath];
-            if (myheight >= 150.0) {
-                return myheight;
-            } else {
-                return 150.0;
-            }
-        } else {
-            return 150.0;
-        }
-    } else{
-        return 55.0;
-    }
+    return [self tableViewHeightForCoreData:tableView cellForRowAtIndexPath:indexPath];
 }
 
 //
@@ -432,7 +415,6 @@
         NSString*myCellText = cell.textLabel.text;
         [self foundationRunSpeech:@[myCellText]];
         [self addBookMarkValueToLineText :tableView withIndexPath:indexPath withContext:self.managedObjectContext];
-
     }
     else if (tableView.tag == HEBREW_TAG){
         //UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
@@ -519,8 +501,17 @@
             //chapter number writer
             self.chapterListArray = [self chapterNumberArray: self.theChapterMax];
             
-            //
-            self.commentArray = [self fetchCommentByTextAndChapter:self.myCurrentTextTitle withChapter:self.theChapterNumber+1 withContext:self.managedObjectContext];
+            //comment
+            NSArray* commentArray;
+            @try {
+                commentArray =[self fetchCommentByTextAndChapter:self.myCurrentTextTitle withChapter:self.theChapterNumber+1 withContext:self.managedObjectContext];
+            }
+            @catch (NSException *exception) {
+                NSLog(@"error in comment- %@",exception);
+            }
+            @finally {
+                self.commentArray = commentArray;
+            }
             
             [self hideCommentViewIfEmpty];
             [self.commentTable reloadData];

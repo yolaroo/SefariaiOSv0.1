@@ -72,8 +72,6 @@
 //
 @property (weak, nonatomic) IBOutlet UIButton *bookmarkChapterToggleButton;
 
-
-
 //
 ////
 //
@@ -145,7 +143,6 @@
 //
 ////
 //
-
 
 - (IBAction)navigationShowButtonPress:(UIButton *)sender {
     if (self.navHideSet){
@@ -508,18 +505,18 @@
     
     self.navigationController.navigationBarHidden = false;
     [self viewStyleForLoad];
-    [self gestureLoader : self.mainMenuView withChapterView:self.mainChapterView];
     
     [self performSelector:@selector(initialLoad) withObject:nil afterDelay:RESET_DELAY];
+
     [self menuAnimationOnLoad : self.mainMenuView withChapterView:self.mainChapterView];
-    
+    [self gestureLoader : self.mainMenuView withChapterView:self.mainChapterView];
 }
 
 - (void) viewStyleForLoad {
     [self.englishTextTable setSeparatorInset:UIEdgeInsetsZero];
     [self.hebrewTextTable setSeparatorInset:UIEdgeInsetsZero];
     
-    for(UIView* UIV in self.myViewCollection){
+    for(UIView* UIV in self.myViewCollection) {
         [self viewShadow:UIV];
     }
 }

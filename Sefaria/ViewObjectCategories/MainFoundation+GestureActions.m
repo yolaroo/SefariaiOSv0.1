@@ -10,6 +10,24 @@
 
 @implementation MainFoundation (GestureActions)
 
+- (void) noMenuGesture {
+    [self.myGestureClass gestureRecognizerGroupForMainView:self.view];
+    [self bookGestureNotificationLoader];
+}
+
+- (void) iphoneGestureLoader : (UIView*) smallMenuView
+{
+    [self.myGestureClass gestureRecognizerGroupForMainView:self.view];
+    [self.myGestureClass gestureRecognizerGroupForSecondaryGroupA:smallMenuView];
+    [self.myGestureClass gestureRecognizerGroupForSecondaryGroupB:smallMenuView];
+
+    [self bookGestureNotificationLoader];
+}
+
+//
+////
+//
+
 - (void) gestureLoader : (UIView*) menuView withChapterView : (UIView*) chapterView
 {
     [self.myGestureClass gestureRecognizerGroupForMainView:self.view];
@@ -18,7 +36,12 @@
     [self bookGestureNotificationLoader];
 }
 
+//
+////
+//
+
 - (void) bookGestureNotificationLoader {
+    
     [self basicNotifications:@"chapterNextAction" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureSwipeLeftMain]];
     [self basicNotifications:@"chapterPreviousAction" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureSwipeRightMain]];
     
@@ -29,9 +52,11 @@
     
     [self basicNotifications:@"theMenuBookActionSingle" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureSwipeLeftSecondary]];
     [self basicNotifications:@"theChapterActionsingle" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureSwipeRightSecondary]];
+   
     [self basicNotifications:@"foundationStopSpeech" withName:[[self.myGestureClass gestureNotificationNames]objectAtIndex:kGestureLongPressGesture]];
     
 }
+
 
 
 

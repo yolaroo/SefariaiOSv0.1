@@ -569,6 +569,7 @@
              @"Talmud/Yerushalmi/Seder Zeraim/Jerusalem Talmud Peah/Hebrew/merged",
              @"Talmud/Yerushalmi/Seder Zeraim/Jerusalem Talmud Shevi'it/Hebrew/merged",
              @"Talmud/Yerushalmi/Seder Zeraim/Jerusalem Talmud Terumot/Hebrew/merged",
+             
              @"Tanach/Prophets/Amos/English/merged",
              @"Tanach/Prophets/Amos/Hebrew/merged",
              @"Tanach/Prophets/Ezekiel/English/merged",
@@ -663,6 +664,7 @@
              @"Tanach/Writings/Ruth/Hebrew/merged",
              @"Tanach/Writings/Song of Songs/English/merged",
              @"Tanach/Writings/Song of Songs/Hebrew/merged",
+             
              @"Tosefta/Seder Kodashim/Tosefta Arakhin/Hebrew/merged",
              @"Tosefta/Seder Kodashim/Tosefta Bekhorot/Hebrew/merged",
              @"Tosefta/Seder Kodashim/Tosefta Chullin/Hebrew/merged",

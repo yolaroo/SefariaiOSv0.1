@@ -7,14 +7,13 @@
 //
 
 #import "MainFoundation.h"
+#import "LineText.h"
 
 @interface MainFoundation (BookMarkActions)
 
 - (NSString*) appendBookmarkIcon : (LineText*) myLine withString :(NSString*) myString;
 
 - (void) addBookMarkValueToLineText : (UITableView*) tableView  withIndexPath : (NSIndexPath *)indexPath withContext : (NSManagedObjectContext*) context
-;
-- (void) addBookMarkValueToComment : (UITableView*) tableView  withIndexPath : (NSIndexPath *)indexPath withContext : (NSManagedObjectContext*) context
 ;
 
 - (void) bookmarkChapterViewSetter : (UIButton*) myButton;

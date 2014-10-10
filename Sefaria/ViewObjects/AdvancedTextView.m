@@ -189,8 +189,6 @@
 //
 //
 
-
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
     if (tableView.tag == ENGLISH_TAG || tableView.tag == HEBREW_TAG) {
@@ -211,11 +209,6 @@
         return 55.0;
     }
 }
-
-
-
-
-
 
 //
 //
